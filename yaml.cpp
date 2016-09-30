@@ -162,7 +162,7 @@ bool yaml::load_vector(vector<string> &lines)
 		{
 			if (is_list)
 			{
-				// Correct indentation in some cases
+				// correct indentation in some cases
 				// if the parent is at the same level as this list, indent with 2 spaces
 				// example : salt yaml output of grains.items
 				if (line_space == previous_spaces)
