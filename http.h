@@ -3,13 +3,13 @@
 
 #include "common.h"
 
-#ifndef NO_MANA_CURL_HTTP
-#include <curl/curl.h>
-#else
-#include "libcurl.arm/curl.h"
 #ifndef NO_MANA_HTTP
+#ifdef MANA_CURL_ANDROID
+#include "libcurl.arm/curl.h"
+#else
+#include <curl/curl.h>
+#endif // MANA_CURL_ANDROID
 #endif // NO_MANA_HTTP
-#endif // NO_MANA_CURL_HTTP
 
 namespace mana
 {

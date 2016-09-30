@@ -522,11 +522,11 @@ DLL_EXPORT_LIBQUICKMAIL void quickmail_add_header (quickmail mailobj, const char
   str_append(&mailobj->header, NEWLINE);
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_set_body (quickmail mailobj, const char* body)
+DLL_EXPORT_LIBQUICKMAIL void quickmail_set_body (quickmail mailobj, const char* body, const char* mime_type)
 {
   email_info_attachment_list_free(&mailobj->bodylist);
-  if (body)
-    email_info_attachment_list_add_memory(&mailobj->bodylist, default_mime_type, default_mime_type, strdup(body), strlen(body), 1);
+  if (body && mime_type)
+    email_info_attachment_list_add_memory(&mailobj->bodylist, mime_type, mime_type, strdup(body), strlen(body), 1);
 }
 
 DLL_EXPORT_LIBQUICKMAIL char* quickmail_get_body (quickmail mailobj)
@@ -1194,3 +1194,4 @@ const char *quickmail_get_mail_id(quickmail mailobj)
 {
 	return mailobj->mail_id;
 }
+

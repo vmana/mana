@@ -19,7 +19,7 @@ void cypher::init()
 	is_public_key = false;
 	
 	FILE *f;
-	if ((f = fopen(private_key_file, "rb")))
+	if ((f = fopen(rsa_private_key_file, "rb")))
 	{
 		mbedtls_rsa_init(&private_key, MBEDTLS_RSA_PKCS_V15, 0);
 		int ret = 0;
@@ -40,7 +40,7 @@ void cypher::init()
 		fclose(f);
 	}
 	
-	if ((f = fopen(public_key_file, "rb")))
+	if ((f = fopen(rsa_public_key_file, "rb")))
 	{
 		mbedtls_rsa_init(&public_key, MBEDTLS_RSA_PKCS_V15, 0);
 		int ret = 0;
@@ -129,7 +129,7 @@ string cypher::base64_encode(string S)
 	size_t written_bytes;
 	unsigned char *dst = NULL;
 	size_t dstlen = 0;
-	mbedtls_base64_encode(dst, dstlen, &written_bytes, (unsigned char*)S.c_str(), S.length());
+	int res = mbedtls_base64_encode(dst, dstlen, &written_bytes, (unsigned char*)S.c_str(), S.length());
 	dstlen = written_bytes;
 	dst = new unsigned char[dstlen + 1];
 	bzero(dst, dstlen + 1);
@@ -145,7 +145,9 @@ string cypher::base64_decode(string S)
 	size_t written_bytes;
 	unsigned char *dst = NULL;
 	size_t dstlen = 0;
-	mbedtls_base64_decode(dst, dstlen, &written_bytes, (unsigned char*)S.c_str(), S.length());
+	int res = mbedtls_base64_decode(dst, dstlen, &written_bytes, (unsigned char*)S.c_str(), S.length());
+	if (res == MBEDTLS_ERR_BASE64_INVALID_CHARACTER) return ""; // an error occured, don't go further
+
 	dstlen = written_bytes;
 	dst = new unsigned char[dstlen + 1];
 	bzero(dst, dstlen + 1);

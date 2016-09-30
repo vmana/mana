@@ -670,13 +670,19 @@ bool system::daemonlock(string lockname)
 
 string system::date(string format)
 {
-	time_t now = time(NULL);
+	return date(format, time(NULL));
+}
+
+string system::date(string format, time_t ts)
+{
+	time_t now = ts;
 	struct tm tstruct;
 	char buf[80];
 	tstruct = *localtime(&now);
 	strftime(buf, sizeof(buf), format.c_str(), &tstruct);
 	return string(buf);
 }
+
 
 int system::timestamp()
 {
@@ -769,6 +775,11 @@ regex::regex()
 {
 }
 
+regex::regex(string str)
+{
+	S = str;
+}
+
 bool regex::match(string reg)
 {
 	return match(S, reg);
@@ -776,7 +787,12 @@ bool regex::match(string reg)
 
 bool regex::match(string str, string reg)
 {
-	return boost::regex_match(str, boost::regex(reg));
+	try
+	{
+		return boost::regex_match(str, boost::regex(reg));
+	}
+	catch (...) {}
+	return false;
 }
 
 string regex::search(string reg, string format)
@@ -787,8 +803,12 @@ string regex::search(string reg, string format)
 string regex::search(string str, string reg, string format)
 {
 	string ret = "";
-	if (!match(str, reg)) return ret;
-	ret = boost::regex_replace(str, boost::regex(reg), format);
+	try
+	{
+		if (!match(str, reg)) return ret;
+		ret = boost::regex_replace(str, boost::regex(reg), format);
+	}
+	catch (...) {}
 	return ret;
 }
 

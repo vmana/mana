@@ -22,6 +22,7 @@ class smtp
 		string subject = "";
 		string body = "";
 		string charset = "";
+		string mime_type = "text/plain";
 		string mail_id = ""; // value is set after a successful sent mail
 		bool verbose = false;
 		vector<string> error;

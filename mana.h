@@ -6,6 +6,7 @@
 #include "thread.h"
 #include "http.h"
 #include "smtp.h"
+#include "imap.h"
 #include "ssh.h"
 #include "daemon.h"
 #include "parser.h"

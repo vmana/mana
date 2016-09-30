@@ -181,6 +181,7 @@ size_t http::write_datafile(void *ptr, size_t size, size_t nmemb, void *stream)
 
 void http::prepare_curl(CURL *curl, string url)
 {
+	#ifndef NO_MANA_HTTP
 	curl_easy_setopt(curl, CURLOPT_URL, (char*)url.c_str());
 	curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
 	curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1); // multi-threading issues
@@ -196,11 +197,12 @@ void http::prepare_curl(CURL *curl, string url)
 	}
 	else curl_easy_setopt(curl, CURLOPT_COOKIEFILE, ""); // enable cookie engine
 	if (force_cookie != "") curl_easy_setopt(curl, CURLOPT_COOKIE, force_cookie.c_str());
-	
+	#endif
 }
 
 void http::update_cookie_value(CURL *curl)
 {
+	#ifndef NO_MANA_HTTP
 	struct curl_slist *cookies;
 	struct curl_slist *nc;
 	curl_easy_getinfo(curl, CURLINFO_COOKIELIST, &cookies); 
@@ -223,6 +225,7 @@ void http::update_cookie_value(CURL *curl)
 	}
 
 	curl_slist_free_all(cookies); 
+	#endif
 }
 
 http::~http()

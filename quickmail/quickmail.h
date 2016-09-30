@@ -180,8 +180,9 @@ DLL_EXPORT_LIBQUICKMAIL void quickmail_add_header (quickmail mailobj, const char
 /*! \brief set the body of a quickmail object
  * \param  mailobj     quickmail object
  * \param  body        e-mail body
+ * \param  mime_type   mime-type
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_set_body (quickmail mailobj, const char* body);
+DLL_EXPORT_LIBQUICKMAIL void quickmail_set_body (quickmail mailobj, const char* body, const char* mime_type);
 
 /*! \brief set the body of a quickmail object
  * any existing bodies will be removed and a single plain text body will be added

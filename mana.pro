@@ -1,6 +1,5 @@
 QT -= gui core
 QT += sql
-#QT += network
 
 project = default
 
@@ -32,7 +31,7 @@ linux-g++* {
 
 android-g++ {
 	DEFINES += NO_MANA_SSH="1"
-	DEFINES += NO_MANA_CURL_HTTP="1"
+	DEFINES += MANA_CURL_ANDROID="1"
 	DEFINES += MANA_SQLITE="1"
 	LIBS += -lgnustl_shared
 	
@@ -74,6 +73,7 @@ SOURCES += \
     daemon.cpp \
     http.cpp \
     smtp.cpp \
+    imap.cpp \
     thread.cpp \
     quickmail/quickmail.c \
     quickmail/smtpsocket.c \
@@ -158,6 +158,7 @@ HEADERS += mana.h\
     http.h \
     lib.h \
     smtp.h \
+    imap.h \
     thread.h \
     quickmail/quickmail.h \
     quickmail/smtpsocket.h \

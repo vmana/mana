@@ -10,8 +10,8 @@
 namespace mana
 {
 
-#define private_key_file	"private.txt"
-#define public_key_file		"public.txt"
+#define rsa_private_key_file	"private.txt"
+#define rsa_public_key_file		"public.txt"
 
 class cypher
 {

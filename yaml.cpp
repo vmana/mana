@@ -474,7 +474,7 @@ yaml yaml::replace(string path, string format)
 	return ret;
 }
 
-vector<string> yaml::value(string path, string format)
+vector<string> yaml::value(string path, string format, bool duplicate)
 {
 	vector<string> ret;
 
@@ -485,6 +485,7 @@ vector<string> yaml::value(string path, string format)
 		ret.push_back(result);
 	}
 
+	if (!duplicate) ret = unique(ret);
 	return ret;
 }
 

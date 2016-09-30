@@ -98,6 +98,7 @@ namespace mana
 			static void mkdir(string path, int mode = S_IRWXU | S_IRWXG | S_IRWXO);
 			static bool daemonlock(string lockname = "daemon.lock");
 			static string date(string format = "%Y-%m-%d %X");
+			static string date(string format, time_t ts);
 			static int timestamp();
 			static bool log(string filename, string data);
 			static bool log(string filename, vector<string> data);
@@ -121,6 +122,7 @@ namespace mana
 			string S;
 
 			regex();
+			regex(string str);
 			bool match(string reg);
 			static bool match(string str, string reg);
 			

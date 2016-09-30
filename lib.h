@@ -5,8 +5,9 @@
 
 // Errors
 #define mana_error_http_get			"mana.error : unable to perform an url get"
-#define mana_error_http_upload		"mana.error : unable to perform an url get"
-#define mana_error_file_open			"mana.error : unable to open file "
+#define mana_error_http_upload		"mana.error : unable to perform an url upload"
+#define mana_error_file_open		"mana.error : unable to open file "
+#define mana_error_imap				"mana.error : unable to perform an imap"
 
 // *** include ***
 

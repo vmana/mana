@@ -23,7 +23,7 @@ bool smtp::send()
 	quickmail mail = quickmail_create(from.c_str(), subject.c_str());
 	quickmail_set_localname(mail, localname.c_str());
 	quickmail_set_charset(mail, charset.c_str());
-	quickmail_set_body(mail, body.c_str());
+	quickmail_set_body(mail, body.c_str(), mime_type.c_str());
 	if (verbose) quickmail_set_debug_log(mail, stdout);
 
 	vector<string> tos = explode(",", to);

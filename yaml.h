@@ -51,7 +51,7 @@ class yaml
 		// exemple ("(.*)/ip:.*" , "$1.*") get the parents which have the key "ip"
 		yaml search(string path, string format);
 		yaml replace(string path, string format);
-		vector<string> value(string path, string format);
+		vector<string> value(string path, string format, bool duplicate = false);
 		string single_value(string path, string format);
 
 		yaml operator+(const yaml_data &A);
