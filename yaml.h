@@ -5,6 +5,7 @@
 #include "cypher.h"
 #include <boost/regex.hpp>
 
+
 namespace mana
 {
 
@@ -13,7 +14,7 @@ class yaml_data
 	public:
 		string path;
 		string comment; // comments below this path
-		
+
 		yaml_data();
 		yaml_data(string path); // a/b/-c/d:value
 		void load(string path);
@@ -29,7 +30,7 @@ class yaml
 	protected :
 		int space_count(string &S); // count spaces on the left
 		static string get_parent_path(yaml_data &D, int depth);
-		
+
 	public :
 		vector<yaml_data> data;
 
