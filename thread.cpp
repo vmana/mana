@@ -3,6 +3,7 @@
 
 #include "thread.h"
 
+
 #ifdef WIN32
 #ifdef mana_pthread
 // thread
@@ -92,7 +93,7 @@ int pthread_cond_signal(pthread_cond_t *cv)
 {
 	//WakeConditionVariable(cv);
 	cv->nbsignals++; // it should have external protections
-	SetEvent(cv->H);	
+	SetEvent(cv->H);
 	return 0;
 }
 
@@ -136,7 +137,7 @@ int pthread_cond_timedwait(pthread_cond_t *cv, pthread_mutex_t *mutex, struct ti
 			pthread_mutex_lock(mutex);
 			return ETIMEDOUT; // return, with the mutex
 		}
-		
+
 		pthread_mutex_lock(mutex); // get the mutex back
 		if (cv->nbsignals > 0) // do someone have consumed the signal since the mutex ?
 		{
@@ -149,7 +150,7 @@ int pthread_cond_timedwait(pthread_cond_t *cv, pthread_mutex_t *mutex, struct ti
 		}
 	} // relase mutex, and wait again
 
-	//if (!SleepConditionVariableCS(cv, mutex, 1000*t->tv_sec)) return ETIMEDOUT;	
+	//if (!SleepConditionVariableCS(cv, mutex, 1000*t->tv_sec)) return ETIMEDOUT;
 	return 0;
 }
 
