@@ -9,7 +9,9 @@
 
 int pthread_create(pthread_t *thread, int *attr, LPTHREAD_START_ROUTINE lpStartAddress, threadParam arg)
 {
+	//SetLastError(0);
 	*thread = CreateThread(NULL, 0, lpStartAddress, arg, 0, NULL);
+	//cout << GetLastError() << endl;
 	return 1;
 }
 
@@ -50,6 +52,7 @@ int pthread_self()
 	return (unsigned int)GetCurrentThreadId();
 }
 
+
 // mutex
 
 int pthread_mutex_init(pthread_mutex_t *mutex, int *attr)
@@ -87,6 +90,7 @@ int pthread_cond_init(pthread_cond_t *cv, int *cattr)
 
 int pthread_cond_signal(pthread_cond_t *cv)
 {
+	//WakeConditionVariable(cv);
 	cv->nbsignals++; // it should have external protections
 	SetEvent(cv->H);	
 	return 0;
@@ -94,6 +98,7 @@ int pthread_cond_signal(pthread_cond_t *cv)
 
 int pthread_cond_broadcast(pthread_cond_t *cv)
 {
+	//WakeAllConditionVariable(cv);
 	cv->nbsignals += 1000; // it should have external protections
 	SetEvent(cv->H);
 	return 0;
@@ -105,7 +110,7 @@ int pthread_cond_wait(pthread_cond_t *cv, pthread_mutex_t *mutex)
 	{
 		pthread_mutex_unlock(mutex); // release the mutex and wait
 		WaitForSingleObject(cv->H, INFINITE); // waiting for a signal
-		pthread_mutex_lock(mutex); // get mutex back
+		pthread_mutex_lock(mutex); // get the mutex back
 		if (cv->nbsignals > 0) // do someone have consumed the signal since the mutex ?
 		{
 			cv->nbsignals--;
@@ -132,7 +137,7 @@ int pthread_cond_timedwait(pthread_cond_t *cv, pthread_mutex_t *mutex, struct ti
 			return ETIMEDOUT; // return, with the mutex
 		}
 		
-		pthread_mutex_lock(mutex); // get mutex back
+		pthread_mutex_lock(mutex); // get the mutex back
 		if (cv->nbsignals > 0) // do someone have consumed the signal since the mutex ?
 		{
 			cv->nbsignals--;
@@ -144,6 +149,7 @@ int pthread_cond_timedwait(pthread_cond_t *cv, pthread_mutex_t *mutex, struct ti
 		}
 	} // relase mutex, and wait again
 
+	//if (!SleepConditionVariableCS(cv, mutex, 1000*t->tv_sec)) return ETIMEDOUT;	
 	return 0;
 }
 
