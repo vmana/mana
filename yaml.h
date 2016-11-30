@@ -5,7 +5,6 @@
 #include "cypher.h"
 #include <boost/regex.hpp>
 
-
 namespace mana
 {
 
