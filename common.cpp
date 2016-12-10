@@ -44,7 +44,7 @@ string trim_space(string str)
 
 string strlower(string str)
 {
-	for(int i = 0; i < str.size(); ++i)
+	for (int i = 0; i < str.size(); ++i)
 		str[i] = tolower(str[i]);
 	return str;
 }
@@ -76,10 +76,10 @@ vector<string> explode(string separator, string str, bool keep_empty)
 {
 	vector<string> ret;
 	string::size_type found;
-	
+
 	int separator_len = strlen(separator.c_str());
 	if (separator_len == 0) return ret;
-	
+
 	found = str.find(separator);
 	while (found != string::npos)
 	{
@@ -250,7 +250,7 @@ bool file::copy(string src, string dst)
 	if (!f2) { fclose(f); return false; }
 	int nread = 0;
 	char buf[256];
-	while (nread = fread(buf, 1, 256, f))
+	while ((nread = fread(buf, 1, 256, f)))
 		fwrite(buf, 1, nread, f2);
 	fclose(f);
 	fclose(f2);
@@ -378,7 +378,7 @@ bool file::read_content(string filename, string *content)
 	char buffer[1024];
 	bzero(buffer, sizeof(buffer));
 	int size;
-	while (size = fread(buffer, 1, sizeof(buffer), f))
+	while ((size = fread(buffer, 1, sizeof(buffer), f)))
 	{
 		content->append(buffer, size);
 		bzero(buffer, sizeof(buffer));
@@ -514,7 +514,7 @@ vector<string> system::ls(string path, bool absolute_path)
 
 	if (!(dp  = opendir(path.c_str()))) return ret;
 
-	while (dirp = readdir(dp))
+	while ((dirp = readdir(dp)))
 	{
 		if (!strncmp(dirp->d_name, (char*)".", 1)) continue;
 		ret.push_back(((absolute_path) ? path : "") + string(dirp->d_name));

@@ -27,7 +27,7 @@ string http::get(string url)
 	if (curl)
 	{
 		prepare_curl(curl, url);
-		
+
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, http::write_data);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ret);
 
@@ -52,22 +52,22 @@ bool http::download(string url, string file)
 	#ifndef NO_MANA_HTTP
 	CURL *curl;
 	CURLcode res;
-	
+
 	// use real filename if empty
 	if (file == "") file = mana::file::filename(file);
-	
+
 	FILE *f = fopen(file.c_str(), "wb+");
 	if (!f)
 	{
 		error.push_back(string(mana_error_file_open + file));
 		return false;
 	}
-	
+
 	curl = curl_easy_init();
 	if (curl)
 	{
 		prepare_curl(curl, url);
-		
+
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, http::write_datafile);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, f);
 
@@ -97,12 +97,12 @@ bool http::upload(string url, string file, string filename)
 		// use real filename if empty
 		if (filename == "") filename = mana::file::filename(file);
 		string writed = "";
-		
+
 		prepare_curl(curl, url);
-		
+
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, http::write_data);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &writed);
-		
+
 		struct curl_httppost *post = NULL;
 		struct curl_httppost *last = NULL;
 		curl_formadd
@@ -114,7 +114,7 @@ bool http::upload(string url, string file, string filename)
 			CURLFORM_FILENAME, (char*)filename.c_str(),
 			CURLFORM_END
 		);
-		
+
 		if (post_data != "")
 		{
 			vector<string> post_explode = explode("&", post_data);
@@ -189,7 +189,7 @@ void http::prepare_curl(CURL *curl, string url)
 	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 	if (follow_location) curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, true);
 	if (post_data != "") curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post_data.c_str());
-	
+
 	if (jar != "")
 	{
 		curl_easy_setopt(curl,  CURLOPT_COOKIEJAR, jar.c_str());
@@ -205,7 +205,7 @@ void http::update_cookie_value(CURL *curl)
 	#ifndef NO_MANA_HTTP
 	struct curl_slist *cookies;
 	struct curl_slist *nc;
-	curl_easy_getinfo(curl, CURLINFO_COOKIELIST, &cookies); 
+	curl_easy_getinfo(curl, CURLINFO_COOKIELIST, &cookies);
 
 	cookie.clear();
 	nc = cookies;
@@ -224,7 +224,7 @@ void http::update_cookie_value(CURL *curl)
 		}
 	}
 
-	curl_slist_free_all(cookies); 
+	curl_slist_free_all(cookies);
 	#endif
 }
 
