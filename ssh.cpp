@@ -28,7 +28,7 @@ ssh::~ssh()
 bool ssh::verify_knownhost()
 {
 	int state = ssh_is_server_known(session);
-	
+
 	switch (state)
 	{
 		case SSH_SERVER_KNOWN_OK :
@@ -64,7 +64,7 @@ bool ssh::auth_public_key()
 		error.push_back("import public key from " + public_key_file + " failed with code " + convert::int_string(res));
 		return false;
 	}
-	
+
 	res = ssh_userauth_try_publickey(session, NULL, public_key);
 	if (res != SSH_AUTH_SUCCESS)
 	{
@@ -72,7 +72,7 @@ bool ssh::auth_public_key()
 		ssh_key_free(public_key);
 		return false; // doesn't accept auth
 	}
-	
+
 	res = ssh_pki_import_privkey_file(private_key_file.c_str(), NULL, NULL, NULL, &private_key);
 	if (res != SSH_OK)
 	{
@@ -80,7 +80,7 @@ bool ssh::auth_public_key()
 		ssh_key_free(public_key);
 		return false;
 	}
-	
+
 	res = ssh_userauth_publickey(session, NULL, private_key);
 	if (res != SSH_AUTH_SUCCESS)
 	{
@@ -89,7 +89,7 @@ bool ssh::auth_public_key()
 		ssh_key_free(private_key);
 		return false;
 	}
-	
+
 	ssh_key_free(public_key);
 	ssh_key_free(private_key);
 	return true;
@@ -98,26 +98,26 @@ bool ssh::auth_public_key()
 bool ssh::connect()
 {
 	bool ret = false;
-	
+
 	if (connected()) disconnect();
 	if (session) ssh_free(session); // free existing session
-	
+
 	session = ssh_new();
 	if (!session)
 	{
 		error.push_back("ssh_new failed");
 		return ret;
 	}
-	
+
 	ssh_options_set(session, SSH_OPTIONS_HOST, host.c_str());
 	ssh_options_set(session, SSH_OPTIONS_PORT, &port);
 	if (user == "") ssh_options_set(session, SSH_OPTIONS_USER, NULL);
 	else ssh_options_set(session, SSH_OPTIONS_USER, user.c_str());
-	
+
 	long milliseconds_timeout = timeout*1000;
 	ssh_options_set(session, SSH_OPTIONS_TIMEOUT_USEC, &milliseconds_timeout);
 	ssh_options_set(session, SSH_OPTIONS_KNOWNHOSTS, known_hosts_file.c_str());
-	
+
 	// connect
 	int rc = ssh_connect(session);
 	if (rc != SSH_OK)
@@ -125,19 +125,19 @@ bool ssh::connect()
 		error.push_back(string(ssh_get_error(session)));
 		return ret;
 	}
-	
+
 	protected_connected = true;
-	
+
 	// security check
 	if (!verify_knownhost())
 	{
 		disconnect();
 		return false;
 	}
-	
+
 	// public key auth
 	if (auth_public_key()) return true; // we don't need password
-	
+
 	// password auth
 	rc = ssh_userauth_password(session, NULL, password.c_str());
 	if (rc != SSH_AUTH_SUCCESS)
@@ -146,7 +146,7 @@ bool ssh::connect()
 		disconnect();
 		return ret;
 	}
-	
+
 	return true;
 }
 
@@ -154,7 +154,7 @@ bool ssh::disconnect()
 {
 	if (!connected()) return false;
 	if (!session) return false;
-	
+
 	protected_connected = false;
 	ssh_disconnect(session);
 	ssh_free(session);
@@ -171,14 +171,14 @@ bool ssh::exec(string cmd, string *result)
 {
 	bool ret = true;
 	if (!connected()) return false;
-	
+
 	ssh_channel channel = ssh_channel_new(session);
 	if (!channel)
 	{
 		error.push_back("ssh_channel_new failed");
 		return false;
 	}
-	
+
 	int rc = ssh_channel_open_session(channel);
 	if (rc != SSH_OK)
 	{
@@ -186,10 +186,10 @@ bool ssh::exec(string cmd, string *result)
 		ssh_channel_free(channel);
 		return false;
 	}
-	
+
 	char buffer[256];
-	unsigned int nbytes;
-	
+	int nbytes;
+
 	rc = ssh_channel_request_exec(channel, cmd.c_str());
 	if (rc != SSH_OK)
 	{
@@ -198,7 +198,7 @@ bool ssh::exec(string cmd, string *result)
 		ssh_channel_free(channel);
 		return false;
 	}
-	
+
 	// read result if not null
 	if (result)
 	{
@@ -209,7 +209,7 @@ bool ssh::exec(string cmd, string *result)
 			result->append(buffer, nbytes);
 			nbytes = ssh_channel_read(channel, buffer, sizeof(buffer), 0);
 		}
-		
+
 		if (nbytes < 0)
 		{
 			error.push_back("ssh_channel_read");
@@ -218,7 +218,7 @@ bool ssh::exec(string cmd, string *result)
 			return false;
 		}
 	}
-	
+
 	// close channel
 	ssh_channel_send_eof(channel);
 	ssh_channel_close(channel);

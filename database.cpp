@@ -26,9 +26,9 @@ int database::msg_handler(DBPROCESS *dbproc, DBINT msgno, int msgstate, int seve
 {
 	enum {changed_database = 5701, changed_language = 5703 };
 	if (msgno == changed_database || msgno == changed_language) return 0;
-	
+
 	if (!database::log_errors) return 0;
-	
+
 	if (msgno > 0)
 	{
 		database::error.push_back("database : " + convert::int_string(msgno) + " level "
@@ -45,7 +45,7 @@ int database::msg_handler(DBPROCESS *dbproc, DBINT msgno, int msgstate, int seve
 int database::err_handler(DBPROCESS * dbproc, int severity, int dberr, int oserr, char *dberrstr, char *oserrstr)
 {
 	if (!database::log_errors) return INT_CANCEL;
-	
+
 	if (dberr) database::error.push_back("database : " + convert::int_string(dberr) + " level " + convert::int_string(severity) + " : " + dberrstr);
 	else database::error.push_back("DB-LIBRARY error : " + string(dberrstr));
 	return INT_CANCEL;
@@ -66,11 +66,11 @@ bool database::open()
 {
 	// wait to get the mutex if internal_mode == mutex
 	lock();
-	
+
 	_is_open = false;
-	
+
 	error.clear();
-	
+
 	switch (type)
 	{
 		case mssql :
@@ -81,29 +81,29 @@ bool database::open()
 				unlock();
 				return _is_open;
 			}
-			
+
 			dberrhandle(database::err_handler);
 			dbmsghandle(database::msg_handler);
-			
+
 			LOGINREC *login;
-			
+
 			if ((login = dblogin()) == NULL)
 			{
 				if (database::log_errors) error.push_back("unable to allocate login structure");
 				unlock();
 				return _is_open;
 			}
-			
+
 			DBSETLUSER(login, user.c_str());
 			DBSETLPWD(login, pass.c_str());
-			
+
 			if ((dbproc = dbopen(login, server.c_str())) == NULL)
 			{
 				if (database::log_errors) error.push_back("unable to connect to" + server + " as " + user);
 				unlock();
 				return _is_open;
 			}
-			
+
 			_is_open = true;
 			#else
 			if (database::log_errors) error.push_back("unable to connect : driver not loaded");
@@ -145,11 +145,11 @@ bool database::open()
 			if (database::log_errors) error.push_back("unable to connect : driver not loaded");
 			#endif
 			break;
-		
+
 	}
-	
+
 	if (!_is_open) unlock(); // prevents dead lock
-	
+
 	return _is_open;
 }
 
@@ -157,7 +157,7 @@ bool database::close()
 {
 	bool ret = false;
 	if (!_is_open) return ret;
-	
+
 	switch (type)
 	{
 		case mssql :
@@ -179,9 +179,9 @@ bool database::close()
 			break;
 	}
 	_is_open = false;
-	
+
 	unlock();
-	
+
 	return true;
 }
 
@@ -213,19 +213,19 @@ vector<vector<string> > database::query_mssql(string sql_query)
 	vector<vector<string> > ret;
 	#ifdef MANA_MSSQL
 	RETCODE erc;
-	
+
 	if ((erc = dbfcmd(dbproc, sql_query.c_str())) == FAIL)
 	{
 		if (database::log_errors) error.push_back("dbfcmd failed with " + sql_query);
 		return ret;
 	}
-	
+
 	if ((erc = dbsqlexec(dbproc)) == FAIL)
 	{
 		if (database::log_errors) error.push_back("dbsqlexec failed with " + sql_query);
 		return ret;
 	}
-	
+
 	while ((erc = dbresults(dbproc)) != NO_MORE_RESULTS)
 	{
 		struct COL
@@ -236,7 +236,7 @@ vector<vector<string> > database::query_mssql(string sql_query)
 		} *columns, *pcol;
 		int ncols;
 		int row_code;
-		
+
 		ncols = dbnumcols(dbproc);
 		columns = (COL*)calloc(ncols, sizeof(struct COL));
 		for (pcol = columns; pcol - columns < ncols; pcol++)
@@ -247,27 +247,27 @@ vector<vector<string> > database::query_mssql(string sql_query)
 			pcol->size = dbcollen(dbproc, c);
 			if (SYBCHAR != pcol->type) pcol->size = dbwillconvert(pcol->type, SYBCHAR);
 			pcol->buffer = (char*)calloc(1, pcol->size + 1);
-			
+
 			if ((erc = dbbind(dbproc, c, NTBSTRINGBIND,	pcol->size+1, (BYTE*)pcol->buffer)) == FAIL)
 			{
 				if (database::log_errors) error.push_back("dbbind number " + convert::int_string(c) + " failed");
 				return ret;
 			}
-			
+
 			if ((erc = dbnullbind(dbproc, c, &pcol->status)) == FAIL)
 			{
 				if (database::log_errors) error.push_back("dbnullbind number " + convert::int_string(c) + " failed");
 				return ret;
 			}
 		}
-		
+
 		while ((row_code = dbnextrow(dbproc)) != NO_MORE_ROWS)
 		{
 			vector<string> line;
 			switch (row_code)
 			{
 				case REG_ROW :
-					
+
 					for (pcol=columns; pcol - columns < ncols; pcol++)
 					{
 						if (pcol->status == -1) line.push_back(string("mana::null"));
@@ -280,7 +280,7 @@ vector<vector<string> > database::query_mssql(string sql_query)
 					break;
 			}
 		}
-		
+
 		for (pcol = columns; pcol - columns < ncols; pcol++)
 		{
 			free(pcol->buffer);
@@ -317,7 +317,7 @@ vector<vector<string> > database::query_mysql(string sql_query)
 	{
 		if (database::log_errors) error.push_back(string("query_mysql failed : ") + string(e.what()));
 	}
-	
+
 	if (res) delete res;
 	if (s) delete s;
 	#endif
@@ -351,6 +351,8 @@ string database::purge(string &S)
 		case mssql :
 			ret = str_replace("'", "''", ret);
 			break;
+		case mysql :
+			break;
 		case sqlite :
 			ret = str_replace("'", "''", ret);
 			break;
@@ -364,6 +366,6 @@ database::~database()
 	pthread_mutex_destroy(&p_mutex);
 }
 
-		
+
 } // namespace
 
