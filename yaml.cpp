@@ -4,7 +4,7 @@ namespace mana
 
 yaml_data::yaml_data()
 {
-	
+
 }
 
 yaml_data::yaml_data(string path)
@@ -76,7 +76,7 @@ bool operator>(const yaml_data &A, const yaml_data &B)
 
 yaml::yaml()
 {
-	
+
 }
 
 yaml::yaml(const yaml &Y)
@@ -92,7 +92,7 @@ yaml::yaml(string &S)
 int yaml::space_count(string &S)
 {
 	int ret = 0;
-	
+
 	while (ret < S.size())
 	{
 		if (S[ret] != ' ') break;
@@ -120,7 +120,7 @@ bool yaml::load_vector(vector<string> &lines)
 {
 	bool ret = false;
 	data.clear();
-	
+
 	// parse it
 	int previous_spaces = 0; // previous path space
 	bool add_list_space = false; // special cases
@@ -128,34 +128,34 @@ bool yaml::load_vector(vector<string> &lines)
 	vector<int> path_space; // space taken by path. Usually 2 per elt, but some lists elt count for 4
 	bool is_list;
 	string comment = "";
-	
+
 	for (int i = 0; i < lines.size(); ++i)
 	{
 		string line = lines[i];
 		int line_space = space_count(line);
-		
+
 		// remove spaces
 		line = trim_space(line);
-		
+
 		if (line.length() <= 1)
 		{
 			comment += "\n";
 			continue;
 		}
-		
+
 		// check for comments
 		if (line[0] == '#')
 		{
 			comment += lines[i] + "\n";
 			continue;
 		}
-		
+
 		is_list = (substr(line, 0, 2) == "- ");
-		
+
 		if (is_list) line = "-" + substr(line, 2);
 
 		bool found_colon = (strpos(line, ":") != string::npos);
-		
+
 		// check if it's a list element : - xxxx
 		// todo: single value like aaa.bbb
 		if (! found_colon)
@@ -171,7 +171,7 @@ bool yaml::load_vector(vector<string> &lines)
 				}
 
 				if (add_list_space) line_space += 2;
-				
+
 				// get parent's path
 				int count_space = 0;
 				int count;
@@ -180,17 +180,17 @@ bool yaml::load_vector(vector<string> &lines)
 					if (count_space >= line_space) break;
 					count_space += path_space[count]; // increment based on saved values
 				}
-				
+
 				// reduce path and path_space to <count>
 				path.resize(count);
 				path_space.resize(count);
-				
+
 				// add it
 				yaml_data D;
 				for (int n = 0; n < path.size(); ++n)
 					D.path += path[n] + "/";
 
-				D.path += "-" + substr(line, 1) + ":";
+				D.path += line + ":";
 				D.comment = comment;
 				comment = ""; // reset
 				data.push_back(D);
@@ -199,17 +199,17 @@ bool yaml::load_vector(vector<string> &lines)
 			{
 				// todo: aaa.bbb
 			}
-			
+
 			previous_spaces = line_space;
 			continue;
 		}
 
 		add_list_space = false; // reset when not in a list element
-		
+
 		// check if it's a key:value, or just a path
 		// we will check the last char of line for that
 		bool is_path = (substr(line, -1) == ":");
-		
+
 		if (is_path)
 		{
 			// it's a path
@@ -219,9 +219,9 @@ bool yaml::load_vector(vector<string> &lines)
 			found_colon = (strpos(key, ":") != string::npos);
 			bool found_slash = (strpos(key, "/") != string::npos);
 			if (found_colon || found_slash) key = "base64=" + cypher::base64_encode(key);
-			
+
 			// where do we move in path ?
-			if (line_space > previous_spaces)      
+			if (line_space > previous_spaces)
 			{
 				// to the right
 				path.push_back(key);
@@ -244,7 +244,7 @@ bool yaml::load_vector(vector<string> &lines)
 				// reduce path and path_space to <count>
 				path.resize(count);
 				path_space.resize(count);
-				
+
 				path.push_back(key);
 
 				if (is_list) path_space.push_back(4);
@@ -256,7 +256,7 @@ bool yaml::load_vector(vector<string> &lines)
 			// not a path => key:value
 			vector<string> split = explode(":", line);
 			int nsplit = split.size();
-			
+
 			// check if we need to correct path
 			if (line_space < previous_spaces)
 			{
@@ -267,12 +267,12 @@ bool yaml::load_vector(vector<string> &lines)
 					if (count_space >= line_space) break;
 					count_space += path_space[count]; // increment based on saved values
 				}
-				
+
 				// reduce path and path_space to <count>
 				path.resize(count);
 				path_space.resize(count);
 			}
-			
+
 			yaml_data D;
 			for (int n = 0; n < path.size(); ++n)
 				D.path += path[n] + "/";
@@ -288,10 +288,10 @@ bool yaml::load_vector(vector<string> &lines)
 			comment = ""; // reset
 			data.push_back(D);
 		}
-		
+
 		previous_spaces = line_space;
 	}
-	
+
 	ret = true;
 	return ret;
 }
@@ -332,7 +332,7 @@ string yaml::generate(bool add_comments)
 
 	yaml Y = *this;
 	vector<yaml_data> D = Y.data; // prevent modifications
-	
+
 	vector<string> same; // same parts of path
 	for (int i = 0; i < D.size(); ++i)
 	{
@@ -426,7 +426,7 @@ yaml yaml::search(string path)
 yaml yaml::search(string path, string format)
 {
 	yaml ret;
-	
+
 	vector<string> res; // store matches reformatted
 
 	for (int i = 0; i < data.size(); ++i)
