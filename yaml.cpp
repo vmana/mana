@@ -189,7 +189,7 @@ bool yaml::load_vector(vector<string> &lines)
 				for (int n = 0; n < path.size(); ++n)
 					D.path += path[n] + "/";
 
-				D.path += "-" + substr(line, 1) + ":";
+				D.path += line + ":";
 				D.comment = comment;
 				comment = ""; // reset
 				data.push_back(D);
