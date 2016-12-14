@@ -9,6 +9,8 @@
 #include <boost/regex.hpp>
 #endif
 
+#define default_line_size 4096
+
 namespace mana
 {
 
@@ -21,6 +23,7 @@ namespace mana
 
 			string path;
 			FILE *handle;
+			unsigned int line_size = default_line_size;
 			bool open(string mode = "rb");
 			bool close();
 
@@ -61,7 +64,7 @@ namespace mana
 			static string basename(string path);
 			static string extension(string path);
 			static bool remove(string path);
-			static int readline(FILE *f, string *s = NULL);
+			static int readline(FILE *f, string *s = NULL, int line_size = default_line_size);
 			static bool read_content(string filename, string *content);
 			static string read_content(string filename);
 			static bool writeline(FILE *f, string content);
@@ -125,7 +128,7 @@ namespace mana
 			regex(string str);
 			bool match(string reg);
 			static bool match(string str, string reg);
-			
+
 			// search example : str="a b c" reg="a (.*) .*" format="found:$1"
 			// output : found:b
 			string search(string reg, string format);
@@ -145,7 +148,7 @@ namespace mana
 	string str_replace(string search, string replace, string &S);
 	int common(const string &A, const string &B);
 	string randstring(int n = 10);
-	
+
 	#ifdef _WIN32
 	void mkdir(string path, int mode = 0);
 	void chdir(char* path);
@@ -203,7 +206,7 @@ void print_r(vector<T> &V, string *res)
 {
 	if (res) *res += "{ ";
 	else cout << "{ ";
-	
+
 	for (int i = 0; i < V.size(); ++i)
 	{
 		if (res == NULL)
@@ -225,7 +228,7 @@ template<class T>
 void print_r(vector<vector<T> > &V, string *res)
 {
 	for (int i = 0; i < V.size(); ++i)
-	{	
+	{
 		if (res == NULL) cout << "[" << convert::int_string(i) << "] ";
 		else *res += "[" + convert::int_string(i) + "] ";
 		print_r(V[i], res);
