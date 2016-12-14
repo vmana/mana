@@ -202,7 +202,7 @@ string file::add_trailing_slash() { return add_trailing_slash(path); }
 string file::basename() { return basename(path); }
 string file::extension() { return extension(path); }
 bool file::remove() { return remove(path); }
-int file::readline(string *s) { return readline(handle, s); }
+int file::readline(string *s) { return readline(handle, s, line_size); }
 bool file::read_content(string *content) { return read_content(path, content); }
 string file::read_content() { return read_content(path); }
 bool file::writeline(string content)  { return writeline(handle, content); }
@@ -355,16 +355,23 @@ int file::read(char *buffer, int size)
 	return ret;
 }
 
-int file::readline(FILE *f, string *s)
+int file::readline(FILE *f, string *s, int line_size)
 {
 	if (s) *s = "";
-	char buf[2048];
-	bzero(buf, 2048);
-	if (fgets(buf, 2047, f))
+	int size = line_size;
+	char *buf = new char[size];
+	bzero(buf, size);
+	if (fgets(buf, size, f))
 	{
 		if (s) *s = trim(buf);
 	}
-	else return -1;
+	else
+	{
+		delete [] buf;
+		return -1;
+	}
+
+	delete [] buf;
 	if (s) return s->length();
 	return 0;
 }
@@ -822,30 +829,6 @@ int load_so(int i)
 {
 	return i+1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
