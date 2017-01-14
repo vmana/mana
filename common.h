@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <cctype>
 #include <time.h>
+#include <chrono>
 #include "lib.h"
 #include <algorithm>
 #ifndef NO_REGEX
@@ -102,6 +103,7 @@ namespace mana
 			static bool daemonlock(string lockname = "daemon.lock");
 			static string date(string format = "%Y-%m-%d %X");
 			static string date(string format, time_t ts);
+			static int timestamp_milliseconds();
 			static int timestamp();
 			static bool log(string filename, string data);
 			static bool log(string filename, vector<string> data);

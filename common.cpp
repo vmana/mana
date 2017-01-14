@@ -690,6 +690,10 @@ string system::date(string format, time_t ts)
 	return string(buf);
 }
 
+int system::timestamp_milliseconds()
+{
+	return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+}
 
 int system::timestamp()
 {
