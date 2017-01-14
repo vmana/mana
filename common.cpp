@@ -690,7 +690,7 @@ string system::date(string format, time_t ts)
 	return string(buf);
 }
 
-int system::timestamp_milliseconds()
+unsigned long system::timestamp_milliseconds()
 {
 	return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
@@ -760,6 +760,14 @@ convert::convert()
 }
 
 string convert::int_string(int value)
+{
+	string ret;
+	stringstream ss;
+	ss << value;
+	ss >> ret;
+	return ret;
+}
+string convert::ulong_string(unsigned long value)
 {
 	string ret;
 	stringstream ss;
