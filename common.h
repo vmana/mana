@@ -100,6 +100,7 @@ namespace mana
 			static string pwd();
 			static void chdir(string path);
 			static void mkdir(string path, int mode = S_IRWXU | S_IRWXG | S_IRWXO);
+			static void rename(string path, string new_path);
 			static bool daemonlock(string lockname = "daemon.lock");
 			static string date(string format = "%Y-%m-%d %X");
 			static string date(string format, time_t ts);

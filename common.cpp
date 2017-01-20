@@ -656,6 +656,14 @@ void system::mkdir(string path, int mode)
 	#endif
 }
 
+void rename(string path, string new_path)
+{
+	#ifdef _WIN32
+	#else
+	::rename(path.c_str(), new_path.c_str());
+	#endif
+}
+
 bool system::daemonlock(string lockname)
 {
 	#ifndef _WIN32
