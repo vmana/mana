@@ -656,7 +656,7 @@ void system::mkdir(string path, int mode)
 	#endif
 }
 
-void rename(string path, string new_path)
+void system::move(string path, string new_path)
 {
 	#ifdef _WIN32
 	#else
