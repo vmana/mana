@@ -7,10 +7,10 @@
 #include "lib.h"
 #include <algorithm>
 #ifndef NO_REGEX
-#ifdef NO_BOOST_REGEX
-#include <regex>
-#else
+#ifdef BOOST_REGEX
 #include <boost/regex.hpp>
+#else
+#include <regex>
 #endif
 #endif
 
@@ -127,13 +127,13 @@ namespace mana
 
 #ifndef NO_REGEX
 
-	class regex
+	class regexp
 	{
 		public :
 			string S;
 
-			regex();
-			regex(string str);
+			regexp();
+			regexp(string str);
 			bool match(string reg);
 			static bool match(string str, string reg);
 

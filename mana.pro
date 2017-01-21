@@ -19,7 +19,6 @@ contains( project, sigma ) {
 
 contains( project, default ) {
 	QT -= sql
-	DEFINES += NO_BOOST_REGEX="1"
 }
 
 linux-g++* {
@@ -27,7 +26,7 @@ linux-g++* {
 	CONFIG += static
 	LIBS += -lcurl -lssh -lssh_threads
 	LIBS += -lsybdb -lmysqlcppconn
-	LIBS += -Wl,-Bstatic -lboost_regex -Wl,-Bdynamic
+#	LIBS += -Wl,-Bstatic -lboost_regex -Wl,-Bdynamic
 }
 
 android-g++ {

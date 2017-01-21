@@ -794,53 +794,53 @@ int strpos(string str, string needle, int pos)
 	return str.find(needle, pos);
 }
 
-/********	Regex	********/
+/********	Regexp	********/
 
 #ifndef NO_REGEX
 
-regex::regex()
+regexp::regexp()
 {
 }
 
-regex::regex(string str)
+regexp::regexp(string str)
 {
 	S = str;
 }
 
-bool regex::match(string reg)
+bool regexp::match(string reg)
 {
 	return match(S, reg);
 }
 
-bool regex::match(string str, string reg)
+bool regexp::match(string str, string reg)
 {
 	try
 	{
-#ifdef NO_BOOST_REGEX
-		return std::regex_match(str, std::regex(reg));
-#else
+#ifdef BOOST_REGEX
 		return boost::regex_match(str, boost::regex(reg));
+#else
+		return std::regex_match(str, std::regex(reg));
 #endif
 	}
 	catch (...) {}
 	return false;
 }
 
-string regex::search(string reg, string format)
+string regexp::search(string reg, string format)
 {
 	return search(S, reg, format);
 }
 
-string regex::search(string str, string reg, string format)
+string regexp::search(string str, string reg, string format)
 {
 	string ret = "";
 	try
 	{
 		if (!match(str, reg)) return ret;
-#ifdef NO_BOOST_REGEX
-		ret = std::regex_replace(str, std::regex(reg), format);
-#else
+#ifdef BOOST_REGEX
 		ret = boost::regex_replace(str, boost::regex(reg), format);
+#else
+		ret = std::regex_replace(str, std::regex(reg), format);
 #endif
 	}
 	catch (...) {}

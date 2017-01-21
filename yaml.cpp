@@ -416,7 +416,7 @@ yaml yaml::search(string path)
 
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (!boost::regex_match(data[i].path, boost::regex(path))) continue; // no match
+		if (!regexp::match(data[i].path, path)) continue; // no match
 		ret = ret + data[i];
 	}
 	return ret;
@@ -430,8 +430,8 @@ yaml yaml::search(string path, string format)
 
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (!boost::regex_match(data[i].path, boost::regex(path))) continue; // no match
-		string result = boost::regex_replace(data[i].path, boost::regex(path), format);
+		if (regexp::match(data[i].path, path)) continue; // no match
+		string result = regexp::search(data[i].path, path, format);
 		res.push_back(result);
 	}
 
@@ -442,7 +442,7 @@ yaml yaml::search(string path, string format)
 	{
 		for (int i = 0; i < data.size(); ++i)
 		{
-			if (!boost::regex_match(data[i].path, boost::regex(res[n]))) continue; // no match
+			if (!regexp::match(data[i].path, res[n])) continue; // no match
 			ret += data[i];
 		}
 	}
@@ -459,14 +459,14 @@ yaml yaml::replace(string path, string format)
 
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (!boost::regex_match(data[i].path, boost::regex(path)))
+		if (!regexp::match(data[i].path, path))
 		{
 			// no match, add it without any change
 			// push_back to keep the structure intact
 			ret.data.push_back(data[i]);
 			continue;
 		}
-		string result = boost::regex_replace(data[i].path, boost::regex(path), format);
+		string result = regexp::search(data[i].path, path, format);
 		ret.data.push_back(yaml_data(result));
 	}
 
@@ -479,8 +479,8 @@ vector<string> yaml::value(string path, string format, bool duplicate)
 
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (!boost::regex_match(data[i].path, boost::regex(path))) continue; // no match
-		string result = boost::regex_replace(data[i].path, boost::regex(path), format);
+		if (!regexp::match(data[i].path, path)) continue; // no match
+		string result = regexp::search(data[i].path, path, format);
 		ret.push_back(result);
 	}
 
@@ -492,9 +492,9 @@ string yaml::single_value(string path, string format)
 {
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (!boost::regex_match(data[i].path, boost::regex(path))) continue; // no match
+		if (!regexp::match(data[i].path, path)) continue; // no match
 		// return first match
-		return boost::regex_replace(data[i].path, boost::regex(path), format);
+		return regexp::search(data[i].path, path, format);
 	}
 	return "";
 }

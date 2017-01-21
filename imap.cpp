@@ -159,7 +159,7 @@ string imap::subject(int uid)
 		for (string line : xplode)
 		{
 			// search for utf-8 encoded string
-			string utf8_data = mana::regex(line).search(" *=\\?(?i)utf-8\\?B\\?([^\\?]*)\\?=", "$1");
+			string utf8_data = regexp(line).search(" *=\\?(?i)utf-8\\?B\\?([^\\?]*)\\?=", "$1");
 			if (utf8_data != "")
 			{
 				line = cypher::base64_decode(utf8_data);
