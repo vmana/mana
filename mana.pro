@@ -19,6 +19,7 @@ contains( project, sigma ) {
 
 contains( project, default ) {
 	QT -= sql
+	DEFINES += NO_BOOST_REGEX="1"
 }
 
 linux-g++* {
@@ -34,7 +35,7 @@ android-g++ {
 	DEFINES += MANA_CURL_ANDROID="1"
 	DEFINES += MANA_SQLITE="1"
 	LIBS += -lgnustl_shared
-	
+
 	LIBS += -L/dalaran/mana/lib/android/ -lcurl
 	PRE_TARGETDEPS += /dalaran/mana/lib/android/libcurl.a
 }

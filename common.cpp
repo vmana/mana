@@ -816,7 +816,11 @@ bool regex::match(string str, string reg)
 {
 	try
 	{
+#ifdef NO_BOOST_REGEX
+		return std::regex_match(str, std::regex(reg));
+#else
 		return boost::regex_match(str, boost::regex(reg));
+#endif
 	}
 	catch (...) {}
 	return false;
@@ -833,7 +837,11 @@ string regex::search(string str, string reg, string format)
 	try
 	{
 		if (!match(str, reg)) return ret;
+#ifdef NO_BOOST_REGEX
+		ret = std::regex_replace(str, std::regex(reg), format);
+#else
 		ret = boost::regex_replace(str, boost::regex(reg), format);
+#endif
 	}
 	catch (...) {}
 	return ret;

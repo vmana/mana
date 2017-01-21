@@ -7,7 +7,11 @@
 #include "lib.h"
 #include <algorithm>
 #ifndef NO_REGEX
+#ifdef NO_BOOST_REGEX
+#include <regex>
+#else
 #include <boost/regex.hpp>
+#endif
 #endif
 
 #define default_line_size 4096
