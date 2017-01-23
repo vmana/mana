@@ -45,7 +45,7 @@ android-g++ {
 #CONFIG += c++11
 #CONFIG -= warn_off warn_on
 
-#QMAKE_CXXFLAGS += -Wno-deprecated -Wno-write-strings -Wno-unused-result -Wno-format-securit
+#QMAKE_CXXFLAGS += -Wno-deprecated -Wno-write-strings -Wno-unused-result -Wno-format-security
 #QMAKE_CXXFLAGS += -static -static-libgcc -static-libstdc++
 #QMAKE_CFLAGS += -static -static-libgccy
 
