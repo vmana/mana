@@ -7,7 +7,7 @@ CONFIG += c++11
 CONFIG -= warn_off warn_on
 
 QMAKE_CXXFLAGS += -Wno-deprecated -Wno-write-strings -Wno-unused-result -Wno-format-security
-#DEFINES += QT_NO_DEBUG_OUTPUT
+DEFINES += BOOST_REGEX=1
 
 contains( project, toulmailer ) {
 	DEFINES += MANA_MSSQL="1" MANA_MYSQL="1"
@@ -26,7 +26,6 @@ linux-g++* {
 	CONFIG += static
 	LIBS += -lcurl -lssh -lssh_threads
 	LIBS += -lsybdb -lmysqlcppconn
-#	LIBS += -Wl,-Bstatic -lboost_regex -Wl,-Bdynamic
 }
 
 android-g++ {
