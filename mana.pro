@@ -1,13 +1,12 @@
 QT -= gui core
 QT += sql
 
-project = default
+project = wt
 
 CONFIG += c++11
 CONFIG -= warn_off warn_on
 
 QMAKE_CXXFLAGS += -Wno-deprecated -Wno-write-strings -Wno-unused-result -Wno-format-security
-DEFINES += BOOST_REGEX=1
 
 contains( project, toulmailer ) {
 	DEFINES += MANA_MSSQL="1" MANA_MYSQL="1"
@@ -18,6 +17,12 @@ contains( project, sigma ) {
 }
 
 contains( project, default ) {
+	QT -= sql
+	DEFINES += BOOST_REGEX=1
+	LIBS += -Wl,-Bstatic -lboost_regex -Wl,-Bdynamic
+}
+
+contains( project, wt ) {
 	QT -= sql
 }
 
