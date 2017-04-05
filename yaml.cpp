@@ -319,6 +319,13 @@ void yaml::sort()
 	std::sort(data.begin(), data.end());
 }
 
+void yaml::add_top_comment(string S)
+{
+	if (data.size() == 0) return;
+	if (substr(S, -1) != "\n") S += "\n";
+	data[0].comment = S;
+}
+
 void yaml::remove_comments()
 {
 	for (int i = 0; i < data.size(); ++i)

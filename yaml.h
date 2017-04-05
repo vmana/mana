@@ -43,6 +43,7 @@ class yaml
 		bool save(string filename, bool add_comments = true);
 		void print(string *S = NULL); // if NULL, cout, else print to string
 		void sort();
+		void add_top_comment(string S);
 		void remove_comments();
 		string generate(bool add_comments = true);
 
