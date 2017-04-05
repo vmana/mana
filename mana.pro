@@ -1,7 +1,7 @@
 QT -= gui core
 QT += sql
 
-project = default
+project = wt
 
 CONFIG += c++11
 CONFIG -= warn_off warn_on
@@ -17,6 +17,12 @@ contains( project, sigma ) {
 }
 
 contains( project, default ) {
+	QT -= sql
+	DEFINES += BOOST_REGEX=1
+	LIBS += -Wl,-Bstatic -lboost_regex -Wl,-Bdynamic
+}
+
+contains( project, wt ) {
 	QT -= sql
 }
 
