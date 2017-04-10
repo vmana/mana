@@ -843,7 +843,7 @@ string regexp::search(string str, string reg, string format)
 		ret = std::regex_replace(str, std::regex(reg), format);
 #endif
 	}
-	catch (...) {}
+	catch (...) { cout << "regexp::search exception : " << str << "::" << reg << "::" << format << endl; }
 	return ret;
 }
 

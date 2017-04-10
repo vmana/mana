@@ -437,7 +437,7 @@ yaml yaml::search(string path, string format)
 
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (regexp::match(data[i].path, path)) continue; // no match
+		if (!regexp::match(data[i].path, path)) continue; // no match
 		string result = regexp::search(data[i].path, path, format);
 		res.push_back(result);
 	}
