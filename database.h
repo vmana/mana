@@ -24,7 +24,7 @@
 #include <QVariant>
 #endif
 
-// apt-get install libmdbodbc1 mdbtools unixodbc libmysqlcppconn-dev
+// apt-get install mdbtools unixodbc libmysqlcppconn-dev odbc-mdbtools
 
 namespace mana
 {
@@ -39,16 +39,16 @@ class database
 {
 	protected :
 		bool _is_open;
-		
+
 		pthread_mutex_t p_mutex;
 		void lock();
 		void unlock();
-		
+
 		#ifdef MANA_MSSQL
 		static int err_handler(DBPROCESS*, int, int, int, char*, char*);
 		static int msg_handler(DBPROCESS*, DBINT, int, int, char*, char*, char*, int);
 		#endif
-		
+
 		vector<vector<string> > query_mssql(string sql_query);
 		vector<vector<string> > query_mysql(string sql_query);
 		vector<vector<string> > query_sqlite(string sql_query);
@@ -56,38 +56,38 @@ class database
 	public :
 		enum db_type { mssql, sqlite, mysql };
 		enum db_mode { normal, mutex };
-		
+
 		db_type type;
 		string server = "";
 		string db;
 		string user;
 		string pass;
 		int internal_mode;
-		
+
 		static vector<string> error;
 		static bool log_errors;
-		
+
 		// mssql
 		#ifdef MANA_MSSQL
 		DBPROCESS *dbproc;
 		#endif
-		
+
 		// mysql
 		#ifdef MANA_MYSQL
 		sql::Driver *mysql_driver;
 		sql::Connection *mysql_con;
 		#endif
-		
+
 		#ifdef MANA_SQLITE
 		QSqlDatabase db_lite;
 		QString db_lite_name;
 		#endif
-		
+
 		database();
 		bool open();
 		bool close();
 		bool is_open();
-		
+
 		vector<vector<string> > query(string sql_query);
 		string purge(string &S);
 		~database();

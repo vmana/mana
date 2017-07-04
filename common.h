@@ -149,6 +149,7 @@ namespace mana
 	string trim(string str);
 	string trim_space(string str);
 	string strlower(string str);
+	string strupper(string str);
 	string inc(string &str); // increment
 	int strpos(string str, string needle, int pos = 0);
 	string substr(string str, int pos = 0, int n = 0);

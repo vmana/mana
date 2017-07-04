@@ -49,6 +49,13 @@ string strlower(string str)
 	return str;
 }
 
+string strupper(string str)
+{
+	for (int i = 0; i < str.size(); ++i)
+		str[i] = toupper(str[i]);
+	return str;
+}
+
 string inc(string &str)
 {
 	stringstream ss;
