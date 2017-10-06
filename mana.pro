@@ -1,7 +1,7 @@
 QT -= gui core
 QT += sql
 
-project = default
+project = toulmailer
 
 CONFIG += c++11
 CONFIG -= warn_off warn_on
