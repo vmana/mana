@@ -1,30 +1,12 @@
 QT -= gui core
 QT += sql
-
-project = toulmailer
-
-CONFIG += c++11
+CONFIG += c++14
 CONFIG -= warn_off warn_on
 
-QMAKE_CXXFLAGS += -Wno-deprecated -Wno-write-strings -Wno-unused-result -Wno-format-security
-
-contains( project, toulmailer ) {
-	DEFINES += MANA_MSSQL="1" MANA_MYSQL="1"
-}
-
-contains( project, sigma ) {
-	DEFINES += MANA_SQLITE="1"
-}
-
-contains( project, default ) {
-	QT -= sql
-	DEFINES += BOOST_REGEX=1
-	LIBS += -Wl,-Bstatic -lboost_regex -Wl,-Bdynamic
-}
-
-contains( project, wt ) {
-	QT -= sql
-}
+include(project.pro)
+QMAKE_CXXFLAGS += -Wno-sign-compare -Wno-deprecated -Wno-write-strings -Wno-format-security -Wno-unused-result
+#QMAKE_CXXFLAGS += -static -static-libgcc -static-libstdc++
+#QMAKE_CFLAGS += -static -static-libgccy
 
 linux-g++* {
 	CONFIG += staticlib

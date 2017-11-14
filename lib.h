@@ -19,6 +19,7 @@
 #include <cstdio>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <memory>
 
 #ifndef _WIN32
 
@@ -41,7 +42,7 @@
 	//#define NOCURLHTTP
 
 	typedef unsigned int uint;
-	
+
 	#define bzero(a, b) memset(a, '\0', b);
 	#define getpid _getpid
 
