@@ -507,6 +507,7 @@ void system::undefunct()
 {
 	#ifndef _WIN32
 	struct sigaction sa;
+	bzero(&sa, sizeof(sa));
 	sa.sa_handler = SIG_IGN;
 	sa.sa_flags = SA_NOCLDWAIT;
 	sigaction(SIGCHLD, &sa, NULL);
