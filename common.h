@@ -125,6 +125,8 @@ namespace mana
 			static int string_int(const string &value);
 			static float string_float(const string &value);
 			static string float_string(float value);
+			static double string_double(const string &value);
+			static string double_string(double value);
 	};
 
 #ifndef NO_REGEX

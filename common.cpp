@@ -808,14 +808,38 @@ float convert::string_float(const string &value)
 	try
 	{
 		string convert = str_replace(",", ".", value);
-		ret = std::stof(value);
+		ret = std::stof(convert);
 	} catch (const std::invalid_argument& ia) { }
 	return ret;
 }
 
 string convert::float_string(float value)
 {
-	return to_string(value);
+	string ret;
+	stringstream ss;
+	ss << value;
+	ss >> ret;
+	return ret;
+}
+
+double convert::string_double(const string &value)
+{
+	double ret = 0;
+	try
+	{
+		string convert = str_replace(",", ".", value);
+		ret = std::stod(convert);
+	} catch (const std::invalid_argument& ia) { }
+	return ret;
+}
+
+string convert::double_string(double value)
+{
+	string ret;
+	stringstream ss;
+	ss << value;
+	ss >> ret;
+	return ret;
 }
 
 
