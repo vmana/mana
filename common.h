@@ -122,7 +122,9 @@ namespace mana
 			convert();
 			static string int_string(int value);
 			static string ulong_string(unsigned long value);
-			static int string_int(string value);
+			static int string_int(const string &value);
+			static float string_float(const string &value);
+			static string float_string(float value);
 	};
 
 #ifndef NO_REGEX
@@ -154,7 +156,7 @@ namespace mana
 	int strpos(string str, string needle, int pos = 0);
 	string substr(string str, int pos = 0, int n = 0);
 	vector<string> explode(string separator, string str, bool keep_empty = false);
-	string str_replace(string search, string replace, string &S);
+	string str_replace(const string &search, const string &replace, const string &S);
 	int common(const string &A, const string &B);
 	string randstring(int n = 10);
 

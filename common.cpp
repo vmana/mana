@@ -64,6 +64,11 @@ string inc(string &str)
 	return str;
 }
 
+int strpos(string str, string needle, int pos)
+{
+	return str.find(needle, pos);
+}
+
 string substr(string str, int pos, int n)
 {
 	string ret = "";
@@ -103,7 +108,7 @@ vector<string> explode(string separator, string str, bool keep_empty)
 	return ret;
 }
 
-string str_replace(string search, string replace, string &S)
+string str_replace(const string &search, const string &replace, const string &S)
 {
 	string ret;
 	int nsearch = search.length();
@@ -792,15 +797,27 @@ string convert::ulong_string(unsigned long value)
 	return ret;
 }
 
-int convert::string_int(string value)
+int convert::string_int(const string &value)
 {
 	return atoi(value.c_str());
 }
 
-int strpos(string str, string needle, int pos)
+float convert::string_float(const string &value)
 {
-	return str.find(needle, pos);
+	float ret = 0;
+	try
+	{
+		string convert = str_replace(",", ".", value);
+		ret = std::stof(value);
+	} catch (const std::invalid_argument& ia) { }
+	return ret;
 }
+
+string convert::float_string(float value)
+{
+	return to_string(value);
+}
+
 
 /********	Regexp	********/
 
