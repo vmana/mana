@@ -315,7 +315,7 @@ vector<vector<string> > database::query_mysql(string sql_query)
 	}
 	catch (sql::SQLException &e)
 	{
-		if (database::log_errors) error.push_back(string("query_mysql failed : ") + string(e.what()));
+		if (database::log_errors) error.push_back(string("query_mysql failed : ") + string(e.what()) + "\nquery : " + sql_query);
 	}
 
 	if (res) delete res;
