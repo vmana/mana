@@ -5,8 +5,6 @@ CONFIG -= warn_off warn_on
 
 include(project.pro)
 QMAKE_CXXFLAGS += -Wno-sign-compare -Wno-deprecated -Wno-write-strings -Wno-format-security -Wno-unused-result
-#QMAKE_CXXFLAGS += -static -static-libgcc -static-libstdc++
-#QMAKE_CFLAGS += -static -static-libgccy
 
 linux-g++* {
 	CONFIG += staticlib
@@ -25,10 +23,8 @@ android-g++ {
 	PRE_TARGETDEPS += /dalaran/mana/lib/android/libcurl.a
 }
 
-
-
 #QT -= core gui
-#CONFIG += c++11
+#CONFIG += c++14
 #CONFIG -= warn_off warn_on
 
 #QMAKE_CXXFLAGS += -Wno-deprecated -Wno-write-strings -Wno-unused-result -Wno-format-security

@@ -13,5 +13,7 @@
 #include "cypher.h"
 #include "database.h"
 #include "yaml.h"
-
+#ifdef MANA_WT
+#include "wt/wt.h"
+#endif // MANA_WT
 #endif // MANA_H

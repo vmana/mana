@@ -1,0 +1,24 @@
+#ifndef widget_stack_H
+#define widget_stack_H
+
+#include <Wt/WStackedWidget.h>
+
+#include "mana.h"
+
+using namespace mana;
+using namespace Wt;
+
+class widget_stack : public WStackedWidget
+{
+	protected:
+	//	Wt::Signal<bool> signal_on_visible_change;
+
+	public:
+		// signals
+		//Wt::Signal<bool>& on_visible_change();
+
+		widget_stack();
+		~widget_stack();
+};
+
+#endif // widget_stack_H
