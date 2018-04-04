@@ -30,7 +30,7 @@ class imap
 		string subject(int uid);
 		string from(int uid);
 		string text(int uid);
-		// if delay is set, do not close uppon comletion
+		// if delay is set, do not close uppon completion
 		bool move(string src, string dst, int uid, bool delay = false);
 		bool close();
 
