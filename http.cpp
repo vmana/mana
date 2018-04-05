@@ -189,6 +189,7 @@ void http::prepare_curl(CURL *curl, string url)
 	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 	if (follow_location) curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, true);
 	if (post_data != "") curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post_data.c_str());
+	if (user_pass != "") curl_easy_setopt(curl, CURLOPT_USERPWD, user_pass.c_str());
 
 	if (jar != "")
 	{

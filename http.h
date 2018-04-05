@@ -31,7 +31,7 @@ class http
 		static size_t write_datafile(void *ptr, size_t size, size_t nmemb, void *stream);
 		void prepare_curl(CURL *curl, string url);
 		void update_cookie_value(CURL *curl);
-	
+
 	public :
 		int timeout;
 		string fieldname_upload; // default : file
@@ -40,8 +40,9 @@ class http
 		string post_data = ""; // perform a POST if non-empty, a=1&b=2&c=3...
 		string force_cookie = ""; // a=1; b=2; c=3; ...
 		string jar = ""; // cookie jar file name
+		string user_pass = ""; // user:pass
 		vector<http_cookie> cookie;
-		
+
 		vector<string> error;
 
 		http();
@@ -51,7 +52,7 @@ class http
 		string search_cookie(string key);
 		void clean();
 		~http();
-		
+
 };
 
 } // namespace
