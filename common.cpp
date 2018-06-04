@@ -871,7 +871,7 @@ bool regexp::match(string str, string reg)
 		return std::regex_match(str, std::regex(reg));
 #endif
 	}
-	catch (...) {}
+	catch (...) { cout << "regexp::match exception : " << str << "::" << reg << endl; }
 	return false;
 }
 
