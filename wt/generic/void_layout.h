@@ -12,6 +12,7 @@ class void_layout : public WGridLayout
 {
 	public:
 		void_layout();
+		void update(WLayoutItem *item = nullptr);
 		~void_layout();
 };
 

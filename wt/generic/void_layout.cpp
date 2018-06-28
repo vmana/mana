@@ -7,6 +7,11 @@ void_layout::void_layout()
 	this->setContentsMargins(0, 0, 0, 0);
 }
 
+void void_layout::update(WLayoutItem *item)
+{
+	WGridLayout::update(item);
+}
+
 void_layout::~void_layout()
 {
 }

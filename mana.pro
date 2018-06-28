@@ -4,7 +4,7 @@ CONFIG += c++14
 CONFIG -= warn_off warn_on
 
 include(project.pro)
-QMAKE_CXXFLAGS += -Wno-sign-compare -Wno-deprecated -Wno-write-strings -Wno-format-security -Wno-unused-result
+QMAKE_CXXFLAGS += -Wno-sign-compare -Wno-deprecated -Wno-write-strings -Wno-format-security -Wno-unused-result -Wno-format-truncation
 
 linux-g++* {
 	CONFIG += staticlib
@@ -125,13 +125,6 @@ SOURCES += \
     polarssl/timing.c \
     polarssl/version_features.c \
     polarssl/version.c \
-    polarssl/x509_create.c \
-    polarssl/x509_crl.c \
-    polarssl/x509_crt.c \
-    polarssl/x509_csr.c \
-    polarssl/x509.c \
-    polarssl/x509write_crt.c \
-    polarssl/x509write_csr.c \
     polarssl/xtea.c
 
 HEADERS += mana.h\
@@ -209,10 +202,6 @@ HEADERS += mana.h\
     polarssl/mbedtls/threading.h \
     polarssl/mbedtls/timing.h \
     polarssl/mbedtls/version.h \
-    polarssl/mbedtls/x509_crl.h \
-    polarssl/mbedtls/x509_crt.h \
-    polarssl/mbedtls/x509_csr.h \
-    polarssl/mbedtls/x509.h \
     polarssl/mbedtls/xtea.h
 
 unix {

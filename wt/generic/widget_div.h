@@ -20,6 +20,7 @@ class widget_div : public WContainerWidget
 		widget_div();
 		void set_awareness(bool aware);
 		void clear_layout();
+		void update(WLayoutItem *item = nullptr);
 
 		template <typename W, typename ...Args>
 		W* addLayout(Args&& ...args)
