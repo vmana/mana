@@ -64,6 +64,8 @@ void database::unlock()
 
 bool database::open()
 {
+	if (_is_open) return _is_open;
+
 	// wait to get the mutex if internal_mode == mutex
 	lock();
 
@@ -100,10 +102,12 @@ bool database::open()
 			if ((dbproc = dbopen(login, server.c_str())) == NULL)
 			{
 				if (database::log_errors) error.push_back("unable to connect to" + server + " as " + user);
+				dbloginfree(login);
 				unlock();
 				return _is_open;
 			}
 
+			dbloginfree(login);
 			_is_open = true;
 			#else
 			if (database::log_errors) error.push_back("unable to connect : driver not loaded");
