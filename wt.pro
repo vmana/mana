@@ -1,4 +1,5 @@
 SOURCES += \
+	wt/wt.cpp\
 	wt/generic/widget_stack.cpp\
 	wt/generic/widget_suggestion.cpp\
 	wt/generic/widget_common.cpp\
@@ -10,6 +11,7 @@ SOURCES += \
 	wt/generic/widget_signature.cpp\
 
 HEADERS  += \
+	wt/wt.h\
 	wt/generic/widget_stack.h\
 	wt/generic/widget_suggestion.h\
 	wt/generic/widget_common.h\
