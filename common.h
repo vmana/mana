@@ -290,5 +290,3 @@ extern "C"
 int load_so(int i);
 }
 #endif // COMMON_H
-
-
