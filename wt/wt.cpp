@@ -6,12 +6,12 @@ wt::wt()
 
 WTime wt::current_time()
 {
-	return WLocalDateTime::currentDateTime().time();
+	return WLocalDateTime::currentServerDateTime().time();
 }
 
 WDate wt::current_date()
 {
-	return WLocalDateTime::currentDateTime().date();
+	return WLocalDateTime::currentServerDateTime().date();
 }
 
 WDateTime wt::current_datetime()

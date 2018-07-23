@@ -7,9 +7,10 @@ include(project.pro)
 QMAKE_CXXFLAGS += -Wno-sign-compare -Wno-deprecated -Wno-write-strings -Wno-format-security -Wno-unused-result -Wno-format-truncation
 
 linux-g++* {
+	CONFIG -= qt
 	CONFIG += staticlib
 	CONFIG += static
-	LIBS += -lcurl -lssh -lssh_threads
+	LIBS += -lpthread -lcurl -lssh -lssh_threads
 	LIBS += -lsybdb -lmysqlcppconn
 }
 

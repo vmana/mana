@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <list>
+#include <mutex>
 #include "common.h"
 
 namespace mana
@@ -19,6 +20,8 @@ namespace mana
 			int sockd;
 			virtual void session_handler() = 0;
 			list<thread> sessions;
+			mutex m_sessions;
+			thread handler_loop; // thread for session_handler
 
 		public:
 
@@ -38,6 +41,7 @@ namespace mana
 			// thread loop started after start()
 			// will create a thread on_connect(...) when a client connects
 			void session_handler();
+			virtual void clean_session(thread::id id); // call when a session ends
 
 		public:
 
