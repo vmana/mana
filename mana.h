@@ -4,6 +4,7 @@
 // apt-get install freetds-dev
 
 #include "thread.h"
+#include "server.h"
 #include "http.h"
 #include "smtp.h"
 #include "imap.h"
