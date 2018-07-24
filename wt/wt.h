@@ -6,14 +6,18 @@
 #include <Wt/WDate.h>
 
 using namespace Wt;
-
-class wt
+namespace mana
 {
-	public:
-		wt();
-		static WTime current_time();
-		static WDate current_date();
-		static WDateTime current_datetime();
-		~wt();
-};
+
+	class wt
+	{
+		public:
+			wt();
+			static WTime current_time();
+			static WDate current_date();
+			static WDateTime current_datetime();
+			~wt();
+	};
+
+}; // namespace
 #endif // MANA_WT_H

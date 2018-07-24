@@ -1,4 +1,6 @@
 #include "wt.h"
+namespace mana
+{
 
 wt::wt()
 {
@@ -22,3 +24,5 @@ WDateTime wt::current_datetime()
 wt::~wt()
 {
 }
+
+} // namespace
