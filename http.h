@@ -31,12 +31,14 @@ class http
 		static size_t write_datafile(void *ptr, size_t size, size_t nmemb, void *stream);
 		void prepare_curl(CURL *curl, string url);
 		void update_cookie_value(CURL *curl);
+		int status_code;
 
 	public :
 		int timeout;
 		string fieldname_upload; // default : file
 		string useragent;
 		bool follow_location = false;
+		bool allow_gzip = true;
 		string post_data = ""; // perform a POST if non-empty, a=1&b=2&c=3...
 		string force_cookie = ""; // a=1; b=2; c=3; ...
 		string jar = ""; // cookie jar file name
@@ -50,6 +52,7 @@ class http
 		bool download(string url, string file = "");
 		bool upload(string url, string file, string filename = "");
 		string search_cookie(string key);
+		int get_status_code();
 		void clean();
 		~http();
 

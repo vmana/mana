@@ -33,7 +33,6 @@ string http::get(string url)
 
 		CURLcode res = curl_easy_perform(curl);
 		update_cookie_value(curl);
-		curl_easy_cleanup(curl);
 
 		// error gestion
 		if (res)
@@ -41,6 +40,12 @@ string http::get(string url)
 			error.push_back((string)mana_error_http_get + "(" + convert::int_string(res) + ")");
 			ret = "";
 		}
+		else
+		{
+			curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &status_code);
+		}
+
+		curl_easy_cleanup(curl);
 	}
 	#endif // NO_MANA_HTTP
 	return ret;
@@ -73,12 +78,18 @@ bool http::download(string url, string file)
 
 		res = curl_easy_perform(curl);
 		update_cookie_value(curl);
-		curl_easy_cleanup(curl);
+
 		if (res)
 		{
 			error.push_back((string)mana_error_http_get + "(" + convert::int_string(res) + ")");
 			ret = false;
 		}
+		else
+		{
+			curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &status_code);
+		}
+
+		curl_easy_cleanup(curl);
 	}
 	fclose(f);
 	#endif // NO_MANA_HTTP
@@ -140,12 +151,18 @@ bool http::upload(string url, string file, string filename)
 		res = curl_easy_perform(curl);
 		update_cookie_value(curl);
 		curl_formfree(post);
-		curl_easy_cleanup(curl);
+
 		if (res)
 		{
 			error.push_back((string)mana_error_http_upload + "(" + convert::int_string(res) + ")");
 			ret = false;
 		}
+		else
+		{
+			curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &status_code);
+		}
+
+		curl_easy_cleanup(curl);
 	}
 	#endif // NO_MANA_HTTP
 	return ret;
@@ -198,6 +215,7 @@ void http::prepare_curl(CURL *curl, string url)
 	}
 	else curl_easy_setopt(curl, CURLOPT_COOKIEFILE, ""); // enable cookie engine
 	if (force_cookie != "") curl_easy_setopt(curl, CURLOPT_COOKIE, force_cookie.c_str());
+	if (allow_gzip) curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "gzip");
 	#endif
 }
 
@@ -227,6 +245,11 @@ void http::update_cookie_value(CURL *curl)
 
 	curl_slist_free_all(cookies);
 	#endif
+}
+
+int http::get_status_code()
+{
+	return status_code;
 }
 
 http::~http()
