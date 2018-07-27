@@ -13,7 +13,6 @@ http_cookie::~http_cookie()
 
 http::http()
 {
-	timeout = 10;
 	fieldname_upload = "file";
 	useragent = mana_useragent;
 }

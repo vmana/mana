@@ -34,7 +34,7 @@ class http
 		int status_code;
 
 	public :
-		int timeout;
+		int timeout = 10;
 		string fieldname_upload; // default : file
 		string useragent;
 		bool follow_location = false;
