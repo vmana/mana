@@ -21,17 +21,18 @@ string http::get(string url)
 {
 	string ret = "";
 	#ifndef NO_MANA_HTTP
-	CURL *curl;
+
+	if (curl) curl_easy_cleanup(curl);
 	curl = curl_easy_init();
 	if (curl)
 	{
-		prepare_curl(curl, url);
+		prepare_curl(url);
 
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, http::write_data);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ret);
 
 		CURLcode res = curl_easy_perform(curl);
-		update_cookie_value(curl);
+		update_cookie_value();
 
 		// error gestion
 		if (res)
@@ -45,6 +46,7 @@ string http::get(string url)
 		}
 
 		curl_easy_cleanup(curl);
+		curl = NULL;
 	}
 	#endif // NO_MANA_HTTP
 	return ret;
@@ -54,7 +56,6 @@ bool http::download(string url, string file)
 {
 	bool ret = true;
 	#ifndef NO_MANA_HTTP
-	CURL *curl;
 	CURLcode res;
 
 	// use real filename if empty
@@ -67,16 +68,17 @@ bool http::download(string url, string file)
 		return false;
 	}
 
+	if (curl) curl_easy_cleanup(curl);
 	curl = curl_easy_init();
 	if (curl)
 	{
-		prepare_curl(curl, url);
+		prepare_curl(url);
 
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, http::write_datafile);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, f);
 
 		res = curl_easy_perform(curl);
-		update_cookie_value(curl);
+		update_cookie_value();
 
 		if (res)
 		{
@@ -89,6 +91,7 @@ bool http::download(string url, string file)
 		}
 
 		curl_easy_cleanup(curl);
+		curl = NULL;
 	}
 	fclose(f);
 	#endif // NO_MANA_HTTP
@@ -99,8 +102,9 @@ bool http::upload(string url, string file, string filename)
 {
 	bool ret = true;
 	#ifndef NO_MANA_HTTP
-	CURL *curl;
 	CURLcode res;
+
+	if (curl) curl_easy_cleanup(curl);
 	curl = curl_easy_init();
 	if (curl)
 	{
@@ -108,7 +112,7 @@ bool http::upload(string url, string file, string filename)
 		if (filename == "") filename = mana::file::filename(file);
 		string writed = "";
 
-		prepare_curl(curl, url);
+		prepare_curl(url);
 
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, http::write_data);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &writed);
@@ -148,7 +152,7 @@ bool http::upload(string url, string file, string filename)
 		curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
 
 		res = curl_easy_perform(curl);
-		update_cookie_value(curl);
+		update_cookie_value();
 		curl_formfree(post);
 
 		if (res)
@@ -162,6 +166,7 @@ bool http::upload(string url, string file, string filename)
 		}
 
 		curl_easy_cleanup(curl);
+		curl = NULL;
 	}
 	#endif // NO_MANA_HTTP
 	return ret;
@@ -195,7 +200,7 @@ size_t http::write_datafile(void *ptr, size_t size, size_t nmemb, void *stream)
 	return nmemb;
 }
 
-void http::prepare_curl(CURL *curl, string url)
+void http::prepare_curl(string url)
 {
 	#ifndef NO_MANA_HTTP
 	curl_easy_setopt(curl, CURLOPT_URL, (char*)url.c_str());
@@ -218,7 +223,7 @@ void http::prepare_curl(CURL *curl, string url)
 	#endif
 }
 
-void http::update_cookie_value(CURL *curl)
+void http::update_cookie_value()
 {
 	#ifndef NO_MANA_HTTP
 	struct curl_slist *cookies;
@@ -253,6 +258,7 @@ int http::get_status_code()
 
 http::~http()
 {
+	if (curl) curl_easy_cleanup(curl);
 }
 
 } // namespace

@@ -27,11 +27,12 @@ class http_cookie
 class http
 {
 	protected :
+		CURL *curl = NULL;
 		static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream);
 		static size_t write_datafile(void *ptr, size_t size, size_t nmemb, void *stream);
-		void prepare_curl(CURL *curl, string url);
-		void update_cookie_value(CURL *curl);
-		int status_code;
+		void prepare_curl(string url);
+		void update_cookie_value();
+		int status_code = -1;
 
 	public :
 		int timeout = 10;
