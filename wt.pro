@@ -9,6 +9,7 @@ SOURCES += \
 	wt/generic/widget_button_del.cpp\
 	wt/generic/widget_save_icon.cpp\
 	wt/generic/widget_signature.cpp\
+	wt/generic/widget_dataview.cpp\
 
 HEADERS  += \
 	wt/wt.h\
@@ -21,3 +22,4 @@ HEADERS  += \
 	wt/generic/widget_button_del.h\
 	wt/generic/widget_save_icon.h\
 	wt/generic/widget_signature.h\
+	wt/generic/widget_dataview.h\
