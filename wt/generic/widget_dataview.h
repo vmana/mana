@@ -17,6 +17,7 @@ class widget_dataview : public widget_div
 		WContainerWidget *div_data;
 		data_table *data = NULL;
 		int panel_height = 0; // update on resize
+		bool add_allowed = true;
 		bool edit_allowed = true;
 
 		void on_data_selection_change(int index);
@@ -53,8 +54,11 @@ class widget_dataview : public widget_div
 		virtual void on_footer_cancel_click();
 		virtual void on_footer_valid_click();
 
+		void allow_add(bool allowed);
 		void allow_edit(bool allowed);
+		void allow_add_edit(bool allowed);
 		bool is_edit_allowed();
+		bool is_add_allowed();
 
 		// signals
 		/* Signal<> selection_change_event; */

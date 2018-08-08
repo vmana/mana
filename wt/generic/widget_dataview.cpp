@@ -161,7 +161,9 @@ void widget_dataview::on_data_selection_change(int index)
 	if (index == -1)
 	{
 		footer->setCurrentWidget(footer_empty);
-		if (is_edit_allowed()) button_corner->setCurrentWidget(img_corner_add);
+
+		if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
+		else button_corner->setCurrentWidget(img_corner_empty);
 
 		// hide panel, used by external select_none call
 		panel->resize("100%", 0);
@@ -179,7 +181,8 @@ void widget_dataview::on_data_hide_corner()
 
 void widget_dataview::on_data_show_corner()
 {
-	button_corner->setCurrentWidget(img_corner_add);
+	if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
+	else button_corner->setCurrentWidget(img_corner_empty);
 }
 
 void widget_dataview::on_corner_add_click()
@@ -201,18 +204,28 @@ void widget_dataview::on_corner_add_click()
 
 void widget_dataview::on_corner_cancel_click()
 {
-	button_corner->setCurrentWidget(img_corner_add);
+	if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
+	else button_corner->setCurrentWidget(img_corner_empty);
+
 	// hide panel
 	panel->resize("100%", 0);
 
 	if (!data) return; // prevents crash if undef
-	if (data->selected_index == -1) footer->setCurrentWidget(footer_empty);
-	else footer->setCurrentWidget(footer_edit);
+	if (data->selected_index == -1)
+	{
+		footer->setCurrentWidget(footer_empty);
+	}
+	else
+	{
+		if (is_edit_allowed()) footer->setCurrentWidget(footer_edit);
+	}
 }
 
 void widget_dataview::on_corner_del_click()
 {
-	button_corner->setCurrentWidget(img_corner_add);
+	if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
+	else button_corner->setCurrentWidget(img_corner_empty);
+
 	// hide panel
 	panel->resize("100%", 0);
 	footer->setCurrentWidget(footer_empty);
@@ -242,7 +255,9 @@ void widget_dataview::on_footer_edit_click()
 
 void widget_dataview::on_footer_add_click()
 {
-	button_corner->setCurrentWidget(img_corner_add);
+	if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
+	else button_corner->setCurrentWidget(img_corner_empty);
+
 	// hide panel
 	panel->resize("100%", 0);
 	footer->setCurrentWidget(footer_empty);
@@ -255,18 +270,28 @@ void widget_dataview::on_footer_add_click()
 
 void widget_dataview::on_footer_cancel_click()
 {
-	button_corner->setCurrentWidget(img_corner_add);
+	if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
+	else button_corner->setCurrentWidget(img_corner_empty);
+
 	// hide panel
 	panel->resize("100%", 0);
 
 	if (!data) return; // prevents crash if undef
-	if (data->selected_index == -1) footer->setCurrentWidget(footer_empty);
-	else footer->setCurrentWidget(footer_edit);
+	if (data->selected_index == -1)
+	{
+		footer->setCurrentWidget(footer_empty);
+	}
+	else
+	{
+		if (is_edit_allowed()) footer->setCurrentWidget(footer_edit);
+	}
 }
 
 void widget_dataview::on_footer_valid_click()
 {
-	button_corner->setCurrentWidget(img_corner_add);
+	if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
+	else button_corner->setCurrentWidget(img_corner_empty);
+
 	// hide panel
 	panel->resize("100%", 0);
 	footer->setCurrentWidget(footer_empty);
@@ -277,17 +302,36 @@ void widget_dataview::on_footer_valid_click()
 	data->generate_lines();
 }
 
+void widget_dataview::allow_add_edit(bool allowed)
+{
+	allow_add(allowed);
+	allow_edit(allowed);
+}
+
+void widget_dataview::allow_add(bool allowed)
+{
+	add_allowed = allowed;
+	if (!allowed)
+	{
+		button_corner->setCurrentWidget(img_corner_empty);
+	}
+	else
+	{
+		button_corner->setCurrentWidget(img_corner_add);
+	}
+}
+
+bool widget_dataview::is_add_allowed()
+{
+	return add_allowed;
+}
+
 void widget_dataview::allow_edit(bool allowed)
 {
 	edit_allowed = allowed;
 	if (!allowed)
 	{
-		button_corner->setCurrentWidget(img_corner_empty);
 		footer->setCurrentWidget(footer_empty);
-	}
-	else
-	{
-		button_corner->setCurrentWidget(img_corner_add);
 	}
 }
 
