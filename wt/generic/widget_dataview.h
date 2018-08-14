@@ -21,8 +21,8 @@ class widget_dataview : public widget_div
 		bool edit_allowed = true;
 
 		void on_data_selection_change(int index);
-		void on_data_hide_corner();
-		void on_data_show_corner();
+		void hide_corner();
+		void show_corner();
 
 	public:
 
@@ -44,6 +44,8 @@ class widget_dataview : public widget_div
 		// return a pointer to inserted data_table
 		data_table* set_data(unique_ptr<data_table> dt);
 		widget_div* set_raw_data(unique_ptr<widget_div> dt);
+
+		void allow_vertical_scroll(bool allow);
 
 		virtual void on_corner_add_click();
 		virtual void on_corner_cancel_click();

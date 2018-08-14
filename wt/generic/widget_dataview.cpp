@@ -58,6 +58,7 @@ widget_dataview::widget_dataview(bool connect_signals) : widget_div()
 	// data_table
 	div_data->setStyleClass("data-table");
 	div_data->setOverflow(Overflow::Auto, Orientation::Vertical);
+	div_data->setOverflow(Overflow::Hidden, Orientation::Horizontal);
 
 	/****     stack footer    ****/
 
@@ -142,8 +143,8 @@ data_table* widget_dataview::set_data(unique_ptr<data_table> dt)
 
 	// binding
 	data->selection_change_event.connect(this, &widget_dataview::on_data_selection_change);
-	data->hide_corner_event.connect(this, &widget_dataview::on_data_hide_corner);
-	data->show_corner_event.connect(this, &widget_dataview::on_data_show_corner);
+	data->hide_corner_event.connect(this, &widget_dataview::hide_corner);
+	data->show_corner_event.connect(this, &widget_dataview::show_corner);
 
 	return data;
 }
@@ -156,14 +157,19 @@ widget_div* widget_dataview::set_raw_data(unique_ptr<widget_div> dt)
 	return raw_data;
 }
 
+void widget_dataview::allow_vertical_scroll(bool allow)
+{
+	if (allow) div_data->setOverflow(Overflow::Auto, Orientation::Vertical);
+	else div_data->setOverflow(Overflow::Hidden, Orientation::Vertical);
+}
+
 void widget_dataview::on_data_selection_change(int index)
 {
 	if (index == -1)
 	{
 		footer->setCurrentWidget(footer_empty);
 
-		if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
-		else button_corner->setCurrentWidget(img_corner_empty);
+		show_corner();
 
 		// hide panel, used by external select_none call
 		panel->resize("100%", 0);
@@ -174,12 +180,12 @@ void widget_dataview::on_data_selection_change(int index)
 	}
 }
 
-void widget_dataview::on_data_hide_corner()
+void widget_dataview::hide_corner()
 {
 	button_corner->setCurrentWidget(img_corner_empty);
 }
 
-void widget_dataview::on_data_show_corner()
+void widget_dataview::show_corner()
 {
 	if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
 	else button_corner->setCurrentWidget(img_corner_empty);
@@ -204,8 +210,7 @@ void widget_dataview::on_corner_add_click()
 
 void widget_dataview::on_corner_cancel_click()
 {
-	if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
-	else button_corner->setCurrentWidget(img_corner_empty);
+	show_corner();
 
 	// hide panel
 	panel->resize("100%", 0);
@@ -223,8 +228,7 @@ void widget_dataview::on_corner_cancel_click()
 
 void widget_dataview::on_corner_del_click()
 {
-	if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
-	else button_corner->setCurrentWidget(img_corner_empty);
+	show_corner();
 
 	// hide panel
 	panel->resize("100%", 0);
@@ -255,8 +259,7 @@ void widget_dataview::on_footer_edit_click()
 
 void widget_dataview::on_footer_add_click()
 {
-	if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
-	else button_corner->setCurrentWidget(img_corner_empty);
+	show_corner();
 
 	// hide panel
 	panel->resize("100%", 0);
@@ -270,8 +273,7 @@ void widget_dataview::on_footer_add_click()
 
 void widget_dataview::on_footer_cancel_click()
 {
-	if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
-	else button_corner->setCurrentWidget(img_corner_empty);
+	show_corner();
 
 	// hide panel
 	panel->resize("100%", 0);
@@ -289,8 +291,7 @@ void widget_dataview::on_footer_cancel_click()
 
 void widget_dataview::on_footer_valid_click()
 {
-	if (is_add_allowed()) button_corner->setCurrentWidget(img_corner_add);
-	else button_corner->setCurrentWidget(img_corner_empty);
+	show_corner();
 
 	// hide panel
 	panel->resize("100%", 0);
@@ -311,14 +312,7 @@ void widget_dataview::allow_add_edit(bool allowed)
 void widget_dataview::allow_add(bool allowed)
 {
 	add_allowed = allowed;
-	if (!allowed)
-	{
-		button_corner->setCurrentWidget(img_corner_empty);
-	}
-	else
-	{
-		button_corner->setCurrentWidget(img_corner_add);
-	}
+	show_corner();
 }
 
 bool widget_dataview::is_add_allowed()
