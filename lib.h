@@ -26,6 +26,9 @@
 	#include <sys/types.h>
 	#include <unistd.h>
 	#include <sys/types.h>
+	#include <sys/socket.h>
+	#include <netinet/in.h>
+	#include <arpa/inet.h>
 	#include <sys/param.h>
 	#include <dirent.h>
 	#include <fcntl.h>
@@ -38,6 +41,9 @@
 	#include <process.h>
 	#include <tlhelp32.h>
 	#include "win_dirent.h"
+	#include <winerror.h>
+	#include "mingw/mingw.mutex.h"
+	#include "mingw/mingw.thread.h"
 
 	//#define NOCURLHTTP
 

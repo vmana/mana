@@ -1,13 +1,9 @@
 #ifndef MANA_SERVER_H
 #define MANA_SERVER_H
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+#include "common.h"
 #include <list>
 #include <mutex>
-#include "common.h"
 
 namespace mana
 {

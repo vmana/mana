@@ -1,3 +1,4 @@
+#ifndef _WIN32
 #include "daemon.h"
 
 namespace mana
@@ -62,30 +63,30 @@ int daemon::status()
 int daemon::args_parser(int argc, char *argv[])
 {
 	if (!args_handler(argc, argv)) return 0;
-	
+
 	string cmd = "start";
 	if (argc > 1) cmd = argv[1];
-	
+
 	if (cmd == "start")
 	{
 		int pid = fork();
 		if (pid != 0) return 0;
 		if (!start()) return 1;
 	}
-	
+
 	if (cmd == "-h" || cmd == "--help" || cmd == "help")
 	{
 		cout << daemon_name << " {start|stop|status}" << endl;
 		return 0;
 	}
-	
+
 	if (cmd == "status")
 	{
 		if (!system::daemonlock(lockname())) cout << daemon_name << " daemon : started" << endl;
 		else cout << daemon_name << " daemon : stopped" << endl;
 		return 0;
 	}
-	
+
 	if (cmd == "stop" && !system::daemonlock(lockname())) stop();
 	return 0;
 }
@@ -98,3 +99,4 @@ bool daemon::args_handler(int argc, char *argv[])
 
 
 } // namespace
+#endif // _WIN32

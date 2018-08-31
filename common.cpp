@@ -173,6 +173,34 @@ string randstring(int n)
 	return ret;
 }
 
+string rand_int_string(int n)
+{
+	string ret = "";
+	if (n <= 0) return ret;
+	#ifndef _WIN32
+		FILE *f = fopen("/dev/urandom", "rb");
+		if (!f)
+		{
+			srand((unsigned int) (time(NULL) + getpid()));
+			for (int i = 0; i < n; i++)
+				ret += (char)('0' + rand() % 10);
+			return ret;
+		}
+		unsigned char *buf = new unsigned char[n+1];
+		bzero(buf, n+1);
+		fread(buf, 1, n, f);
+		for (int i = 0; i < n; i++)
+			ret += (char)('0' + (buf[i] % 10));
+		delete [] buf;
+		fclose(f);
+	#else
+	srand((unsigned int) (time(NULL) + getpid()));
+	for (int i = 0; i < n; i++)
+		ret += (char)('0' + rand() % 10);
+	#endif
+	return ret;
+}
+
 /**********		file		**********/
 
 file::file()

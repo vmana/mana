@@ -1,6 +1,8 @@
 #ifndef DAEMON_H
 #define DAEMON_H
 
+#ifndef _WIN32
+
 #include "common.h"
 
 namespace mana
@@ -29,5 +31,7 @@ class daemon
 };
 
 } // namespace
+
+#endif // _WIN32
 
 #endif // DAEMON_H

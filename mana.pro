@@ -12,6 +12,7 @@ linux-g++* {
 	CONFIG += static
 	LIBS += -lpthread -lcurl -lssh -lssh_threads
 	LIBS += -lsybdb -lmysqlcppconn
+#	LIBS += -m64
 }
 
 android-g++ {

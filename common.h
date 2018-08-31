@@ -161,6 +161,7 @@ namespace mana
 	string str_replace(const string &search, const string &replace, const string &S);
 	int common(const string &A, const string &B);
 	string randstring(int n = 10);
+	string rand_int_string(int n = 4);
 
 	#ifdef _WIN32
 	void mkdir(string path, int mode = 0);

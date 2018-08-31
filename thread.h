@@ -284,11 +284,13 @@ class manastart6
 namespace mana
 {
 
+#ifndef _WIN32
 template <typename F, typename... T>
 inline std::future<typename std::result_of<F(T...)>::type> async_function(F&& f, T&&... params)
 {
 	return std::async(std::launch::async, std::forward<F>(f), std::forward<T>(params)...);
 }
+#endif
 
 class mthread
 {
