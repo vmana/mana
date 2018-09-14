@@ -2,6 +2,7 @@
 #include <Wt/WAnimation.h>
 #include <Wt/WWidget.h>
 #include <Wt/WCssDecorationStyle.h>
+#include <Wt/WMessageBox.h>
 
 /****    widget_dataview    ****/
 
@@ -235,9 +236,37 @@ void widget_dataview::on_corner_del_click()
 	footer->setCurrentWidget(footer_empty);
 
 	if (!data) return; // prevents crash if undef
-	data->on_del_event(); // call real implementation
-	// reload
-	data->generate_lines();
+	if (need_confirm_delete)
+	{
+		auto confirm = addChild(make_unique<WMessageBox>());
+		confirm->setWindowTitle("Confirmation"); confirm->setIcon(Icon::Warning);
+		confirm->setText(confirm_delete_message);
+
+		confirm->addButton(StandardButton::Yes);
+		confirm->addButton(StandardButton::No);
+		confirm->setDefaultButton(StandardButton::No);
+
+		confirm->setModal(true);
+		confirm->buttonClicked().connect([=]()
+		{
+			auto res = confirm->buttonResult();
+			removeChild(confirm);
+			if (res == StandardButton::Yes)
+			{
+				data->on_del_event(); // call real implementation
+				// reload
+				data->generate_lines();
+			}
+		});
+		confirm->show();
+	}
+	else
+	{
+		// no confirmation
+		data->on_del_event(); // call real implementation
+		// reload
+		data->generate_lines();
+	}
 }
 
 void widget_dataview::on_footer_edit_click()
@@ -332,6 +361,13 @@ void widget_dataview::allow_edit(bool allowed)
 bool widget_dataview::is_edit_allowed()
 {
 	return edit_allowed;
+}
+
+void widget_dataview::confirm_delete(bool confim, string message)
+{
+	need_confirm_delete = confim;
+	if (message != "") confirm_delete_message = message;
+	else confirm_delete_message = "Voulez-vous vraiment supprimer cette ligne ?";
 }
 
 void widget_dataview::resize(const WLength& width, const WLength& height)

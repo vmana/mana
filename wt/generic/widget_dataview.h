@@ -19,6 +19,8 @@ class widget_dataview : public widget_div
 		int panel_height = 0; // update on resize
 		bool add_allowed = true;
 		bool edit_allowed = true;
+		bool need_confirm_delete = false;
+		string confirm_delete_message;
 
 		void on_data_selection_change(int index);
 		void hide_corner();
@@ -27,6 +29,7 @@ class widget_dataview : public widget_div
 	public:
 
 		WText *title;
+
 		// panel contains widgets on edit or add
 		WContainerWidget *panel;
 		widget_div *p_panel = NULL;
@@ -61,6 +64,7 @@ class widget_dataview : public widget_div
 		void allow_add_edit(bool allowed);
 		bool is_edit_allowed();
 		bool is_add_allowed();
+		void confirm_delete(bool confim, string message = "");
 
 		// signals
 		/* Signal<> selection_change_event; */
