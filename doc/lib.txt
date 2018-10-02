@@ -1,0 +1,6 @@
+# zlib
+CC=x86_64-w64-mingw32-gcc ./configure --prefix=/usr/x86_64-w64-mingw32 --static
+make && make install
+# curl
+LDFLAGS=-mwindows ./configure  --enable-http --prefix=/usr/x86_64-w64-mingw32 --disable-ipv6  --disable-shared --enable-static CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ --host=x86_64-w64-mingw32 --disable-ldap --disable-ldaps --disable-rtsp --with-nghttp2 --disable-ftp --disable-file --disable-dict --disable-gopher --disable-imap --disable-pop3 --disable-smtp --disable-telnet --disable-tftp --disable-manual --disable-verbose --with-zlib
+make && make install

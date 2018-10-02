@@ -26,6 +26,10 @@ class widget_dataview : public widget_div
 		void hide_corner();
 		void show_corner();
 
+		void hide_panel();
+		void show_panel();
+		void switch_panel();
+
 	public:
 
 		WText *title;

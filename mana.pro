@@ -3,7 +3,6 @@ QT += sql
 CONFIG += c++14
 CONFIG -= warn_off warn_on
 
-include(project.pro)
 QMAKE_CXXFLAGS += -Wno-sign-compare -Wno-deprecated -Wno-write-strings -Wno-format-security -Wno-unused-result -Wno-format-truncation
 
 linux-g++* {
@@ -12,7 +11,6 @@ linux-g++* {
 	CONFIG += static
 	LIBS += -lpthread -lcurl -lssh -lssh_threads
 	LIBS += -lsybdb -lmysqlcppconn
-#	LIBS += -m64
 }
 
 android-g++ {
@@ -31,7 +29,7 @@ android-g++ {
 
 #QMAKE_CXXFLAGS += -Wno-deprecated -Wno-write-strings -Wno-unused-result -Wno-format-security
 #QMAKE_CXXFLAGS += -static -static-libgcc -static-libstdc++
-#QMAKE_CFLAGS += -static -static-libgccy
+#QMAKE_CFLAGS += -static -static-libgcc
 
 #linux-g++* {
 #	LIBS += -L/dalaran/mana/out/ -lmana
@@ -52,6 +50,8 @@ DESTDIR     = ../out/
 OBJECTS_DIR = ../out/
 MOC_DIR = ../out/
 
+include(project.pro)
+
 SOURCES += \
 	common.cpp \
 	daemon.cpp \
@@ -59,7 +59,6 @@ SOURCES += \
 	http.cpp \
 	smtp.cpp \
 	imap.cpp \
-	thread.cpp \
 	quickmail/quickmail.c \
 	quickmail/smtpsocket.c \
 	parser.cpp \
@@ -138,7 +137,6 @@ HEADERS += mana.h\
 	lib.h \
 	smtp.h \
 	imap.h \
-	thread.h \
 	quickmail/quickmail.h \
 	quickmail/smtpsocket.h \
 	parser.h \

@@ -33,6 +33,8 @@
 	#include <dirent.h>
 	#include <fcntl.h>
 	#include <signal.h>
+	#include <pthread.h>
+	#include <future>
 
 #else
 	#include <winsock2.h>
@@ -42,6 +44,9 @@
 	#include <tlhelp32.h>
 	#include "win_dirent.h"
 	#include <winerror.h>
+	#include <ws2tcpip.h>
+	#include <pthread.h>
+	#include <sys/timeb.h>
 	#include "mingw/mingw.mutex.h"
 	#include "mingw/mingw.thread.h"
 
@@ -66,7 +71,7 @@
 
 #endif
 
-#include "thread.h"
+/* #include "thread.h" */
 
 using namespace std;
 

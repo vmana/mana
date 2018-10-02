@@ -133,7 +133,6 @@ widget_dataview::widget_dataview() : widget_dataview(true)
 data_table* widget_dataview::set_data(unique_ptr<data_table> dt)
 {
 	div_data->clear();
-	data = div_data->addWidget(move(dt));
 
 	// recreate panel, pseudo hidden
 	panel = div_data->addNew<WContainerWidget>();
@@ -141,6 +140,8 @@ data_table* widget_dataview::set_data(unique_ptr<data_table> dt)
 	panel->setPositionScheme(PositionScheme::Absolute);
 	panel->setOffsets(0, Side::Left|Side::Top);
 	panel->resize(0, 0);
+
+	data = div_data->addWidget(move(dt));
 
 	// binding
 	data->selection_change_event.connect(this, &widget_dataview::on_data_selection_change);
@@ -173,7 +174,7 @@ void widget_dataview::on_data_selection_change(int index)
 		show_corner();
 
 		// hide panel, used by external select_none call
-		panel->resize("100%", 0);
+		hide_panel();
 	}
 	else
 	{
@@ -192,11 +193,49 @@ void widget_dataview::show_corner()
 	else button_corner->setCurrentWidget(img_corner_empty);
 }
 
+void widget_dataview::hide_panel()
+{
+	if (data)
+	{
+		data->show();
+	}
+	div_data->setOverflow(Overflow::Auto, Orientation::Vertical);
+	panel->resize("100%", 0);
+}
+
+void widget_dataview::show_panel()
+{
+	if (data)
+	{
+		// check if scrolled, if not, don't need to hide data
+		// it prevents flickers
+		if (div_data->scrollTop() > 0)
+		{
+			data->hide();
+		}
+	}
+	div_data->setOverflow(Overflow::Hidden, Orientation::Vertical);
+	panel->resize("100%", "100%");
+}
+
+void widget_dataview::switch_panel()
+{
+	if (panel->height() == 0)
+	{
+		show_panel();
+	}
+	else
+	{
+		hide_panel();
+	}
+}
+
+
 void widget_dataview::on_corner_add_click()
 {
 	button_corner->setCurrentWidget(img_corner_cancel);
 	// show panel
-	panel->resize("100%", "100%");
+	show_panel();
 	footer->setCurrentWidget(footer_add);
 
 	// generate widgets inside panel
@@ -214,7 +253,7 @@ void widget_dataview::on_corner_cancel_click()
 	show_corner();
 
 	// hide panel
-	panel->resize("100%", 0);
+	hide_panel();
 
 	if (!data) return; // prevents crash if undef
 	if (data->selected_index == -1)
@@ -232,7 +271,7 @@ void widget_dataview::on_corner_del_click()
 	show_corner();
 
 	// hide panel
-	panel->resize("100%", 0);
+	hide_panel();
 	footer->setCurrentWidget(footer_empty);
 
 	if (!data) return; // prevents crash if undef
@@ -273,7 +312,7 @@ void widget_dataview::on_footer_edit_click()
 {
 	button_corner->setCurrentWidget(img_corner_del);
 	// show panel
-	panel->resize("100%", "100%");
+	show_panel();
 	footer->setCurrentWidget(footer_cancel_valid);
 
 	// generate widgets inside panel
@@ -291,7 +330,7 @@ void widget_dataview::on_footer_add_click()
 	show_corner();
 
 	// hide panel
-	panel->resize("100%", 0);
+	hide_panel();
 	footer->setCurrentWidget(footer_empty);
 
 	if (!data) return; // prevents crash if undef
@@ -305,7 +344,7 @@ void widget_dataview::on_footer_cancel_click()
 	show_corner();
 
 	// hide panel
-	panel->resize("100%", 0);
+	hide_panel();
 
 	if (!data) return; // prevents crash if undef
 	if (data->selected_index == -1)
@@ -323,7 +362,7 @@ void widget_dataview::on_footer_valid_click()
 	show_corner();
 
 	// hide panel
-	panel->resize("100%", 0);
+	hide_panel();
 	footer->setCurrentWidget(footer_empty);
 
 	if (!data) return; // prevents crash if undef

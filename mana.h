@@ -3,7 +3,7 @@
 // apt-get install libssh-dev libcurl4-openssl-dev
 // apt-get install freetds-dev
 
-#include "thread.h"
+//#include "thread.h"
 #include "server.h"
 #include "http.h"
 #include "smtp.h"

@@ -5,7 +5,6 @@
 
 
 #ifdef WIN32
-#ifdef mana_pthread
 // thread
 
 int pthread_create(pthread_t *thread, int *attr, LPTHREAD_START_ROUTINE lpStartAddress, threadParam arg)
@@ -160,7 +159,6 @@ int pthread_cond_destroy(pthread_cond_t *cv)
 	return 0;
 }
 
-#endif
 #endif // WIN32
 
 void set_time_spec(struct timespec *to, int delay, int milli)

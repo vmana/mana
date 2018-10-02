@@ -41,7 +41,7 @@ bool tcp_server::start()
 	}
 
 	int enable = 1;
-	if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
+	if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (char*)&enable, sizeof(int)) < 0)
 	{
 		errors.push_back("mana::tcp_server setsockopt creation");
 		return false; // error handler
@@ -77,8 +77,20 @@ bool tcp_server::start()
 
 void tcp_server::sessions_handler()
 {
-	while (true)
+	while (started)
 	{
+		// poll sockfd
+		struct timeval tv; tv.tv_sec = 0; tv.tv_usec = 5000; // 5 ms
+		fd_set set; FD_ZERO(&set); FD_SET(sockfd, &set);
+
+		int res_poll = select(sockfd + 1, &set, NULL, NULL, &tv);
+		if (res_poll == 0) continue; // not data to read on sockfd
+		if (res_poll == -1)
+		{
+			errors.push_back("mana::tcp_server res_poll failed");
+			break; // error handler
+		}
+
 		struct sockaddr_in client_addr;
 		socklen_t client_len = sizeof(client_addr);
 		int sock = accept(sockfd, (struct sockaddr*) &client_addr, &client_len);
@@ -124,7 +136,6 @@ bool tcp_server::stop()
 	if (!started) return false;
 	started = false;
 
-	pthread_cancel(handler_loop.native_handle());
 	handler_loop.join();
 
 	close(sockfd);
@@ -133,7 +144,11 @@ bool tcp_server::stop()
 	lock_guard<mutex> lock(m_sessions);
 	for (auto it = sessions.begin(); it != sessions.end(); ++it)
 	{
+#ifndef _WIN32
 		pthread_cancel(it->native_handle());
+#else
+		TerminateThread(it->native_handle(), 0);
+#endif
 		it->join();
 	}
 	return true;

@@ -22,10 +22,7 @@ void set_time_spec(struct timespec *to, int delay, int milli = 0);
 
 //#define mana_pthread
 
-#ifndef mana_pthread
 #include <pthread.h>
-#else
-
 #include <windows.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -45,8 +42,6 @@ typedef struct
 	int nbsignals;
 	HANDLE H;
 } pthread_cond_t;
-
-
 
 typedef HANDLE pthread_t;
 
@@ -96,8 +91,6 @@ int pthread_cond_broadcast(pthread_cond_t *cv);
 int pthread_cond_wait(pthread_cond_t *cv, pthread_mutex_t *mutex);
 int pthread_cond_timedwait(pthread_cond_t *cv, pthread_mutex_t *mutex, struct timespec *t);
 int pthread_cond_destroy(pthread_cond_t *cv);
-
-#endif // mana_pthread
 
 #endif // _WIN32
 
