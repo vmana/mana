@@ -41,6 +41,7 @@ namespace mana
 			bool move(string dst);
 			string filename();
 			string pathname();
+			string last_modification(string format);
 			string add_trailing_slash();
 			string system_convert();
 			string basename();
@@ -66,6 +67,7 @@ namespace mana
 			static bool move(string src, string dst);
 			static string filename(string path);
 			static string pathname(string path);
+			static string last_modification(string path, string format);
 			static string add_trailing_slash(string path);
 			static string system_convert(string path);
 			static string basename(string path);

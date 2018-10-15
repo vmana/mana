@@ -238,6 +238,7 @@ bool file::copy(string dst) { return copy (path, dst); }
 bool file::move(string dst) { return move (path, dst); }
 string file::filename() { return filename(path); }
 string file::pathname() { return pathname(path); }
+string file::last_modification(string format) { return last_modification(path, format); }
 string file::add_trailing_slash() { return add_trailing_slash(path); }
 string file::basename() { return basename(path); }
 string file::extension() { return extension(path); }
@@ -328,6 +329,19 @@ string file::pathname(string path)
 
 	ret = path.substr(0, pos + 1);
 	return ret;
+}
+
+string file::last_modification(string path, string format)
+{
+	string ret = "";
+	if (!exists(path)) return ret;
+	struct stat st;
+	stat(path.c_str(), &st);
+	struct tm *tstruct;
+	char buf[80];
+	tstruct = localtime(&st.st_mtim.tv_sec);
+	strftime(buf, sizeof(buf), format.c_str(), tstruct);
+	return string(buf);
 }
 
 string file::add_trailing_slash(string path)
@@ -732,10 +746,10 @@ string system::date(string format)
 string system::date(string format, time_t ts)
 {
 	time_t now = ts;
-	struct tm tstruct;
+	struct tm *tstruct;
 	char buf[80];
-	tstruct = *localtime(&now);
-	strftime(buf, sizeof(buf), format.c_str(), &tstruct);
+	tstruct = localtime(&now);
+	strftime(buf, sizeof(buf), format.c_str(), tstruct);
 	return string(buf);
 }
 
