@@ -34,7 +34,7 @@ class yaml
 
 		yaml();
 		yaml(const yaml &Y);
-		yaml(string &S); // generate from yaml string
+		yaml(string S); // generate from yaml string
 
 		bool load(string filename);
 		bool load_string(string &S);

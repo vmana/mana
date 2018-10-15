@@ -1,5 +1,24 @@
 #include "widget_div.h"
 
+/****    label_group    ****/
+
+label_group::label_group()
+{
+}
+
+void label_group::add_label(WText *l)
+{
+	labels.push_back(l);
+}
+
+void label_group::set_width(WLength w)
+{
+	for (auto &l : labels)
+		l->setWidth(w);
+}
+
+/****    widget_div    ****/
+
 widget_div::widget_div()
 {
 	layout = this->setLayout(make_unique<void_layout>());

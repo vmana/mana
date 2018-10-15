@@ -83,7 +83,7 @@ yaml::yaml(const yaml &Y)
 	this->data = Y.data;
 }
 
-yaml::yaml(string &S)
+yaml::yaml(string S)
 {
 	load_string(S);
 }
