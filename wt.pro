@@ -10,6 +10,7 @@ SOURCES += \
 	wt/generic/widget_save_icon.cpp\
 	wt/generic/widget_signature.cpp\
 	wt/generic/widget_dataview.cpp\
+	wt/generic/widget_template.cpp\
 
 HEADERS  += \
 	wt/wt.h\
@@ -23,3 +24,4 @@ HEADERS  += \
 	wt/generic/widget_save_icon.h\
 	wt/generic/widget_signature.h\
 	wt/generic/widget_dataview.h\
+	wt/generic/widget_template.h\
