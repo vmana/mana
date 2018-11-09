@@ -334,6 +334,7 @@ string file::pathname(string path)
 string file::last_modification(string path, string format)
 {
 	string ret = "";
+	#ifndef _WIN32
 	if (!exists(path)) return ret;
 	struct stat st;
 	stat(path.c_str(), &st);
@@ -342,6 +343,10 @@ string file::last_modification(string path, string format)
 	tstruct = localtime(&st.st_mtim.tv_sec);
 	strftime(buf, sizeof(buf), format.c_str(), tstruct);
 	return string(buf);
+	#else
+	// no implemented
+	return ret;
+	#endif
 }
 
 string file::add_trailing_slash(string path)

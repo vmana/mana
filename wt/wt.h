@@ -9,14 +9,11 @@ using namespace Wt;
 namespace mana
 {
 
-	class wt
+	namespace wt
 	{
-		public:
-			wt();
-			static WTime current_time();
-			static WDate current_date();
-			static WDateTime current_datetime();
-			~wt();
+		WTime current_time();
+		WDate current_date();
+		WDateTime current_datetime();
 	};
 
 }; // namespace
