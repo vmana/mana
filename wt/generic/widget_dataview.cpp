@@ -3,6 +3,7 @@
 #include <Wt/WWidget.h>
 #include <Wt/WCssDecorationStyle.h>
 #include <Wt/WMessageBox.h>
+#include <Wt/WTemplate.h>
 
 /****    widget_dataview    ****/
 
@@ -531,8 +532,6 @@ filter_dataview::filter_dataview()
 	status = div_status_title->addLayout<WImage>(0, 0, Align::Middle|Align::Left);
 	title = div_status_title->addLayout<WText>(0, 1);
 
-	edit_filter = addNew<WLineEdit>();
-
 	// style and data
 	setStyleClass("filter-dataview");
 	div_status_title->decorationStyle().setCursor(Cursor::PointingHand);
@@ -544,10 +543,75 @@ filter_dataview::filter_dataview()
 
 	// signals binding
 	div_status_title->clicked().connect(this, &filter_dataview::on_filter_click);
-	edit_filter->enterPressed().connect(this, &filter_dataview::on_enter_pressed);
-	edit_filter->escapePressed().connect(this, &filter_dataview::on_enter_pressed);
-	/* edit_filter->mouseWentOut().connect(this, &filter_dataview::on_enter_pressed); */
-;
+}
+
+filter_dataview_edit::filter_dataview_edit():filter_dataview()
+{
+	edit_filter = addNew<WLineEdit>();
+	edit_filter->enterPressed().connect(this, &filter_dataview_edit::on_enter_pressed);
+	edit_filter->escapePressed().connect(this, &filter_dataview_edit::on_enter_pressed);
+}
+
+filter_dataview_date::filter_dataview_date():filter_dataview()
+{
+	auto edit_picker = addNew<WLineEdit>();
+	auto img_picker = make_unique<WImage>("img/calendar_white.png");
+	img_picker->resize(25, 25);
+	date_filter = addNew<WDatePicker>(move(img_picker), edit_picker);
+	date_filter->setFormat("dd/MM/yyyy");
+	date_filter->changed().connect(this, &filter_dataview_date::on_changed);
+}
+
+filter_dataview_combo::filter_dataview_combo():filter_dataview()
+{
+	combo_filter = addNew<WComboBox>();
+	combo_filter->changed().connect(this, &filter_dataview_combo::on_changed);
+	combo_filter->enterPressed().connect(this, &filter_dataview_combo::on_changed);
+	combo_filter->escapePressed().connect(this, &filter_dataview_combo::on_changed);
+}
+
+
+string filter_dataview_edit::filter()
+{
+	string filter = edit_filter->text().toUTF8();
+	return filter;
+}
+
+string filter_dataview_date::filter()
+{
+	string filter = date_filter->lineEdit()->text().toUTF8();
+	return filter;
+}
+
+string filter_dataview_combo::filter()
+{
+	string filter = combo_filter->currentText().toUTF8();
+	return filter;
+}
+
+void filter_dataview_edit::setValue(string txt)
+{
+	edit_filter->setText(txt);
+}
+
+void filter_dataview_date::setValue(string txt)
+{
+	date_filter->lineEdit()->setText(txt);
+}
+
+void filter_dataview_combo::setValue(string value)
+{
+
+	combo_filter->setValueText(value);
+}
+
+void filter_dataview_combo::create_combo(vector<string> v)
+{
+	combo_filter->addItem("");
+	for (int i=0; i<v.size(); ++i)
+	{
+		combo_filter->addItem(v[i]);
+	}
 }
 
 void filter_dataview::allow_filter(bool allowed)
@@ -566,21 +630,49 @@ void filter_dataview::allow_filter(bool allowed)
 	}
 }
 
-void filter_dataview::update_filter()
+void filter_dataview_edit::update_filter()
+{
+	// update im
+	if (edit_filter->text() == "") status->setImageLink("img/dataview/filter.png");
+	else status->setImageLink("img/dataview/filter_green.png");
+	}
+
+void filter_dataview_date::update_filter()
 {
 	// update img
-	if (edit_filter->text() == "") status->setImageLink("img/dataview/filter.png");
+	if (date_filter->lineEdit()->text() == "") status->setImageLink("img/dataview/filter.png");
 	else status->setImageLink("img/dataview/filter_green.png");
 }
 
-void filter_dataview::on_filter_click()
+void filter_dataview_combo::update_filter()
+{
+	// update img
+	if (combo_filter->currentIndex() == 0) status->setImageLink("img/dataview/filter.png");
+	else status->setImageLink("img/dataview/filter_green.png");
+}
+
+void filter_dataview_edit::on_filter_click()
 {
 	if (!is_allowed_filter) return;
 	setCurrentWidget(edit_filter);
 	edit_filter->setFocus();
 }
 
-void filter_dataview::on_enter_pressed()
+void filter_dataview_date::on_filter_click()
+{
+	if (!is_allowed_filter) return;
+	setCurrentWidget(date_filter);
+	date_filter->setFocus();
+}
+
+void filter_dataview_combo::on_filter_click()
+{
+	if (!is_allowed_filter) return;
+	setCurrentWidget(combo_filter);
+	combo_filter->setFocus();
+}
+
+void filter_dataview_edit::on_enter_pressed()
 {
 	setCurrentWidget(div_status_title);
 	//
@@ -592,7 +684,31 @@ void filter_dataview::on_enter_pressed()
 	on_filter_change.emit();
 }
 
-void filter_dataview::resize(const WLength& width, const WLength& height)
+void filter_dataview_date::on_changed()
+{
+	setCurrentWidget(div_status_title);
+	//
+	// remove % and '
+	string new_filter = date_filter->lineEdit()->text().toUTF8();
+	new_filter = str_replace("%", "", new_filter);
+
+	update_filter();
+	on_filter_change.emit();
+}
+
+void filter_dataview_combo::on_changed()
+{
+	setCurrentWidget(div_status_title);
+	//
+	// remove % and '
+	string new_filter = combo_filter->currentText().toUTF8();
+	new_filter = str_replace("%", "", new_filter);
+
+	update_filter();
+	on_filter_change.emit();
+}
+
+void filter_dataview_edit::resize(const WLength& width, const WLength& height)
 {
 	div_status_title->resize(width, height);
 
@@ -603,6 +719,29 @@ void filter_dataview::resize(const WLength& width, const WLength& height)
 	WStackedWidget::resize(width, height);
 }
 
+void filter_dataview_date::resize(const WLength& width, const WLength& height)
+{
+	div_status_title->resize(width, height);
+
+	int date_width = width.value() - 9; // 9 = 1 (border) + 1 (border) + 6 (padding) + 1 (border)
+	if (date_width < 20) date_width = 20;
+	date_filter->setWidth(date_width);
+
+	WStackedWidget::resize(width, height);
+}
+
+void filter_dataview_combo::resize(const WLength& width, const WLength& height)
+{
+	div_status_title->resize(width, height);
+
+	int combo_width = width.value() - 9; // 9 = 1 (border) + 1 (border) + 6 (padding) + 1 (border)
+	if (combo_width < 20) combo_width = 20;
+	combo_filter->setWidth(combo_width);
+
+	WStackedWidget::resize(width, height);
+}
+
+
 void filter_dataview::setWidth(const WLength& width)
 {
 	resize(width, height());
@@ -611,3 +750,18 @@ void filter_dataview::setWidth(const WLength& width)
 filter_dataview::~filter_dataview()
 {
 }
+
+filter_dataview_edit::~filter_dataview_edit()
+{
+}
+
+filter_dataview_date::~filter_dataview_date()
+{
+}
+
+
+filter_dataview_combo::~filter_dataview_combo()
+{
+}
+
+

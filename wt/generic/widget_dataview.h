@@ -6,9 +6,16 @@
 #include <Wt/WText.h>
 #include <Wt/WImage.h>
 #include <Wt/WLineEdit.h>
+#include <Wt/WComboBox.h>
+#include <Wt/WCalendar.h>
+#include <Wt/WDate.h>
+#include <Wt/WDatePicker.h>
 
 class data_table;
 class filter_dataview;
+class filter_dataview_edit;
+class filter_dataview_date;
+class filter_dataview_combo;
 
 class widget_dataview : public widget_div
 {
@@ -123,16 +130,16 @@ class filter_dataview : public WStackedWidget
 
 	public:
 		WText *title;
-		WLineEdit *edit_filter;
 		WImage *status;
 		widget_div *div_status_title; // status + title
 
+		virtual string filter() = 0; // return filter for sql query
+		virtual void setValue(string value) = 0;
 		void allow_filter(bool allowed);
-		void update_filter();
-		void on_filter_click();
-		void on_enter_pressed();
+		virtual void update_filter() = 0;
+		virtual void on_filter_click() = 0;
 
-		void resize(const WLength& width, const WLength& height);
+		virtual void resize(const WLength& width, const WLength& height) = 0;
 		void setWidth(const WLength& width);
 
 		// signals
@@ -141,6 +148,61 @@ class filter_dataview : public WStackedWidget
 		filter_dataview();
 		~filter_dataview();
 };
+
+class filter_dataview_edit : public filter_dataview
+{
+	public:
+		WLineEdit *edit_filter;
+
+		string filter(); // return filter for sql query
+		void setValue(string value);
+		void update_filter();
+		void on_filter_click();
+		void on_enter_pressed();
+
+		void resize(const WLength& width, const WLength& height);
+
+		filter_dataview_edit();
+		~filter_dataview_edit();
+};
+
+class filter_dataview_date : public filter_dataview
+{
+	public:
+		WDatePicker *date_filter;
+
+		string filter(); // return filter for sql query
+		void setValue(string value);
+		void update_filter();
+		void on_filter_click();
+		void on_changed();
+
+		void resize(const WLength& width, const WLength& height);
+
+		filter_dataview_date();
+		~filter_dataview_date();
+};
+
+class filter_dataview_combo : public filter_dataview
+{
+	public:
+		WComboBox *combo_filter;
+
+		string filter();
+
+		void create_combo(vector<string>);
+
+		void setValue(string value);
+		void update_filter();
+		void on_filter_click();
+		void on_changed();
+
+		void resize(const WLength& width, const WLength& height);
+
+		filter_dataview_combo();
+		~filter_dataview_combo();
+};
+
 
 
 
