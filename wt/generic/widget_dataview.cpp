@@ -520,6 +520,11 @@ void data_table::apply_lines_style()
 	}
 }
 
+void data_table::select_first_line()
+{
+	if (lines.size() > 0) on_line_click(0);
+}
+
 data_table::~data_table()
 {
 }
