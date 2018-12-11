@@ -90,7 +90,6 @@ class data_table : public widget_div
 	protected:
 		widget_div *div_titles;
 		widget_div *div_lines;
-		bool is_init_selected = false;
 
 	public:
 
@@ -115,7 +114,7 @@ class data_table : public widget_div
 		void select_none(); // remove selection if any
 		void apply_titles_style();
 		void apply_lines_style();
-		void init_selected(bool is_init_selected);
+		void select_first_line();
 
 		// signals
 		Signal<int> selection_change_event;

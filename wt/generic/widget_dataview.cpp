@@ -518,16 +518,11 @@ void data_table::apply_lines_style()
 		l->clicked().connect(bind(&data_table::on_line_click, this, i));
 		i++;
 	}
-
-	if (is_init_selected && lines.size() > 0)
-	{
-		on_line_click(0);
-	}
 }
 
-void data_table::init_selected(bool is_init_selected)
+void data_table::select_first_line()
 {
-	this->is_init_selected = is_init_selected;
+	if (lines.size() > 0) on_line_click(0);
 }
 
 data_table::~data_table()
