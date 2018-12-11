@@ -555,11 +555,14 @@ filter_dataview_edit::filter_dataview_edit():filter_dataview()
 filter_dataview_date::filter_dataview_date():filter_dataview()
 {
 	auto edit_picker = addNew<WLineEdit>();
+	edit_picker->resize(160, 35);
 	auto img_picker = make_unique<WImage>("img/calendar_white.png");
 	img_picker->resize(25, 25);
 	date_filter = addNew<WDatePicker>(move(img_picker), edit_picker);
 	date_filter->setFormat("dd/MM/yyyy");
 	date_filter->changed().connect(this, &filter_dataview_date::on_changed);
+	edit_picker->enterPressed().connect(this, &filter_dataview_date::on_changed);
+	edit_picker->escapePressed().connect(this, &filter_dataview_date::on_changed);
 }
 
 filter_dataview_combo::filter_dataview_combo():filter_dataview()
@@ -718,6 +721,7 @@ void filter_dataview_edit::resize(const WLength& width, const WLength& height)
 
 	WStackedWidget::resize(width, height);
 }
+
 
 void filter_dataview_date::resize(const WLength& width, const WLength& height)
 {
