@@ -148,6 +148,8 @@ data_table* widget_dataview::set_data(unique_ptr<data_table> dt)
 	data->selection_change_event.connect(this, &widget_dataview::on_data_selection_change);
 	data->hide_corner_event.connect(this, &widget_dataview::hide_corner);
 	data->show_corner_event.connect(this, &widget_dataview::show_corner);
+	data->allow_add.connect(this ,&widget_dataview::allow_add);
+	data->allow_edit.connect(this ,&widget_dataview::allow_edit);
 
 	return data;
 }
@@ -180,6 +182,7 @@ void widget_dataview::on_data_selection_change(int index)
 	else
 	{
 		if (is_edit_allowed()) footer->setCurrentWidget(footer_edit);
+		else footer->setCurrentWidget(footer_empty);
 	}
 }
 
@@ -264,6 +267,7 @@ void widget_dataview::on_corner_cancel_click()
 	else
 	{
 		if (is_edit_allowed()) footer->setCurrentWidget(footer_edit);
+		else footer->setCurrentWidget(footer_empty);
 	}
 }
 
@@ -355,6 +359,7 @@ void widget_dataview::on_footer_cancel_click()
 	else
 	{
 		if (is_edit_allowed()) footer->setCurrentWidget(footer_edit);
+		else footer->setCurrentWidget(footer_empty);
 	}
 }
 

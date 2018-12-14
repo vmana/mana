@@ -120,6 +120,8 @@ class data_table : public widget_div
 		Signal<int> selection_change_event;
 		Signal<> hide_corner_event;
 		Signal<> show_corner_event;
+		Signal<bool> allow_edit;
+		Signal<bool> allow_add;
 
 		~data_table();
 };
