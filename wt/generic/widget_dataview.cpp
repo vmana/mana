@@ -148,8 +148,8 @@ data_table* widget_dataview::set_data(unique_ptr<data_table> dt)
 	data->selection_change_event.connect(this, &widget_dataview::on_data_selection_change);
 	data->hide_corner_event.connect(this, &widget_dataview::hide_corner);
 	data->show_corner_event.connect(this, &widget_dataview::show_corner);
-	data->allow_add.connect(this ,&widget_dataview::allow_add);
-	data->allow_edit.connect(this ,&widget_dataview::allow_edit);
+	data->line_allow_edit.connect(this, &widget_dataview::line_allow_edit);
+	data->line_allow_add.connect(this, &widget_dataview::line_allow_add);
 
 	return data;
 }
@@ -391,7 +391,7 @@ void widget_dataview::allow_add(bool allowed)
 
 bool widget_dataview::is_add_allowed()
 {
-	return add_allowed;
+	return (add_allowed && line_add_allowed);
 }
 
 void widget_dataview::allow_edit(bool allowed)
@@ -405,7 +405,17 @@ void widget_dataview::allow_edit(bool allowed)
 
 bool widget_dataview::is_edit_allowed()
 {
-	return edit_allowed;
+	return (edit_allowed && line_edit_allowed);
+}
+
+void widget_dataview::line_allow_add(bool allowed)
+{
+	line_add_allowed = allowed;
+}
+
+void widget_dataview::line_allow_edit(bool allowed)
+{
+	line_edit_allowed = allowed;
 }
 
 void widget_dataview::confirm_delete(bool confim, string message)
@@ -565,7 +575,6 @@ filter_dataview_edit::filter_dataview_edit():filter_dataview()
 filter_dataview_date::filter_dataview_date():filter_dataview()
 {
 	auto edit_picker = addNew<WLineEdit>();
-	edit_picker->resize(160, 35);
 	auto img_picker = make_unique<WImage>("img/calendar_white.png");
 	img_picker->resize(25, 25);
 	date_filter = addNew<WDatePicker>(move(img_picker), edit_picker);

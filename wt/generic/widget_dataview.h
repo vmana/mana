@@ -26,6 +26,8 @@ class widget_dataview : public widget_div
 		int panel_height = 0; // update on resize
 		bool add_allowed = true;
 		bool edit_allowed = true;
+		bool line_add_allowed = true; // on a line basis
+		bool line_edit_allowed = true; // on a line basis
 		bool need_confirm_delete = false;
 		string confirm_delete_message;
 
@@ -73,6 +75,8 @@ class widget_dataview : public widget_div
 		void allow_add(bool allowed);
 		void allow_edit(bool allowed);
 		void allow_add_edit(bool allowed);
+		void line_allow_add(bool allowed);
+		void line_allow_edit(bool allowed);
 		bool is_edit_allowed();
 		bool is_add_allowed();
 		void confirm_delete(bool confim, string message = "");
@@ -120,8 +124,8 @@ class data_table : public widget_div
 		Signal<int> selection_change_event;
 		Signal<> hide_corner_event;
 		Signal<> show_corner_event;
-		Signal<bool> allow_edit;
-		Signal<bool> allow_add;
+		Signal<bool> line_allow_edit;
+		Signal<bool> line_allow_add;
 
 		~data_table();
 };
