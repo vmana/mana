@@ -2,6 +2,9 @@
 #include <fstream>
 #include <Wt/WCssDecorationStyle.h>
 
+namespace mana
+{
+
 widget_signature::widget_signature(int width, int height) :
 	WPaintedWidget(),
 	png_image("png", width, height)
@@ -90,3 +93,4 @@ void widget_signature::touchMove(const WTouchEvent& e)
 	update(PaintFlag::Update);
 }
 
+} // namespace

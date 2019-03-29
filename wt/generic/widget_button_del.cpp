@@ -1,5 +1,8 @@
 #include "widget_button_del.h"
 
+namespace mana
+{
+
 widget_button_del::widget_button_del()
 {
 	init("");
@@ -61,3 +64,4 @@ widget_button_del::~widget_button_del()
 {
 }
 
+} // namespace

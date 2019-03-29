@@ -9,7 +9,9 @@
 
 #include "mana.h"
 
-using namespace mana;
+namespace mana
+{
+
 using namespace Wt;
 
 class widget_signature : public WPaintedWidget
@@ -34,6 +36,8 @@ class widget_signature : public WPaintedWidget
 		void touchStart(const WTouchEvent& e);
 		void touchMove(const WTouchEvent& e);
 };
+
+} // namespace
 
 #endif // widget_signature_H
 

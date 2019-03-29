@@ -6,7 +6,9 @@
 #include <Wt/WText.h>
 #include <Wt/WCssDecorationStyle.h>
 
-using namespace mana;
+namespace mana
+{
+
 using namespace Wt;
 
 class widget_button_del : public widget_div
@@ -25,5 +27,7 @@ class widget_button_del : public widget_div
 		void setStyleClass(const WT_USTRING& styleClass);
 		~widget_button_del();
 };
+
+} // namespace
 
 #endif // widget_button_del_H

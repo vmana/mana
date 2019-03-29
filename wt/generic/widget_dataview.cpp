@@ -5,6 +5,9 @@
 #include <Wt/WMessageBox.h>
 #include <Wt/WTemplate.h>
 
+namespace mana
+{
+
 /****    widget_dataview    ****/
 
 widget_dataview::widget_dataview(bool connect_signals) : widget_div()
@@ -787,4 +790,4 @@ filter_dataview_combo::~filter_dataview_combo()
 {
 }
 
-
+} // namespace

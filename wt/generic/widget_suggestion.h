@@ -6,7 +6,9 @@
 
 #include "mana.h"
 
-using namespace mana;
+namespace mana
+{
+
 using namespace Wt;
 
 const string js_suggestion_matcher =
@@ -32,5 +34,7 @@ class widget_suggestion : public WLineEdit
 		widget_suggestion();
 		~widget_suggestion();
 };
+
+} // namespace
 
 #endif // widget_suggestion_H

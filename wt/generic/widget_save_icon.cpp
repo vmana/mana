@@ -1,4 +1,6 @@
 #include "widget_save_icon.h"
+namespace mana
+{
 
 widget_save_icon::widget_save_icon() : duration(2000)
 {
@@ -39,3 +41,4 @@ widget_save_icon::~widget_save_icon()
 {
 }
 
+} // namespace

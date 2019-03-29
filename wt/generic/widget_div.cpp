@@ -1,5 +1,8 @@
 #include "widget_div.h"
 
+namespace mana
+{
+
 /****    label_group    ****/
 
 label_group::label_group()
@@ -43,3 +46,4 @@ widget_div::~widget_div()
 {
 }
 
+} // namespace

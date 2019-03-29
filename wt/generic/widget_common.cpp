@@ -1,5 +1,8 @@
 #include "widget_common.h"
 
+namespace mana
+{
+
 widget_common::widget_common()
 {
 }
@@ -15,3 +18,4 @@ widget_common::~widget_common()
 {
 }
 
+} // namespace

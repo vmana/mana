@@ -1,4 +1,6 @@
 #include "widget_suggestion.h"
+namespace mana
+{
 
 widget_suggestion::widget_suggestion()
 {
@@ -10,3 +12,4 @@ widget_suggestion::~widget_suggestion()
 {
 }
 
+} // namespace

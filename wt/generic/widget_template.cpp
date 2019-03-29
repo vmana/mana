@@ -1,7 +1,8 @@
 #include "widget_template.h"
 #include "mana.h"
 
-using namespace mana;
+namespace mana
+{
 
 widget_template::widget_template()
 {
@@ -36,4 +37,6 @@ widget_template widget_template::operator+=(std::unique_ptr<widget_template> &T)
 widget_template::~widget_template()
 {
 }
+
+} // namespace
 

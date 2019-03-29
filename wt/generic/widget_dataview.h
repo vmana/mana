@@ -11,6 +11,9 @@
 #include <Wt/WDate.h>
 #include <Wt/WDatePicker.h>
 
+namespace mana
+{
+
 class data_table;
 class filter_dataview;
 class filter_dataview_edit;
@@ -210,7 +213,6 @@ class filter_dataview_combo : public filter_dataview
 		~filter_dataview_combo();
 };
 
-
-
+} // namespace
 
 #endif // WIDGET_DATAVIEW_H

@@ -2,10 +2,11 @@
 #define widget_stack_H
 
 #include <Wt/WStackedWidget.h>
-
 #include "mana.h"
 
-using namespace mana;
+namespace mana
+{
+
 using namespace Wt;
 
 class widget_stack : public WStackedWidget
@@ -20,5 +21,7 @@ class widget_stack : public WStackedWidget
 		widget_stack();
 		~widget_stack();
 };
+
+} // namespace
 
 #endif // widget_stack_H

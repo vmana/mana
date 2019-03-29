@@ -5,7 +5,9 @@
 
 #include "mana.h"
 
-using namespace mana;
+namespace mana
+{
+
 using namespace Wt;
 
 class void_layout : public WGridLayout
@@ -15,5 +17,7 @@ class void_layout : public WGridLayout
 		void update(WLayoutItem *item = nullptr);
 		~void_layout();
 };
+
+} // namespace
 
 #endif // void_layout_H

@@ -1,4 +1,6 @@
 #include "widget_panel.h"
+namespace mana
+{
 
 widget_panel::widget_panel()
 {
@@ -41,3 +43,4 @@ widget_panel::~widget_panel()
 {
 }
 
+} // namespace

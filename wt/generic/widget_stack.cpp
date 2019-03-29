@@ -1,5 +1,8 @@
 #include "widget_stack.h"
 
+namespace mana
+{
+
 widget_stack::widget_stack()
 {
 	//this->setLayoutSizeAware(true);
@@ -14,3 +17,4 @@ widget_stack::~widget_stack()
 {
 }
 
+} // namespace

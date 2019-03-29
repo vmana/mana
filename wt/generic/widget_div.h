@@ -8,9 +8,10 @@
 #include "void_layout.h"
 #include "mana.h"
 
-typedef AlignmentFlag Align;
+namespace mana
+{
 
-using namespace mana;
+typedef AlignmentFlag Align;
 using namespace Wt;
 
 class label_group
@@ -77,5 +78,7 @@ class widget_div : public WContainerWidget
 
 		~widget_div();
 };
+
+} // namespace
 
 #endif // widget_div_H

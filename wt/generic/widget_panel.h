@@ -8,7 +8,9 @@
 
 #include "mana.h"
 
-using namespace mana;
+namespace mana
+{
+
 using namespace Wt;
 
 class widget_panel : public WContainerWidget
@@ -26,5 +28,7 @@ class widget_panel : public WContainerWidget
 		void reverse();
 		~widget_panel();
 };
+
+} // namespace
 
 #endif // widget_panel_H

@@ -3,6 +3,9 @@
 
 #include <Wt/WTemplate.h>
 
+namespace mana
+{
+
 using namespace Wt;
 
 class widget_template : public WTemplate
@@ -15,5 +18,7 @@ class widget_template : public WTemplate
 		widget_template operator+=(std::unique_ptr<widget_template> &T);
 		~widget_template();
 };
+
+} // namespace
 
 #endif // widget_template_h
