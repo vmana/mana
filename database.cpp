@@ -18,7 +18,7 @@ database::database()
 	_is_open = false;
 	this->server = "localhost";
 	pthread_mutex_init(&p_mutex, NULL);
-	internal_mode = database::normal;
+	internal_mode = db_mode::normal;
 }
 
 #ifdef MANA_MSSQL
@@ -54,12 +54,36 @@ int database::err_handler(DBPROCESS * dbproc, int severity, int dberr, int oserr
 
 void database::lock()
 {
-	if (internal_mode == mutex) pthread_mutex_lock(&p_mutex);
+	if (internal_mode == db_mode::mutex) pthread_mutex_lock(&p_mutex);
 }
 
 void database::unlock()
 {
-	if (internal_mode == mutex) pthread_mutex_unlock(&p_mutex);
+	if (internal_mode == db_mode::mutex) pthread_mutex_unlock(&p_mutex);
+}
+
+string database::encoder(const string &str)
+{
+	switch (encoding)
+	{
+		case db_encoding::no_encode:
+			return str;
+		case db_encoding::utf8_to_iso88591:
+			return convert::utf8_iso88591(str);
+	}
+	return str;
+}
+
+string database::decoder(const string &str)
+{
+	switch (encoding)
+	{
+		case db_encoding::no_encode:
+			return str;
+		case db_encoding::utf8_to_iso88591:
+			return convert::iso88591_utf8(str);
+	}
+	return str;
 }
 
 bool database::open()
@@ -197,6 +221,8 @@ bool database::is_open()
 vector<vector<string> > database::query(string sql_query)
 {
 	vector<vector<string> > ret;
+	if (!is_open()) open();
+
 	switch (type)
 	{
 		case mssql :
@@ -215,8 +241,12 @@ vector<vector<string> > database::query(string sql_query)
 vector<vector<string> > database::query_mssql(string sql_query)
 {
 	vector<vector<string> > ret;
+	// try to encode
+	sql_query = encoder(sql_query);
+
 	#ifdef MANA_MSSQL
 	RETCODE erc;
+
 
 	if ((erc = dbfcmd(dbproc, sql_query.c_str())) == FAIL)
 	{
@@ -275,7 +305,12 @@ vector<vector<string> > database::query_mssql(string sql_query)
 					for (pcol=columns; pcol - columns < ncols; pcol++)
 					{
 						if (pcol->status == -1) line.push_back(string("mana::null"));
-						else line.push_back(string(pcol->buffer));
+						else
+						{
+							// try to decode
+							string decoded = decoder(string(pcol->buffer));
+							line.push_back(decoded);
+						}
 					}
 					ret.push_back(line);
 					break;
@@ -292,6 +327,7 @@ vector<vector<string> > database::query_mssql(string sql_query)
 		free(columns);
 	}
 	#endif
+
 	return ret;
 }
 
@@ -366,6 +402,7 @@ string database::purge(string &S)
 
 database::~database()
 {
+	close();
 	if (internal_mode == mutex) pthread_mutex_unlock(&p_mutex);
 	pthread_mutex_destroy(&p_mutex);
 }

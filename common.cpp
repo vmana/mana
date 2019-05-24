@@ -1,4 +1,6 @@
 #include "common.h"
+#include <iconv.h>
+#include <boost/locale.hpp>
 
 namespace mana
 {
@@ -887,6 +889,39 @@ string convert::double_string(double value)
 	ss << value;
 	ss >> ret;
 	return ret;
+}
+
+string convert::encoding(const string &value, const string &src_encode, const string &dst_encode)
+{
+	string ret;
+	iconv_t cd = iconv_open(src_encode.c_str(), dst_encode.c_str());
+	if (cd == (iconv_t)-1) return ret;
+	char *in_ptr = (char*)value.c_str();
+	size_t in_left = value.length();
+
+	size_t out_left = 2 * in_left;
+	char *output = new char[out_left + 1];
+	bzero(output, out_left + 1);
+	char *out_ptr = output;
+
+	if (iconv(cd, &in_ptr, &in_left, &out_ptr, &out_left) != (size_t)-1)
+	{
+		ret = string(output);
+	}
+
+	delete [] output;
+	iconv_close(cd);
+	return ret;
+}
+
+string convert::iso88591_utf8(const string &str)
+{
+	return boost::locale::conv::to_utf<char>(str,"Latin1");
+}
+
+string convert::utf8_iso88591(const string &str)
+{
+	return boost::locale::conv::from_utf<char>(str,"Latin1");
 }
 
 

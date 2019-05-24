@@ -53,16 +53,21 @@ class database
 		vector<vector<string> > query_mysql(string sql_query);
 		vector<vector<string> > query_sqlite(string sql_query);
 
+		string encoder(const string &str); // client => db
+		string decoder(const string &str); // db => client
+
 	public :
 		enum db_type { mssql, sqlite, mysql };
 		enum db_mode { normal, mutex };
+		enum db_encoding { no_encode, utf8_to_iso88591 };
 
 		db_type type;
 		string server = "";
 		string db;
 		string user;
 		string pass;
-		int internal_mode;
+		db_encoding encoding = db_encoding::no_encode;
+		db_mode internal_mode = db_mode::normal;
 
 		static vector<string> error;
 		static bool log_errors;
