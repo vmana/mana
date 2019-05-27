@@ -916,12 +916,20 @@ string convert::encoding(const string &value, const string &src_encode, const st
 
 string convert::iso88591_utf8(const string &str)
 {
+#ifdef BOOST_LOCALE
 	return boost::locale::conv::to_utf<char>(str,"Latin1");
+#else
+	return str;
+#endif
 }
 
 string convert::utf8_iso88591(const string &str)
 {
+#ifdef BOOST_LOCALE
 	return boost::locale::conv::from_utf<char>(str,"Latin1");
+#else
+	return str;
+#endif
 }
 
 
