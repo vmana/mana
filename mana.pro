@@ -1,6 +1,6 @@
 QT -= gui core
 QT += sql
-CONFIG += c++17
+CONFIG += c++14
 CONFIG -= warn_off warn_on
 
 QMAKE_CXXFLAGS += -Wno-sign-compare -Wno-deprecated -Wno-write-strings -Wno-format-security -Wno-unused-result -Wno-format-truncation
