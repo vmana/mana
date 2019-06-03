@@ -26,7 +26,7 @@ widget_dataview::widget_dataview(bool connect_signals) : widget_div()
 	// header
 	header->layout->setColumnStretch(0, 1);
 	header->setStyleClass("dataview-header");
-	header->resize(WLength::Auto, 36);
+	header->resize(WLength::Auto, 30);
 
 	title->setPadding(36, Side::Left);
 
@@ -112,6 +112,11 @@ widget_dataview::widget_dataview(bool connect_signals) : widget_div()
 	button_valid->setText("VALIDER");
 	button_cancel->addStyleClass("dataview-footer-button");
 	button_valid->addStyleClass("dataview-footer-button");
+
+	// footer custom
+	footer_custom = footer->addNew<widget_div>();
+	footer_custom->resize(WLength::Auto, 30);
+	footer_custom->addStyleClass("dataview-footer-button");
 
 	// default stack
 	button_corner->setCurrentWidget(img_corner_add);
@@ -276,6 +281,9 @@ void widget_dataview::on_corner_cancel_click()
 
 void widget_dataview::on_corner_del_click()
 {
+	// if not allowed, no click action & return
+	if (!is_delete_allowed()) return;
+
 	show_corner();
 
 	// hide panel
@@ -411,6 +419,28 @@ bool widget_dataview::is_edit_allowed()
 	return (edit_allowed && line_edit_allowed);
 }
 
+void widget_dataview::allow_delete(bool allowed)
+{
+	delete_allowed = allowed;
+	if (!allowed)
+	{
+		img_corner_del->setImageLink("img/dataview/empty.png");
+		img_corner_del->setToolTip("");
+		img_corner_del->decorationStyle().setCursor(Cursor::Arrow);
+	}
+	else
+	{
+		img_corner_del->setImageLink("img/dataview/trash.png");
+		img_corner_del->setToolTip("Supprimer cet élément");
+		img_corner_del->decorationStyle().setCursor(Cursor::Arrow);
+	}
+}
+
+bool widget_dataview::is_delete_allowed()
+{
+	return (delete_allowed && line_delete_allowed);
+}
+
 void widget_dataview::line_allow_add(bool allowed)
 {
 	line_add_allowed = allowed;
@@ -421,11 +451,25 @@ void widget_dataview::line_allow_edit(bool allowed)
 	line_edit_allowed = allowed;
 }
 
+void widget_dataview::line_allow_delete(bool allowed)
+{
+	line_delete_allowed = allowed;
+}
+
 void widget_dataview::confirm_delete(bool confim, string message)
 {
 	need_confirm_delete = confim;
 	if (message != "") confirm_delete_message = message;
 	else confirm_delete_message = "Voulez-vous vraiment supprimer cette ligne ?";
+}
+
+WText* widget_dataview::add_footer_custom(string text)
+{
+	int count = footer_custom->layout->columnCount();
+	auto ret = footer_custom->addLayout<WText>(0, count, Align::Middle|Align::Center);
+	ret->addStyleClass("dataview-footer-button");
+	ret->setText(text);
+	return ret;
 }
 
 void widget_dataview::resize(const WLength& width, const WLength& height)
@@ -578,7 +622,7 @@ filter_dataview_edit::filter_dataview_edit():filter_dataview()
 filter_dataview_date::filter_dataview_date():filter_dataview()
 {
 	auto edit_picker = addNew<WLineEdit>();
-	auto img_picker = make_unique<WImage>("img/calendar_white.png");
+	auto img_picker = make_unique<WImage>("img/dataview/calendar.png");
 	img_picker->resize(25, 25);
 	date_filter = addNew<WDatePicker>(move(img_picker), edit_picker);
 	date_filter->setFormat("dd/MM/yyyy");
@@ -633,7 +677,7 @@ void filter_dataview_combo::setValue(string value)
 void filter_dataview_combo::create_combo(vector<string> v)
 {
 	combo_filter->addItem("");
-	for (int i=0; i<v.size(); ++i)
+	for (int i = 0; i < v.size(); ++i)
 	{
 		combo_filter->addItem(v[i]);
 	}
@@ -646,12 +690,13 @@ void filter_dataview::allow_filter(bool allowed)
 	{
 		div_status_title->decorationStyle().setCursor(Cursor::PointingHand);
 		update_filter();
+		status->resize(30, 30);
 	}
 	else
 	{
 		div_status_title->decorationStyle().setCursor(Cursor::Arrow);
 		status->setImageLink("");
-		status->resize(30, 30);
+		status->resize(5, 30);
 	}
 }
 

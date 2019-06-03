@@ -29,8 +29,10 @@ class widget_dataview : public widget_div
 		int panel_height = 0; // update on resize
 		bool add_allowed = true;
 		bool edit_allowed = true;
+		bool delete_allowed = true;
 		bool line_add_allowed = true; // on a line basis
 		bool line_edit_allowed = true; // on a line basis
+		bool line_delete_allowed = true; // on a line basis
 		bool need_confirm_delete = false;
 		string confirm_delete_message;
 
@@ -54,7 +56,7 @@ class widget_dataview : public widget_div
 		WImage *img_corner_empty, *img_corner_add, *img_corner_cancel, *img_corner_del;
 
 		WStackedWidget *footer;
-		widget_div *footer_empty, *footer_edit, *footer_add, *footer_cancel_valid;
+		widget_div *footer_empty, *footer_edit, *footer_add, *footer_cancel_valid, *footer_custom;
 		// direct access buttons
 		WText *button_valid, *button_cancel;
 
@@ -77,12 +79,16 @@ class widget_dataview : public widget_div
 
 		void allow_add(bool allowed);
 		void allow_edit(bool allowed);
+		void allow_delete(bool allowed);
 		void allow_add_edit(bool allowed);
 		void line_allow_add(bool allowed);
 		void line_allow_edit(bool allowed);
-		bool is_edit_allowed();
+		void line_allow_delete(bool allowed);
 		bool is_add_allowed();
+		bool is_edit_allowed();
+		bool is_delete_allowed();
 		void confirm_delete(bool confim, string message = "");
+		WText* add_footer_custom(string text);
 
 		// signals
 		/* Signal<> selection_change_event; */
