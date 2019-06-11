@@ -35,6 +35,8 @@ class widget_dataview : public widget_div
 		bool line_delete_allowed = true; // on a line basis
 		bool need_confirm_delete = false;
 		string confirm_delete_message;
+		int header_height = 30;
+		int footer_height = 26;
 
 		void on_data_selection_change(int index);
 		void hide_corner();
@@ -135,6 +137,8 @@ class data_table : public widget_div
 		Signal<> show_corner_event;
 		Signal<bool> line_allow_edit;
 		Signal<bool> line_allow_add;
+
+		int computed_width();
 
 		~data_table();
 };

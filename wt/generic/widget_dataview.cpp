@@ -26,7 +26,7 @@ widget_dataview::widget_dataview(bool connect_signals) : widget_div()
 	// header
 	header->layout->setColumnStretch(0, 1);
 	header->setStyleClass("dataview-header");
-	header->resize(WLength::Auto, 30);
+	header->resize(WLength::Auto, header_height);
 
 	title->setPadding(36, Side::Left);
 
@@ -68,29 +68,23 @@ widget_dataview::widget_dataview(bool connect_signals) : widget_div()
 	/****     stack footer    ****/
 
 	footer->setStyleClass("dataview-footer");
-	footer->setHeight(30); // needed for panel_height
+	footer->setHeight(footer_height); // needed for panel_height
 
 	// footer empty
 	footer_empty = footer->addNew<widget_div>();
 	auto text_empty = footer_empty->addLayout<WText>(0, 0, Align::Middle|Align::Center);
-	text_empty->setHeight(30);
+	text_empty->setHeight(footer_height);
 
 	// footer edit
 	footer_edit = footer->addNew<widget_div>();
-	footer_edit->resize(WLength::Auto, 30);
+	footer_edit->resize(WLength::Auto, footer_height);
 	footer_edit->addStyleClass("dataview-footer-button");
-	auto img_edit = footer_edit->addLayout<WImage>(0, 0, Align::Middle|Align::Center);
-	auto text_edit = footer_edit->addLayout<WText>(0, 1, Align::Middle|Align::Center);
-	footer_edit->layout->setColumnStretch(1, 1);
-	// footer edit : widgets
-	img_edit->setImageLink("img/dataview/edit.png");
-	img_edit->setMargin(6, Side::Left);
+	auto text_edit = footer_edit->addLayout<WText>(0, 0, Align::Middle|Align::Center);
 	text_edit->setText("EDITER");
-	text_edit->setPadding(30, Side::Right);
 
 	// footer add
 	footer_add = footer->addNew<widget_div>();
-	footer_add->resize(WLength::Auto, 30);
+	footer_add->resize(WLength::Auto, footer_height);
 	footer_add->addStyleClass("dataview-footer-button");
 	auto img_add = footer_add->addLayout<WImage>(0, 0, Align::Middle|Align::Center);
 	auto text_add = footer_add->addLayout<WText>(0, 1, Align::Middle|Align::Center);
@@ -99,14 +93,13 @@ widget_dataview::widget_dataview(bool connect_signals) : widget_div()
 	img_add->setImageLink("img/dataview/valid.png");
 	img_add->setMargin(6, Side::Left);
 	text_add->setText("VALIDER");
-	text_add->setPadding(30, Side::Right);
 
 	// footer cancel valid
 	footer_cancel_valid = footer->addNew<widget_div>();
-	footer_cancel_valid->resize(WLength::Auto, 30);
+	footer_cancel_valid->resize(WLength::Auto, footer_height);
 	footer_cancel_valid->setStyleClass("dataview-footer-cancel-valid");
-	button_cancel = footer_cancel_valid->addLayout<WText>(0, 0);
-	button_valid = footer_cancel_valid->addLayout<WText>(0, 1);
+	button_cancel = footer_cancel_valid->addLayout<WText>(0, 0, Align::Middle|Align::Center);
+	button_valid = footer_cancel_valid->addLayout<WText>(0, 1, Align::Middle|Align::Center);
 	// footer cancel valid : widgets
 	button_cancel->setText("ANNULER");
 	button_valid->setText("VALIDER");
@@ -115,7 +108,7 @@ widget_dataview::widget_dataview(bool connect_signals) : widget_div()
 
 	// footer custom
 	footer_custom = footer->addNew<widget_div>();
-	footer_custom->resize(WLength::Auto, 30);
+	footer_custom->resize(WLength::Auto, footer_height);
 	footer_custom->addStyleClass("dataview-footer-button");
 
 	// default stack
@@ -481,12 +474,9 @@ void widget_dataview::resize(const WLength& width, const WLength& height)
 	}
 	// compute width, ignore param
 	std::ignore = width;
-	int sum = 0;
-	for (auto &n : data->sizes)
-		sum += n;
 
-	// add border x2
-	sum += 2;
+	// sum + add border x2
+	int sum = data->computed_width() + 2;
 
 	// update panel height
 	panel_height = height.value() - header->height().value() - footer->height().value();
@@ -569,6 +559,7 @@ void data_table::apply_lines_style()
 		{
 			auto current = l->layout->itemAt(pos)->widget();
 			current->setWidth(sizes[pos]);
+			current->setMinimumSize(sizes[pos], WLength::Auto);
 			current->addStyleClass("data-line-content");
 			if (pos != sizes.size() - 1)
 			{
@@ -585,6 +576,14 @@ void data_table::apply_lines_style()
 void data_table::select_first_line()
 {
 	if (lines.size() > 0) on_line_click(0);
+}
+
+int data_table::computed_width()
+{
+	int sum = 0;
+	for (auto &n : sizes)
+		sum += n;
+	return sum;
 }
 
 data_table::~data_table()
