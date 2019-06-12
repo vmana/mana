@@ -97,7 +97,7 @@ vector<string> explode(string separator, string str, bool keep_empty)
 	found = str.find(separator);
 	while (found != string::npos)
 	{
-		if (!(keep_empty && found == 0))
+		if (!(!keep_empty && found == 0)) // don't add if (!keep_empty && found is start of string)
 		{
 			ret.push_back(str.substr(0, found));
 		}
