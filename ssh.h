@@ -25,10 +25,10 @@ class ssh
 		int port;
 		long timeout = 6000; // milliseconds
 		string known_hosts_file = "~/.ssh/known_hosts";
-		string public_key_file = "/root/.ssh/id_rsa.pub";
-		string private_key_file = "/root/.ssh/id_rsa";
+		string public_key_file = "~/.ssh/id_rsa.pub";
+		string private_key_file = "~/.ssh/id_rsa";
 		vector<string> error;
-		
+
 		ssh();
 		static void init();
 		bool connect();
