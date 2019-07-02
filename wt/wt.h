@@ -14,6 +14,7 @@ namespace mana
 		WTime current_time();
 		WDate current_date();
 		WDateTime current_datetime();
+		int week_number(const WDate &d);
 	};
 
 }; // namespace
