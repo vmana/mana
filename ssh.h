@@ -5,7 +5,7 @@
 
 #ifndef NO_MANA_SSH
 #ifndef _WIN32
-#include "libssh/libssh.h"
+#include <libssh/libssh.h>
 #include <libssh/callbacks.h>
 
 namespace mana

@@ -5,6 +5,16 @@
 namespace mana
 {
 
+#if defined LIBSSH_VERSION_MINOR && LIBSSH_VERSION_MINOR < 9
+#define SSH_KNOWN_HOSTS_OK SSH_SERVER_KNOWN_OK
+#define SSH_KNOWN_HOSTS_CHANGED SSH_HOSTS_CHANGED
+#define SSH_KNOWN_HOSTS_OK SSH_SERVER_KNOWN_OK
+#define SSH_KNOWN_HOSTS_OTHER SSH_SERVER_FOUND_OTHER
+#define SSH_KNOWN_HOSTS_NOT_FOUND SSH_SERVER_FILE_NOT_FOUND
+#define SSH_KNOWN_HOSTS_UNKNOWN SSH_SERVER_NOT_KNOWN
+#define SSH_KNOWN_HOSTS_ERROR SSH_SERVER_ERROR
+#endif
+
 ssh::ssh()
 {
 	session = NULL;
@@ -27,7 +37,11 @@ ssh::~ssh()
 
 bool ssh::verify_knownhost()
 {
+#if defined LIBSSH_VERSION_MINOR && LIBSSH_VERSION_MINOR >= 9
 	int state = ssh_session_is_known_server(session);
+#else
+	int state = ssh_is_server_known(session);
+#endif
 
 	switch (state)
 	{
@@ -41,7 +55,12 @@ bool ssh::verify_knownhost()
 			return false;
 		case SSH_KNOWN_HOSTS_NOT_FOUND :
 		case SSH_KNOWN_HOSTS_UNKNOWN :
+
+#if defined LIBSSH_VERSION_MINOR && LIBSSH_VERSION_MINOR >= 9
 			if (ssh_session_update_known_hosts(session) < 0)
+#else
+			if (ssh_write_knownhost(session) < 0)
+#endif
 			{
 				error.push_back("ssh_write_knownhost failed");
 				return false;
