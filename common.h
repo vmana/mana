@@ -134,6 +134,8 @@ namespace mana
 			static string encoding(const string &value, const string &src_encode, const string &dst_encode);
 			static string iso88591_utf8(const string &str);
 			static string utf8_iso88591(const string &str);
+			static string hex_char(const char &value);
+			static string hex_string(const string &str, const string &prefix = "");
 	};
 
 #ifndef NO_REGEX

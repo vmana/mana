@@ -932,6 +932,24 @@ string convert::utf8_iso88591(const string &str)
 #endif
 }
 
+string convert::hex_char(const char &value)
+{
+	string ret;
+	stringstream ss;
+	ss << hex << (unsigned int)value;
+	ret = ss.str();
+	return ret;
+}
+
+string convert::hex_string(const string &str, const string &prefix)
+{
+	string ret;
+	stringstream ss;
+	for (int i = 0; i < str.size(); i++)
+		ss << dec << prefix << hex << (unsigned int)str[i];
+	ret = ss.str();
+	return ret;
+}
 
 /********	Regexp	********/
 

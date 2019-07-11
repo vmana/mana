@@ -27,27 +27,27 @@ ssh::~ssh()
 
 bool ssh::verify_knownhost()
 {
-	int state = ssh_is_server_known(session);
+	int state = ssh_session_is_known_server(session);
 
 	switch (state)
 	{
-		case SSH_SERVER_KNOWN_OK :
+		case SSH_KNOWN_HOSTS_OK :
 			break; /* ok */
-		case SSH_SERVER_KNOWN_CHANGED :
+		case SSH_KNOWN_HOSTS_CHANGED :
 			error.push_back("server known " + host + " has changed");
 			return false;
-		case SSH_SERVER_FOUND_OTHER :
+		case SSH_KNOWN_HOSTS_OTHER :
 			error.push_back("host key for this server was not found but another type of key exists");
 			return false;
-		case SSH_SERVER_FILE_NOT_FOUND :
-		case SSH_SERVER_NOT_KNOWN :
-			if (ssh_write_knownhost(session) < 0)
+		case SSH_KNOWN_HOSTS_NOT_FOUND :
+		case SSH_KNOWN_HOSTS_UNKNOWN :
+			if (ssh_session_update_known_hosts(session) < 0)
 			{
 				error.push_back("ssh_write_knownhost failed");
 				return false;
 			}
 			break;
-		case SSH_SERVER_ERROR :
+		case SSH_KNOWN_HOSTS_ERROR :
 			error.push_back(string(ssh_get_error(session)));
 			return false;
 	}
