@@ -13,6 +13,8 @@ namespace mana
 #define SSH_KNOWN_HOSTS_NOT_FOUND SSH_SERVER_FILE_NOT_FOUND
 #define SSH_KNOWN_HOSTS_UNKNOWN SSH_SERVER_NOT_KNOWN
 #define SSH_KNOWN_HOSTS_ERROR SSH_SERVER_ERROR
+#define ssh_session_is_known_server ssh_is_server_known
+#define ssh_session_update_known_hosts ssh_write_knownhost
 #endif
 
 ssh::ssh()
@@ -37,11 +39,7 @@ ssh::~ssh()
 
 bool ssh::verify_knownhost()
 {
-#if defined LIBSSH_VERSION_MINOR && LIBSSH_VERSION_MINOR >= 9
 	int state = ssh_session_is_known_server(session);
-#else
-	int state = ssh_is_server_known(session);
-#endif
 
 	switch (state)
 	{
@@ -56,11 +54,7 @@ bool ssh::verify_knownhost()
 		case SSH_KNOWN_HOSTS_NOT_FOUND :
 		case SSH_KNOWN_HOSTS_UNKNOWN :
 
-#if defined LIBSSH_VERSION_MINOR && LIBSSH_VERSION_MINOR >= 9
 			if (ssh_session_update_known_hosts(session) < 0)
-#else
-			if (ssh_write_knownhost(session) < 0)
-#endif
 			{
 				error.push_back("ssh_write_knownhost failed");
 				return false;
