@@ -390,6 +390,7 @@ string database::purge(string &S)
 	{
 		case mssql :
 			ret = str_replace("'", "''", ret);
+			ret = str_replace("%", "%%", ret);
 			break;
 		case mysql :
 			break;
