@@ -18,4 +18,12 @@ void widget_barcode::on_key_pressed(WKeyEvent k)
 	}
 }
 
+void widget_barcode::set_barcode(string barcode)
+{
+	this->barcode = barcode;
+	this->setPlaceholderText(barcode);
+	this->setText("");
+	/* barcode_change_event.emit(); */
+}
+
 } // namespace

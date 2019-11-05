@@ -18,6 +18,7 @@ class widget_barcode : public WLineEdit
 	public:
 		string barcode = "";
 		widget_barcode();
+		void set_barcode(string barcode);
 
 		Signal<> barcode_change_event;
 };
