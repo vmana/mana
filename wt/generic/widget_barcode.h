@@ -13,11 +13,13 @@ using namespace Wt;
 class widget_barcode : public WLineEdit
 {
 	protected:
-		bool need_erasure = false;
 		void on_key_pressed(WKeyEvent k);
 
 	public:
+		string barcode = "";
 		widget_barcode();
+
+		Signal<> barcode_change_event;
 };
 
 } // namespace
