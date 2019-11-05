@@ -11,6 +11,7 @@ SOURCES += \
 	wt/generic/widget_signature.cpp\
 	wt/generic/widget_dataview.cpp\
 	wt/generic/widget_template.cpp\
+	wt/generic/widget_barcode.cpp\
 
 HEADERS  += \
 	wt/wt.h\
@@ -25,3 +26,4 @@ HEADERS  += \
 	wt/generic/widget_signature.h\
 	wt/generic/widget_dataview.h\
 	wt/generic/widget_template.h\
+	wt/generic/widget_barcode.h\
