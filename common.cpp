@@ -1,5 +1,6 @@
 #include "common.h"
 #include <iconv.h>
+#include <iomanip>
 #include <boost/locale.hpp>
 
 namespace mana
@@ -946,7 +947,9 @@ string convert::hex_string(const string &str, const string &prefix)
 	string ret;
 	stringstream ss;
 	for (int i = 0; i < str.size(); i++)
-		ss << dec << prefix << hex << (unsigned int)str[i];
+	{
+		ss << dec << prefix << hex << setw(2) << setfill('0') << (int)(unsigned char)str[i];
+	}
 	ret = ss.str();
 	return ret;
 }
