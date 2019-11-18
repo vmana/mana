@@ -15,8 +15,8 @@
 #endif
 
 #define default_line_size 4096
-#define debug_line(s) cout << "******  debug on " << __FILE__ << " function " << __PRETTY_FUNCTION__ << " line " << __LINE__ << " : " << s << endl;
-#define cpp_line(s) string("file ") + __FILE__ + string(" function ") + __PRETTY_FUNCTION__ + string(" line ") + mana::convert::int_string(__LINE__) + string(" : ") + string(s)
+#define debug_line(s) cout << "*** [" << system::date() << "] " << __FILE__ << " function " << __PRETTY_FUNCTION__ << " line " << __LINE__ << " : " << s << endl;
+#define cpp_line(s) string("file ") + __FILE__ + string(" @ ") + __PRETTY_FUNCTION__ + string(" line ") + mana::convert::int_string(__LINE__) + string(" : ") + string(s)
 
 namespace mana
 {
