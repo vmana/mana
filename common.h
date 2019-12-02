@@ -227,6 +227,7 @@ vector<T> remove(vector<T> &L, T value)
 template<class T>
 void print_r(vector<T> &V, string *res)
 {
+	if (V.size() == 0) return;
 	if (res) *res += "{ ";
 	else cout << "{ ";
 
