@@ -36,6 +36,7 @@ class http
 
 	public :
 		int timeout = 10;
+		int request_timeout = 120;
 		string fieldname_upload; // default : file
 		string useragent;
 		bool follow_location = false;
