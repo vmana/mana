@@ -205,7 +205,7 @@ void http::prepare_curl(string url)
 	#ifndef NO_MANA_HTTP
 	curl_easy_setopt(curl, CURLOPT_URL, (char*)url.c_str());
 	curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
-	curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
+	curl_easy_setopt(curl, CURLOPT_TIMEOUT, request_timeout);
 	curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1); // multi-threading issues
 	curl_easy_setopt(curl, CURLOPT_USERAGENT, mana_useragent);
 	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
