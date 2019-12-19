@@ -498,6 +498,30 @@ data_table::data_table()
 	div_lines = addLayout<widget_div>(1, 0);
 }
 
+unique_ptr<widget_div> data_table::generate_add_view()
+{
+	auto ret = make_unique<widget_div>();
+	return ret;
+}
+
+unique_ptr<widget_div> data_table::generate_edit_view()
+{
+	auto ret = make_unique<widget_div>();
+	return ret;
+}
+
+void data_table::on_add_event()
+{
+}
+
+void data_table::on_edit_event()
+{
+}
+
+void data_table::on_del_event()
+{
+}
+
 void data_table::on_line_click(int index)
 {
 	// if selected_index != -1, remove css from previous

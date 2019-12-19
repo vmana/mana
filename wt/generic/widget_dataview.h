@@ -118,12 +118,12 @@ class data_table : public widget_div
 
 		virtual void generate_titles() = 0;
 		virtual void generate_lines() = 0;
-		virtual unique_ptr<widget_div> generate_add_view() = 0;
-		virtual unique_ptr<widget_div> generate_edit_view() = 0;
+		virtual unique_ptr<widget_div> generate_add_view();
+		virtual unique_ptr<widget_div> generate_edit_view();
 
-		virtual void on_add_event() = 0;
-		virtual void on_edit_event() = 0;
-		virtual void on_del_event() = 0;
+		virtual void on_add_event();
+		virtual void on_edit_event();
+		virtual void on_del_event();
 
 		virtual void on_line_click(int index);
 		void select_none(); // remove selection if any
