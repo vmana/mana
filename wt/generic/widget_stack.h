@@ -1,8 +1,8 @@
 #ifndef widget_stack_H
 #define widget_stack_H
 
-#include <Wt/WStackedWidget.h>
 #include "mana.h"
+#include <Wt/WStackedWidget.h>
 
 namespace mana
 {

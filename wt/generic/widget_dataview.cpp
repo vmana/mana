@@ -171,6 +171,8 @@ void widget_dataview::allow_vertical_scroll(bool allow)
 
 void widget_dataview::on_data_selection_change(int index)
 {
+	if (footer->currentWidget() == footer_custom) return;
+
 	if (index == -1)
 	{
 		footer->setCurrentWidget(footer_empty);
