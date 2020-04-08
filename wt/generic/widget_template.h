@@ -7,6 +7,7 @@ namespace mana
 {
 
 using namespace Wt;
+using namespace std;
 
 class widget_template : public WTemplate
 {
@@ -14,6 +15,8 @@ class widget_template : public WTemplate
 		widget_template();
 		widget_template(const WString &text);
 		widget_template(const widget_template &T);
+
+		static unique_ptr<widget_template> load(string filename);
 		/* widget_template operator+(const widget_template &T); */
 		widget_template operator+=(std::unique_ptr<widget_template> &T);
 		~widget_template();

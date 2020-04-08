@@ -52,7 +52,7 @@ class yaml
 
 		// search path by regex into format using $1 $2... which is then searched again
 		// example: ("(.*)/ip:.*" , "$1.*") get the parents which have the key "ip"
-		yaml double_match(string reg, string format);
+		yaml match(string reg, string format);
 
 		// replace matched values by something else, which can contain $1 $2 ...
 		// example: match_replace("(aaa/)(.*)", "$1bbb/$2"); insert a new level, aaa/xxx:y => aaa/bbb/xxx:y

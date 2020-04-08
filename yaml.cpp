@@ -429,7 +429,7 @@ yaml yaml::match(string reg)
 	return ret;
 }
 
-yaml yaml::double_match(string reg, string format)
+yaml yaml::match(string reg, string format)
 {
 	yaml ret;
 
