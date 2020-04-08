@@ -46,13 +46,31 @@ class yaml
 		void remove_comments();
 		string generate(bool add_comments = true);
 
-		yaml search(string path); // search by regex
+		// search by regex and return a yaml subtree
+		// example: ".*/ip:.*" return all lines which contain the key "ip"
+		yaml match(string reg);
+
 		// search path by regex into format using $1 $2... which is then searched again
-		// exemple ("(.*)/ip:.*" , "$1.*") get the parents which have the key "ip"
-		yaml search(string path, string format);
-		yaml replace(string path, string format);
-		vector<string> value(string path, string format, bool duplicate = false);
-		string single_value(string path, string format);
+		// example: ("(.*)/ip:.*" , "$1.*") get the parents which have the key "ip"
+		yaml double_match(string reg, string format);
+
+		// replace matched values by something else, which can contain $1 $2 ...
+		// example: match_replace("(aaa/)(.*)", "$1bbb/$2"); insert a new level, aaa/xxx:y => aaa/bbb/xxx:y
+		yaml match_replace(string reg, string format);
+
+		// search and return found strings
+		// duplicate try to remove any duplicates found in results
+		// example: search(".*/ip:(.*)", "$1") return all values for the key "ip"
+		// example: search("(.*)/aaa/.*", "$1") return all direct parent of the node "aaa"
+		vector<string> search(string reg, string format, bool duplicate = false);
+
+		// search and return the first found string
+		// example: search(".*/ip:(.*)", "$1") return the first value for the key "ip"
+		string search_first(string reg, string format);
+
+		// search a value for a path.
+		// return "" if not found
+		string value(string path);
 
 		yaml operator+(const yaml_data &A);
 		yaml operator+=(const yaml_data &A);

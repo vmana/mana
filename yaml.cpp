@@ -417,19 +417,19 @@ string yaml::generate(bool add_comments)
 	return ret;
 }
 
-yaml yaml::search(string path)
+yaml yaml::match(string reg)
 {
 	yaml ret;
 
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (!regexp::match(data[i].path, path)) continue; // no match
+		if (!regexp::match(data[i].path, reg)) continue; // no match
 		ret = ret + data[i];
 	}
 	return ret;
 }
 
-yaml yaml::search(string path, string format)
+yaml yaml::double_match(string reg, string format)
 {
 	yaml ret;
 
@@ -437,8 +437,8 @@ yaml yaml::search(string path, string format)
 
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (!regexp::match(data[i].path, path)) continue; // no match
-		string result = regexp::search(data[i].path, path, format);
+		if (!regexp::match(data[i].path, reg)) continue; // no match
+		string result = regexp::search(data[i].path, reg, format);
 		res.push_back(result);
 	}
 
@@ -460,34 +460,34 @@ yaml yaml::search(string path, string format)
 	return ret;
 }
 
-yaml yaml::replace(string path, string format)
+yaml yaml::match_replace(string reg, string format)
 {
 	yaml ret;
 
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (!regexp::match(data[i].path, path))
+		if (!regexp::match(data[i].path, reg))
 		{
 			// no match, add it without any change
 			// push_back to keep the structure intact
 			ret.data.push_back(data[i]);
 			continue;
 		}
-		string result = regexp::search(data[i].path, path, format);
+		string result = regexp::search(data[i].path, reg, format);
 		ret.data.push_back(yaml_data(result));
 	}
 
 	return ret;
 }
 
-vector<string> yaml::value(string path, string format, bool duplicate)
+vector<string> yaml::search(string reg, string format, bool duplicate)
 {
 	vector<string> ret;
 
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (!regexp::match(data[i].path, path)) continue; // no match
-		string result = regexp::search(data[i].path, path, format);
+		if (!regexp::match(data[i].path, reg)) continue; // no match
+		string result = regexp::search(data[i].path, reg, format);
 		ret.push_back(result);
 	}
 
@@ -495,15 +495,20 @@ vector<string> yaml::value(string path, string format, bool duplicate)
 	return ret;
 }
 
-string yaml::single_value(string path, string format)
+string yaml::search_first(string reg, string format)
 {
 	for (int i = 0; i < data.size(); ++i)
 	{
-		if (!regexp::match(data[i].path, path)) continue; // no match
+		if (!regexp::match(data[i].path, reg)) continue; // no match
 		// return first match
-		return regexp::search(data[i].path, path, format);
+		return regexp::search(data[i].path, reg, format);
 	}
 	return "";
+}
+
+string yaml::value(string path)
+{
+	return search_first(path + ":(.*)", "$1");
 }
 
 yaml yaml::operator+(const yaml_data &A)
