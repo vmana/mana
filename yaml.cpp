@@ -511,6 +511,11 @@ string yaml::value(string path)
 	return search_first(path + ":(.*)", "$1");
 }
 
+vector<string> yaml::values(string path)
+{
+	return search(path + "/-(.*):$", "$1");
+}
+
 yaml yaml::operator+(const yaml_data &A)
 {
 	yaml ret = *this;

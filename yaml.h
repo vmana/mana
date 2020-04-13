@@ -72,6 +72,10 @@ class yaml
 		// return "" if not found
 		string value(string path);
 
+		// search a list of value for a path.
+		// return empty list if not found
+		vector<string> values(string path);
+
 		yaml operator+(const yaml_data &A);
 		yaml operator+=(const yaml_data &A);
 		yaml operator+(const yaml &A);
