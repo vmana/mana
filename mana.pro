@@ -53,6 +53,7 @@ include(project.pro)
 
 SOURCES += \
 	common.cpp \
+	fuzzy.cpp \
 	daemon.cpp \
 	server.cpp \
 	http.cpp \
@@ -130,6 +131,7 @@ SOURCES += \
 
 HEADERS += mana.h\
 	common.h \
+	fuzzy.h \
 	daemon.h \
 	http.h \
 	server.h \

@@ -252,6 +252,7 @@ string file::read_content() { return read_content(path); }
 bool file::writeline(string content)  { return writeline(handle, content); }
 bool file::write_content(string &content)  { return write_content(path, content); }
 bool file::append(string content) { return append(path, content); }
+vector<string> file::read_vector() { return read_vector(path); }
 bool file::read_vector(vector<string> *V) { return read_vector(path, V); }
 bool file::write_vector(vector<string> *V) { return write_vector(path, V); }
 
@@ -491,6 +492,13 @@ bool file::append(string filename, string content)
 	uint size = fwrite((char*)content.c_str(), 1, content.size(), f);
 	fclose(f);
 	ret = (size == content.size());
+	return ret;
+}
+
+vector<string> file::read_vector(string filename)
+{
+	vector<string> ret;
+	read_vector(filename, &ret);
 	return ret;
 }
 

@@ -54,6 +54,7 @@ namespace mana
 			bool writeline(string content);
 			bool write_content(string &content);
 			bool append(string content);
+			vector<string> read_vector();
 			bool read_vector(vector<string> *V);
 			bool write_vector(vector<string> *V);
 
@@ -79,6 +80,7 @@ namespace mana
 			static bool writeline(FILE *f, string content);
 			static bool write_content(string filename, string &content);
 			static bool append(string filename, string content);
+			static vector<string> read_vector(string filename);
 			static bool read_vector(string filename, vector<string> *V);
 			static bool write_vector(string filename, vector<string> *V);
 
