@@ -47,6 +47,7 @@ class fuzzy
 		void set_data(vector<string> data);
 		string search(string query);
 		vector<fuzzy_choice> search_all(string query);
+		vector<fuzzy_choice> search_all(string query, int maximum);
 		void print();
 };
 

@@ -53,6 +53,24 @@ vector<fuzzy_choice> fuzzy::search_all(string query)
 	return ret;
 }
 
+vector<fuzzy_choice> fuzzy::search_all(string query, int maximum)
+{
+	this->query = query;
+
+	vector<fuzzy_choice> ret;
+	filter_choices();
+
+	// fill ret based on choices
+	for (int i = 0; i < maximum && i < choices.size(); i++)
+	{
+		auto &c = choices[i];
+		if (c.score == 0) break;
+		ret.push_back(c);
+	}
+
+	return ret;
+}
+
 void fuzzy::print()
 {
 	for (auto &c : choices)
