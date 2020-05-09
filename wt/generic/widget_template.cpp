@@ -18,6 +18,11 @@ widget_template::widget_template(const widget_template &T)
 	std::ignore = T;
 }
 
+void widget_template::set_text(const WString &text)
+{
+	setTemplateText(text, TextFormat::UnsafeXHTML);
+}
+
 unique_ptr<widget_template> widget_template::load(string filename)
 {
 	string tpl = file::read_content(filename);
