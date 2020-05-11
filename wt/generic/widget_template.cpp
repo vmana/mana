@@ -20,6 +20,7 @@ widget_template::widget_template(const widget_template &T)
 
 void widget_template::set_text(const WString &text)
 {
+	clear();
 	setTemplateText(text, TextFormat::UnsafeXHTML);
 }
 
