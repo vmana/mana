@@ -1,5 +1,7 @@
 #include "imap.h"
 
+#define mana_error_imap				"mana.error : unable to perform an imap"
+
 imap::imap()
 {
 }

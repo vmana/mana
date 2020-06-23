@@ -1,5 +1,11 @@
 #include "http.h"
 
+#define mana_useragent	"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:21.0) Gecko/20100101 Firefox/21.0"
+// Errors
+#define mana_error_http_get			"mana.error : unable to perform an url get"
+#define mana_error_http_upload		"mana.error : unable to perform an url upload"
+#define mana_error_file_open		"mana.error : unable to open file "
+
 namespace mana
 {
 
