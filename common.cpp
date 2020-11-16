@@ -1017,15 +1017,9 @@ string regexp::search(string str, string reg, string format)
 
 #endif
 
-
-
 } // namespace
 
-int load_so(int i)
-{
-	return i+1;
-}
-
-
-
-
+/* int load_so(int i) */
+/* { */
+/* 	return i+1; */
+/* } */

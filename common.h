@@ -261,45 +261,10 @@ void print_r(vector<vector<T> > &V, string *res)
 	}
 }
 
-/*
-template<class T>
-T vectorRand(vector<T> &L)
-{
-	T ret;
-	if (L.size() <= 0) return ret; // error
-	srand((unsigned int) (time(NULL) + getpid() + pthread_self()));
-	int value = rand() % L.size();
-	ret = L[value];
-	return ret;
-}
-
-
-
-template<class T>
-vector<T> vectorRemove(vector<T> &L, vector<T> &L2)
-{
-	vector<T> ret;
-	for (int i = 0; i < L.size(); i++)
-	{
-		bool toadd = true;
-		for (int i2 = 0; i2 < L2.size(); i2++)
-		{
-			if (L[i] == L2[i2])
-			{
-				toadd = false;
-				break;
-			}
-		}
-		if (toadd) ret.push_back(L[i]);
-	}
-	return ret;
-}
-
-*/
 } // namespace
 
-extern "C"
-{
-int load_so(int i);
-}
+/* extern "C" */
+/* { */
+/* int load_so(int i); */
+/* } */
 #endif // COMMON_H
