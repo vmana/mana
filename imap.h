@@ -14,7 +14,8 @@ class imap
 {
 	protected:
 		static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream);
-		void prepare_curl(CURL *curl, string &url);
+		void prepare_curl(CURL *curl, string url);
+
 	public:
 		vector<string> error;
 
@@ -22,6 +23,7 @@ class imap
 		string user;
 		string pass;
 		string path;
+		bool ssl = false;
 
 		imap();
 		vector<string> list();
@@ -30,7 +32,7 @@ class imap
 		string subject(int uid);
 		string from(int uid);
 		string text(int uid);
-		// if delay is set, do not close uppon completion
+		// if delay is set, do not close upon completion
 		bool move(string src, string dst, int uid, bool delay = false);
 		bool close();
 

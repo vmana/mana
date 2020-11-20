@@ -6,11 +6,27 @@ imap::imap()
 {
 }
 
-void imap::prepare_curl(CURL *curl, string &url)
+void imap::prepare_curl(CURL *curl, string url)
 {
+	string base_url;
+	if (ssl)
+	{
+		base_url = "imaps://" + server + "/";
+		if (path != "") base_url += path + "/";
+		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+	}
+	else
+	{
+		base_url = "imap://" + server + "/";
+		if (path != "") base_url += path + "/";
+	}
+
+	string final_url = base_url + url;
+
 	curl_easy_setopt(curl, CURLOPT_USERNAME, user.c_str());
 	curl_easy_setopt(curl, CURLOPT_PASSWORD, pass.c_str());
-	curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+	curl_easy_setopt(curl, CURLOPT_URL, final_url.c_str());
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, imap::write_data);
 }
 
@@ -23,11 +39,7 @@ vector<string> imap::list()
 	curl = curl_easy_init();
 	if (curl)
 	{
-
-		// correct path if it doesn't start with "/"
-		if (substr(path, 0, 1) != "/") path = "/" + path;
-		string url = "imap://" + server + path;
-		prepare_curl(curl, url);
+		prepare_curl(curl, "");
 
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &res);
 		CURLcode ret_code = curl_easy_perform(curl);
@@ -60,11 +72,7 @@ vector<int> imap::search(string S)
 	curl = curl_easy_init();
 	if (curl)
 	{
-		// correct path if it doesn't start with "/"
-		if (substr(path, 0, 1) != "/") path = "/" + path;
-		string url = "imap://" + server + path;
-
-		prepare_curl(curl, url);
+		prepare_curl(curl, "");
 
 		curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, ("SEARCH " + S).c_str());
 
@@ -108,11 +116,7 @@ string imap::fetch(int uid)
 	curl = curl_easy_init();
 	if (curl)
 	{
-		// correct path if it doesn't start with "/"
-		if (substr(path, 0, 1) != "/") path = "/" + path;
-		string url = "imap://" + server + path + "/;UID=" + convert::int_string(uid);
-
-		prepare_curl(curl, url);
+		prepare_curl(curl, ";UID=" + convert::int_string(uid));
 
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ret);
 		CURLcode ret_code = curl_easy_perform(curl);
@@ -137,11 +141,7 @@ string imap::subject(int uid)
 	curl = curl_easy_init();
 	if (curl)
 	{
-		// correct path if it doesn't start with "/"
-		if (substr(path, 0, 1) != "/") path = "/" + path;
-		string url = "imap://" + server + path + "/;UID=" + convert::int_string(uid) + ";SECTION=HEADER.FIELDS%20(SUBJECT)";
-
-		prepare_curl(curl, url);
+		prepare_curl(curl, ";UID=" + convert::int_string(uid) + ";SECTION=HEADER.FIELDS%20(SUBJECT)");
 
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &res);
 		CURLcode ret_code = curl_easy_perform(curl);
@@ -184,11 +184,7 @@ string imap::from(int uid)
 	curl = curl_easy_init();
 	if (curl)
 	{
-		// correct path if it doesn't start with "/"
-		if (substr(path, 0, 1) != "/") path = "/" + path;
-		string url = "imap://" + server + path + "/;UID=" + convert::int_string(uid) + ";SECTION=HEADER.FIELDS%20(FROM)";
-
-		prepare_curl(curl, url);
+		prepare_curl(curl, ";UID=" + convert::int_string(uid) + ";SECTION=HEADER.FIELDS%20(FROM)");
 
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ret);
 		CURLcode ret_code = curl_easy_perform(curl);
@@ -218,11 +214,7 @@ string imap::text(int uid)
 	curl = curl_easy_init();
 	if (curl)
 	{
-		// correct path if it doesn't start with "/"
-		if (substr(path, 0, 1) != "/") path = "/" + path;
-		string url = "imap://" + server + path + "/;UID=" + convert::int_string(uid) + ";SECTION=TEXT";
-
-		prepare_curl(curl, url);
+		prepare_curl(curl, ";UID=" + convert::int_string(uid) + ";SECTION=TEXT");
 
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ret);
 		CURLcode ret_code = curl_easy_perform(curl);
@@ -250,9 +242,7 @@ vector<string> imap::header_fields(int uid, vector<string> fields)
 	curl = curl_easy_init();
 	if (curl)
 	{
-		// correct path if it doesn't start with "/"
-		if (substr(path, 0, 1) != "/") path = "/" + path;
-		string url = "imap://" + server + path + "/;UID=" + convert::int_string(uid) + ";SECTION=HEADER.FIELDS%20(";
+		string url = ";UID=" + convert::int_string(uid) + ";SECTION=HEADER.FIELDS%20(";
 		// add each field + %20
 		for (auto field : fields)
 			url += field + "%20";
@@ -306,7 +296,7 @@ bool imap::move(string src, string dst, int uid, bool delay)
 	{
 		// correct path if it doesn't start with "/"
 		if (substr(src, 0, 1) != "/") src = "/" + src;
-		string url = "imap://" + server + src + "/;UID=" + convert::int_string(uid);
+		string url = src + "/;UID=" + convert::int_string(uid);
 		prepare_curl(curl, url);
 
 		string request = "COPY " + convert::int_string(uid) + " " + dst;
@@ -360,11 +350,7 @@ bool imap::close()
 	curl = curl_easy_init();
 	if (curl)
 	{
-		// correct path if it doesn't start with "/"
-		if (substr(path, 0, 1) != "/") path = "/" + path;
-		string url = "imap://" + server + path + "/";
-
-		prepare_curl(curl, url);
+		prepare_curl(curl, "");
 
 		curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "CLOSE");
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ret);
