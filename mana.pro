@@ -1,9 +1,13 @@
 QT -= gui core
 QT += sql
-CONFIG += c++14
+CONFIG += c++17
 CONFIG -= warn_off warn_on
 
 QMAKE_CXXFLAGS += -Wno-sign-compare -Wno-deprecated -Wno-write-strings -Wno-format-security -Wno-unused-result -Wno-format-truncation
+QMAKE_CXXFLAGS_RELEASE -= -O2
+QMAKE_CXXFLAGS_RELEASE += -O3
+QMAKE_CFLAGS_RELEASE -= -O2
+QMAKE_CFLAGS_RELEASE += -O3
 
 linux-g++* {
 	CONFIG -= qt
@@ -21,27 +25,6 @@ android-g++ {
 	LIBS += -L/dalaran/mana/lib/android/ -lcurl
 	PRE_TARGETDEPS += /dalaran/mana/lib/android/libcurl.a
 }
-
-#QT -= core gui
-#CONFIG += c++14
-#CONFIG -= warn_off warn_on
-
-#QMAKE_CXXFLAGS += -Wno-deprecated -Wno-write-strings -Wno-unused-result -Wno-format-security
-#QMAKE_CXXFLAGS += -static -static-libgcc -static-libstdc++
-#QMAKE_CFLAGS += -static -static-libgcc
-
-#linux-g++* {
-#	LIBS += -L/dalaran/mana/out/ -lmana
-#	PRE_TARGETDEPS += /dalaran/mana/out/libmana.a
-#	LIBS += -lcurl -lssh -lssh_threads
-#	LIBS += -Wl,-Bstatic -lboost_regex -Wl,-Bdynamic
-#}
-
-#INCLUDEPATH += /dalaran/mana/mana
-#DEPENDPATH += /dalaran/mana/mana
-#DESTDIR     = ../out/
-#OBJECTS_DIR = ../out/
-#MOC_DIR = ../out/
 
 TARGET = mana
 TEMPLATE = lib
