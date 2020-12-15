@@ -2,7 +2,6 @@ SOURCES += \
 	wt/wt.cpp\
 	wt/generic/widget_stack.cpp\
 	wt/generic/widget_suggestion.cpp\
-	wt/generic/widget_common.cpp\
 	wt/generic/void_layout.cpp\
 	wt/generic/widget_div.cpp\
 	wt/generic/widget_panel.cpp\
@@ -12,12 +11,12 @@ SOURCES += \
 	wt/generic/widget_dataview.cpp\
 	wt/generic/widget_template.cpp\
 	wt/generic/widget_barcode.cpp\
+	wt/generic/widget_checkbox.cpp\
 
 HEADERS  += \
 	wt/wt.h\
 	wt/generic/widget_stack.h\
 	wt/generic/widget_suggestion.h\
-	wt/generic/widget_common.h\
 	wt/generic/void_layout.h\
 	wt/generic/widget_div.h\
 	wt/generic/widget_panel.h\
@@ -27,3 +26,5 @@ HEADERS  += \
 	wt/generic/widget_dataview.h\
 	wt/generic/widget_template.h\
 	wt/generic/widget_barcode.h\
+	wt/generic/widget_checkbox.h\
+	wt/generic/widget_select.h\
