@@ -47,6 +47,27 @@ class widget_select : public WComboBox
 			} catch (const bad_any_cast &e) {}
 			return ret;
 		}
+
+		void setCurrentIndex(int i)
+		{
+			WComboBox::setCurrentIndex(i);
+		}
+
+		void setCurrentIndex(T v)
+		{
+			for (int i = 0; i < model->rowCount(); i++)
+			{
+				try
+				{
+					auto vi = any_cast<T>(model->data(model->index(i, 0), Wt::ItemDataRole::User));
+					if (v == vi)
+					{
+						this->setCurrentIndex(i);
+						break;
+					}
+				} catch (const bad_any_cast &e) {}
+			}
+		}
 };
 
 } // namespace
