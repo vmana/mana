@@ -1017,6 +1017,39 @@ string regexp::search(string str, string reg, string format)
 
 #endif
 
+#ifdef BOOST_REGEX
+string regexp::search(boost::regex reg, string format);
+{
+	return search(S, reg, format);
+}
+string regexp::search(string str, boost::regex reg, string format)
+{
+	string ret = "";
+	try
+	{
+		if (!match(str, reg)) return ret;
+		ret = boost::regex_replace(str, reg, format);
+	}
+	catch (...) { cout << "regexp::search exception : " << str << "::" << reg << "::" << format << endl; }
+	return ret;
+}
+#else
+string regexp::search(std::regex reg, string format)
+{
+	return search(S, reg, format);
+}
+string regexp::search(string str, std::regex reg, string format)
+{
+	string ret = "";
+	try
+	{
+		ret = std::regex_replace(str, reg, format);
+	}
+	catch (...) { cout << "regexp::search exception : " << str << "::" << reg.basic << "::" << format << endl; }
+	return ret;
+}
+#endif
+
 } // namespace
 
 /* int load_so(int i) */

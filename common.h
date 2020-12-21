@@ -156,6 +156,13 @@ namespace mana
 			// output : found:b
 			string search(string reg, string format);
 			static string search(string str, string reg, string format);
+			#ifdef BOOST_REGEX
+			string search(boost::regex reg, string format);
+			static string search(string str, boost::regex reg, string format);
+			#else
+			string search(std::regex reg, string format);
+			static string search(string str, std::regex reg, string format);
+			#endif
 	};
 
 #endif
