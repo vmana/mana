@@ -19,6 +19,7 @@ class imap
 	public:
 		vector<string> error;
 
+		bool verbose = false;
 		string server;
 		string user;
 		string pass;

@@ -28,6 +28,8 @@ void imap::prepare_curl(CURL *curl, string url)
 	curl_easy_setopt(curl, CURLOPT_PASSWORD, pass.c_str());
 	curl_easy_setopt(curl, CURLOPT_URL, final_url.c_str());
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, imap::write_data);
+
+	if (verbose) curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 }
 
 vector<string> imap::list()
