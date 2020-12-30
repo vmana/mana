@@ -178,6 +178,7 @@ namespace mana
 	vector<string> explode(string separator, string str, bool keep_empty = false);
 	string str_replace(const string &search, const string &replace, const string &S);
 	int common(const string &A, const string &B);
+	int strlen_utf8(const string &str);
 	string randstring(int n = 10);
 	string rand_int_string(int n = 4);
 
