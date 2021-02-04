@@ -76,7 +76,7 @@ vector<int> imap::search(string S)
 	{
 		prepare_curl(curl, "");
 
-		curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, ("SEARCH " + S).c_str());
+		curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, ("UID SEARCH " + S).c_str());
 
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &res);
 		CURLcode ret_code = curl_easy_perform(curl);
