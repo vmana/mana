@@ -43,20 +43,20 @@ widget_dataview::widget_dataview(bool connect_signals) : widget_div()
 
 	// corner empty
 	img_corner_empty = button_corner->addNew<WImage>();
-	img_corner_empty->setImageLink("img/dataview/empty.png");
+	img_corner_empty->setImageLink("../img/dataview/empty.png");
 	// corner add
 	img_corner_add = button_corner->addNew<WImage>();
-	img_corner_add->setImageLink("img/dataview/plus.png");
+	img_corner_add->setImageLink("../img/dataview/plus.png");
 	img_corner_add->setToolTip("Ajouter un nouvel élément");
 	img_corner_add->decorationStyle().setCursor(Cursor::PointingHand);
 	// corner cancel
 	img_corner_cancel = button_corner->addNew<WImage>();
-	img_corner_cancel->setImageLink("img/dataview/minus.png");
+	img_corner_cancel->setImageLink("../img/dataview/minus.png");
 	img_corner_cancel->setToolTip("Annuler l'ajout");
 	img_corner_cancel->decorationStyle().setCursor(Cursor::PointingHand);
 	// corner del
 	img_corner_del = button_corner->addNew<WImage>();
-	img_corner_del->setImageLink("img/dataview/trash.png");
+	img_corner_del->setImageLink("../img/dataview/trash.png");
 	img_corner_del->setToolTip("Supprimer cet élément");
 	img_corner_del->decorationStyle().setCursor(Cursor::PointingHand);
 
@@ -90,7 +90,7 @@ widget_dataview::widget_dataview(bool connect_signals) : widget_div()
 	auto text_add = footer_add->addLayout<WText>(0, 1, Align::Middle|Align::Center);
 	footer_add->layout->setColumnStretch(1, 1);
 	// footer add : widgets
-	img_add->setImageLink("img/dataview/valid.png");
+	img_add->setImageLink("../img/dataview/valid.png");
 	img_add->setMargin(6, Side::Left);
 	text_add->setText("VALIDER");
 
@@ -419,13 +419,13 @@ void widget_dataview::allow_delete(bool allowed)
 	delete_allowed = allowed;
 	if (!allowed)
 	{
-		img_corner_del->setImageLink("img/dataview/empty.png");
+		img_corner_del->setImageLink("../img/dataview/empty.png");
 		img_corner_del->setToolTip("");
 		img_corner_del->decorationStyle().setCursor(Cursor::Arrow);
 	}
 	else
 	{
-		img_corner_del->setImageLink("img/dataview/trash.png");
+		img_corner_del->setImageLink("../img/dataview/trash.png");
 		img_corner_del->setToolTip("Supprimer cet élément");
 		img_corner_del->decorationStyle().setCursor(Cursor::Arrow);
 	}
@@ -628,7 +628,7 @@ filter_dataview::filter_dataview()
 	setStyleClass("filter-dataview");
 	div_status_title->decorationStyle().setCursor(Cursor::PointingHand);
 	div_status_title->layout->setColumnStretch(1, 1);
-	status->setImageLink("img/dataview/filter.png");
+	status->setImageLink("../img/dataview/filter.png");
 
 	// set default to div_status_title
 	setCurrentWidget(div_status_title);
@@ -647,7 +647,7 @@ filter_dataview_edit::filter_dataview_edit():filter_dataview()
 filter_dataview_date::filter_dataview_date():filter_dataview()
 {
 	auto edit_picker = addNew<WLineEdit>();
-	auto img_picker = make_unique<WImage>("img/dataview/calendar.png");
+	auto img_picker = make_unique<WImage>("../img/dataview/calendar.png");
 	img_picker->resize(25, 25);
 	date_filter = addNew<WDatePicker>(move(img_picker), edit_picker);
 	date_filter->setFormat("dd/MM/yyyy");
@@ -728,22 +728,22 @@ void filter_dataview::allow_filter(bool allowed)
 void filter_dataview_edit::update_filter()
 {
 	// update im
-	if (edit_filter->text() == "") status->setImageLink("img/dataview/filter.png");
-	else status->setImageLink("img/dataview/filter_green.png");
+	if (edit_filter->text() == "") status->setImageLink("../img/dataview/filter.png");
+	else status->setImageLink("../img/dataview/filter_green.png");
 	}
 
 void filter_dataview_date::update_filter()
 {
 	// update img
-	if (date_filter->lineEdit()->text() == "") status->setImageLink("img/dataview/filter.png");
-	else status->setImageLink("img/dataview/filter_green.png");
+	if (date_filter->lineEdit()->text() == "") status->setImageLink("../img/dataview/filter.png");
+	else status->setImageLink("../img/dataview/filter_green.png");
 }
 
 void filter_dataview_combo::update_filter()
 {
 	// update img
-	if (combo_filter->currentIndex() == 0) status->setImageLink("img/dataview/filter.png");
-	else status->setImageLink("img/dataview/filter_green.png");
+	if (combo_filter->currentIndex() == 0) status->setImageLink("../img/dataview/filter.png");
+	else status->setImageLink("../img/dataview/filter_green.png");
 }
 
 void filter_dataview_edit::on_filter_click()
