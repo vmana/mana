@@ -97,7 +97,6 @@ class widget_dataview : public widget_div
 
 		// ignore width, compute with sum of data->sizes
 		void resize(const WLength& width, const WLength& height);
-		~widget_dataview();
 };
 
 class data_table : public widget_div
@@ -139,8 +138,6 @@ class data_table : public widget_div
 		Signal<bool> line_allow_add;
 
 		int computed_width();
-
-		~data_table();
 };
 
 class filter_dataview : public WStackedWidget
@@ -166,7 +163,6 @@ class filter_dataview : public WStackedWidget
 		Signal<> on_filter_change;
 
 		filter_dataview();
-		~filter_dataview();
 };
 
 class filter_dataview_edit : public filter_dataview
@@ -183,7 +179,6 @@ class filter_dataview_edit : public filter_dataview
 		void resize(const WLength& width, const WLength& height);
 
 		filter_dataview_edit();
-		~filter_dataview_edit();
 };
 
 class filter_dataview_date : public filter_dataview
@@ -200,7 +195,6 @@ class filter_dataview_date : public filter_dataview
 		void resize(const WLength& width, const WLength& height);
 
 		filter_dataview_date();
-		~filter_dataview_date();
 };
 
 class filter_dataview_combo : public filter_dataview
@@ -220,7 +214,6 @@ class filter_dataview_combo : public filter_dataview
 		void resize(const WLength& width, const WLength& height);
 
 		filter_dataview_combo();
-		~filter_dataview_combo();
 };
 
 } // namespace

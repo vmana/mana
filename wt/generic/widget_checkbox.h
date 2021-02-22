@@ -19,6 +19,7 @@ class widget_checkbox : public WImage
 		string img_unchecked;
 		void update_state();
 		void on_click();
+		bool change_allowed = false;
 
 	public:
 		Signal<> checked;
@@ -27,6 +28,7 @@ class widget_checkbox : public WImage
 		widget_checkbox(string img_checked, string img_unchecked);
 		bool is_checked();
 		void set_checked(bool checked);
+		void allow_change(bool allowed);
 };
 
 } // namespace

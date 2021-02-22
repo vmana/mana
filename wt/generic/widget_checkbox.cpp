@@ -40,9 +40,16 @@ void widget_checkbox::set_checked(bool checked)
 
 void widget_checkbox::on_click()
 {
+	if (!change_allowed) return;
+
 	internal_checked = !internal_checked;
 	update_state();
 	state_changed.emit(internal_checked);
+}
+
+void widget_checkbox::allow_change(bool allowed)
+{
+	change_allowed = allowed;
 }
 
 } // namespace
