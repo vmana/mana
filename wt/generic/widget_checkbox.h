@@ -19,7 +19,7 @@ class widget_checkbox : public WImage
 		string img_unchecked;
 		void update_state();
 		void on_click();
-		bool change_allowed = false;
+		bool change_allowed = true;
 
 	public:
 		Signal<> checked;
