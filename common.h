@@ -234,41 +234,6 @@ vector<T> remove(vector<T> &L, T value)
 	return ret;
 }
 
-template<class T>
-void print_r(vector<T> &V, string *res)
-{
-	if (V.size() == 0) return;
-	if (res) *res += "{ ";
-	else cout << "{ ";
-
-	for (int i = 0; i < V.size(); ++i)
-	{
-		if (res == NULL)
-		{
-			cout << V[i] ;
-			if (i == V.size() - 1) cout << " }" << endl;
-			else cout << ", ";
-		}
-		else
-		{
-			*res += V[i];
-			if (i == V.size() - 1) *res += " }\n";
-			else *res +=  ", ";
-		}
-	}
-}
-
-template<class T>
-void print_r(vector<vector<T> > &V, string *res)
-{
-	for (int i = 0; i < V.size(); ++i)
-	{
-		if (res == NULL) cout << "[" << convert::int_string(i) << "] ";
-		else *res += "[" + convert::int_string(i) + "] ";
-		print_r(V[i], res);
-	}
-}
-
 } // namespace
 
 /* extern "C" */

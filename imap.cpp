@@ -58,7 +58,8 @@ vector<string> imap::list()
 		{
 			auto xplode = explode("\"/\" ", ret[i]);
 			if (xplode.size() != 2) continue; // parse error
-			ret[i] = xplode[1];
+			ret[i] = trim(xplode[1]);
+			ret[i] = str_replace("\"", "", ret[i]); // remove "
 		}
 	}
 	#endif // NO_MANA_IMAP
