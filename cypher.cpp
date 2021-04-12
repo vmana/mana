@@ -178,7 +178,7 @@ string cypher::generate_aes_key()
 	mbedtls_ctr_drbg_init( &ctr_drbg );
 
 	if ((res = mbedtls_ctr_drbg_seed( &ctr_drbg, mbedtls_entropy_func, &entropy,
-		 (unsigned char *) pers.c_str(), pers.length())) != 0)
+		(unsigned char *) pers.c_str(), pers.length())) != 0)
 	{
 		printf("failed\n ! mbedtls_ctr_drbg_init returned -0x%04x\n", -res);
 		return ret;
