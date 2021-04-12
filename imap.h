@@ -36,9 +36,9 @@ class imap
 		// if delay is set, do not close upon completion
 		bool move(string src, string dst, int uid, bool delay = false);
 		bool close();
+		static string utf7_decode(string S);
 
 		vector<string> header_fields(int uid, vector<string> fields);
-		~imap();
 };
 
 #endif // imap_H

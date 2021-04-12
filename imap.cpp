@@ -378,7 +378,10 @@ size_t imap::write_data(void *ptr, size_t size, size_t nmemb, void *stream)
 	return ret;
 }
 
-imap::~imap()
+string imap::utf7_decode(string S)
 {
+	string ret = S;
+	ret = str_replace("&AOk-", "é", S);
+	return ret;
 }
 
