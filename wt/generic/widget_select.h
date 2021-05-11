@@ -36,6 +36,12 @@ class widget_select : public WComboBox
 			model->setData(model->rowCount() - 1, 0, value, ItemDataRole::User);
 		}
 
+		void add(string display, T value)
+		{
+			model->addString(display);
+			model->setData(model->rowCount() - 1, 0, value, ItemDataRole::User);
+		}
+
 		T value()
 		{
 			T ret;

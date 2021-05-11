@@ -36,7 +36,6 @@ include(project.pro)
 
 SOURCES += \
 	common.cpp \
-	fuzzy.cpp \
 	daemon.cpp \
 	server.cpp \
 	http.cpp \
