@@ -1,4 +1,5 @@
 #include "server.h"
+#include <unistd.h>
 
 namespace mana
 {

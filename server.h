@@ -4,6 +4,7 @@
 #include "common.h"
 #include <list>
 #include <mutex>
+#include <arpa/inet.h>
 
 namespace mana
 {

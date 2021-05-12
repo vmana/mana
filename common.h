@@ -1,11 +1,6 @@
 #ifndef COMMON_H
 #define COMMON_H
-#include <errno.h>
-#include <cctype>
-#include <time.h>
-#include <chrono>
 #include "lib.h"
-#include <algorithm>
 #ifndef NO_REGEX
 #ifdef BOOST_REGEX
 #include <boost/regex.hpp>
@@ -109,7 +104,7 @@ namespace mana
 			static void killprocess(string name);
 			static string pwd();
 			static void chdir(string path);
-			static void mkdir(string path, int mode = S_IRWXU | S_IRWXG | S_IRWXO);
+			static void mkdir(string path, int mode = -1);
 			static void move(string path, string new_path);
 			static bool daemonlock(string lockname = "daemon.lock");
 			static string date(string format = "%Y-%m-%d %X");

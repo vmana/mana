@@ -1,5 +1,6 @@
 #ifndef _WIN32
 #include "daemon.h"
+#include <unistd.h>
 
 namespace mana
 {

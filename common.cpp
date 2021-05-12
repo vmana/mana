@@ -2,6 +2,12 @@
 #include <iconv.h>
 #include <iomanip>
 #include <boost/locale.hpp>
+#include <sys/stat.h>
+#include <sys/param.h>
+#include <fcntl.h>
+#ifndef _WIN32
+	#include <dirent.h>
+#endif
 
 namespace mana
 {
@@ -736,6 +742,7 @@ void system::chdir(string path)
 
 void system::mkdir(string path, int mode)
 {
+	if (mode == -1) mode = S_IRWXU | S_IRWXG | S_IRWXO;
 	#ifdef _WIN32
 	CreateDirectoryA(path.c_str(), NULL);
 	#else

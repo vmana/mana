@@ -5,28 +5,10 @@
 
 #include <iostream>
 #include <string>
-#include <string.h>
 #include <vector>
-#include <sstream>
-#include <cstdio>
-#include <stdlib.h>
-#include <sys/stat.h>
-/* #include <memory> */
 
 #ifndef _WIN32
-
-	#include <unistd.h>
-	#include <sys/types.h>
-	#include <sys/socket.h>
-	#include <netinet/in.h>
-	#include <arpa/inet.h>
-	#include <sys/param.h>
-	#include <dirent.h>
-	#include <fcntl.h>
-	#include <signal.h>
-	/* #include <pthread.h> */
 	#include <future>
-
 #else
 	#include <winsock2.h>
 	#include <windows.h>
