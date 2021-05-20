@@ -54,6 +54,19 @@ class widget_select : public WComboBox
 			return ret;
 		}
 
+		void set_by_value(string value)
+		{
+			auto values = model->stringList();
+			for (int i = 0; i < values.size(); i++)
+			{
+				if (values[i].toUTF8() == value)
+				{
+					WComboBox::setCurrentIndex(i);
+					break;
+				}
+			}
+		}
+
 		void setCurrentIndex(int i)
 		{
 			WComboBox::setCurrentIndex(i);

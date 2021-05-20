@@ -82,6 +82,26 @@ class fuzzy
 			}
 		}
 
+		void add(string data)
+		{
+			add({data, 0});
+		}
+
+		void add(tuple<string, T> data)
+		{
+			auto &[text, value] = data;
+			if (text.length() == 0) return;
+
+			fuzzy_choice<T> c;
+			c.text = text;
+			c.value = value;
+			c.length = text.length();
+			c.match_start = -1;
+			c.match_end = -1;
+			c.score = 0;
+			choices.push_back(c);
+		}
+
 		string search(string query)
 		{
 			this->query = query;
@@ -93,7 +113,6 @@ class fuzzy
 		vector<fuzzy_choice<T>> search_all(string query)
 		{
 			this->query = query;
-			bool empty_query = (query == "");
 
 			vector<fuzzy_choice<T>> ret;
 			filter_choices();
@@ -101,7 +120,6 @@ class fuzzy
 			// fill ret based on choices
 			for (auto &c : choices)
 			{
-				if (c.score == 0 && !empty_query) break;
 				ret.push_back(c);
 			}
 
@@ -125,6 +143,21 @@ class fuzzy
 			}
 
 			return ret;
+		}
+
+		void clear()
+		{
+			choices.clear();
+		}
+
+		int size()
+		{
+			return choices.size();
+		}
+
+		vector<fuzzy_choice<T>> get_choices() const
+		{
+			return choices;
 		}
 
 		void print()
