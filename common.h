@@ -128,6 +128,7 @@ namespace mana
 			static string float_string(float value);
 			static double string_double(const string &value);
 			static string double_string(double value);
+			static string double_string(double value, int precision);
 			static string encoding(const string &value, const string &src_encode, const string &dst_encode);
 			static string iso88591_utf8(const string &str);
 			static string utf8_iso88591(const string &str);

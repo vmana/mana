@@ -923,6 +923,15 @@ string convert::double_string(double value)
 	return ret;
 }
 
+string convert::double_string(double value, int precision)
+{
+	string ret;
+	stringstream ss;
+	ss << std::fixed << std::setprecision(precision) << value;
+	ss >> ret;
+	return ret;
+}
+
 string convert::encoding(const string &value, const string &src_encode, const string &dst_encode)
 {
 	string ret;
