@@ -4,10 +4,13 @@ CONFIG += c++17
 CONFIG -= warn_off warn_on
 
 QMAKE_CXXFLAGS += -Wno-sign-compare -Wno-deprecated -Wno-write-strings -Wno-format-security -Wno-unused-result -Wno-format-truncation
+QMAKE_CXXFLAGS += -Wno-free-nonheap-object
+QMAKE_CFLAGS += -Wno-stringop-overflow
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS_RELEASE += -O3
 QMAKE_CFLAGS_RELEASE -= -O2
 QMAKE_CFLAGS_RELEASE += -O3
+QMAKE_CXXFLAGS += -g -ggdb
 
 linux-g++* {
 	CONFIG -= qt
@@ -36,6 +39,7 @@ include(project.pro)
 
 SOURCES += \
 	common.cpp \
+	fuzzy.cpp \
 	daemon.cpp \
 	server.cpp \
 	http.cpp \
