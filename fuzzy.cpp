@@ -126,7 +126,7 @@ void fuzzy::filter_choices()
 		}
 	}
 
-	std::sort(choices.begin(), choices.end(), [=](const fuzzy_choice &c1, const fuzzy_choice &c2)
+	std::sort(choices.begin(), choices.end(), [&](const fuzzy_choice &c1, const fuzzy_choice &c2)
 	{
 		if (c1.score < c2.score)
 			return false;
@@ -139,11 +139,7 @@ void fuzzy::filter_choices()
 		* The comparison is inverted since the choice with the lowest address
 		* must come first.
 		*/
-		if (c1.text < c2.text)
-			return true;
-		if (c1.text > c2.text)
-			return false;
-		return true;
+		return (c1.text < c2.text);
 	});
 }
 
