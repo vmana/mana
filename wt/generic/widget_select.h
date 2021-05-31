@@ -72,7 +72,7 @@ class widget_select : public WComboBox
 			WComboBox::setCurrentIndex(i);
 		}
 
-		void setCurrentIndex(T v)
+		void setCurrentValue(T v)
 		{
 			for (int i = 0; i < model->rowCount(); i++)
 			{
